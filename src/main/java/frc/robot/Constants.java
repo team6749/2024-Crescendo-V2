@@ -23,5 +23,28 @@ public final class Constants {
         public static final int kBottomButtonBoard = 2;
     }
 
+    public static class FieldConstants {
+
+    }
+
+    public static class MotorPorts {
+        public static final int frontLeftDrive = 0;
+        public static final int frontLeftAngle = 0;
+        public static final int frontLeftEncoder = 0;
+        public static final int frontRightDrive = 0;
+        public static final int frontRightAngle = 0;
+        public static final int frontRightEncoder = 0;
+        public static final int backLeftDrive = 0;
+        public static final int backLeftAngle = 0;
+        public static final int backLeftEncoder = 0;
+        public static final int backRightDrive = 0;
+        public static final int backRightAngle = 0;
+        public static final int backRightEncoder = 0;
+
+    }
+
+    public static class SwerveConstants {
+
+    }
     public static final int one = 1;
 }
