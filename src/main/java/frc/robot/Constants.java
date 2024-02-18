@@ -44,7 +44,9 @@ public final class Constants {
     }
 
     public static class SwerveConstants {
-
+		public static double swerveWheelDiameterMeters = .1d;
+		public static double swerveGearRatio = 8.14d;
+        
     }
     public static final int one = 1;
 }
