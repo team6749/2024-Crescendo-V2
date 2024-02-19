@@ -4,6 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.SwerveModule;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -24,29 +31,61 @@ public final class Constants {
     }
 
     public static class FieldConstants {
-
+		public static Translation2d targetPosition2d = new Translation2d(0.35, 5.55); // in terms of x and y on the field
+		public static Translation3d targetPosition3d = new Translation3d(targetPosition2d.getX(), targetPosition2d.getY(), 2.1082); // height of speaker opening meters
+		public static Pose3d targetPosition3dWithAngle = new Pose3d(targetPosition3d, new Rotation3d(0.0, Units.degreesToRadians(-45), 0.0));
     }
 
-    public static class MotorPorts {
-        public static final int frontLeftDrive = 0;
-        public static final int frontLeftAngle = 0;
-        public static final int frontLeftEncoder = 0;
-        public static final int frontRightDrive = 0;
-        public static final int frontRightAngle = 0;
-        public static final int frontRightEncoder = 0;
-        public static final int backLeftDrive = 0;
-        public static final int backLeftAngle = 0;
-        public static final int backLeftEncoder = 0;
-        public static final int backRightDrive = 0;
-        public static final int backRightAngle = 0;
-        public static final int backRightEncoder = 0;
+    public static class ElectronicsPorts {
+        public static final int frontLeftDrive = 1;
+        public static final int frontLeftEncoder = 2;
+        public static final int frontLeftAngle = 3;
+        public static final int frontRightDrive = 4;
+        public static final int frontRightEncoder = 5;
+        public static final int frontRightAngle = 6;
+        public static final int backRightDrive = 7;
+        public static final int backRightEncoder = 8;
+        public static final int backRightAngle = 9;
+        public static final int backLeftDrive = 10;
+        public static final int backLeftEncoder = 11;
+        public static final int backLeftAngle = 12;
 
     }
 
     public static class SwerveConstants {
-		public static double swerveWheelDiameterMeters = .1d;
-		public static double swerveGearRatio = 8.14d;
-        
+        public static double swerveWheelDiameterMeters = .1d;
+        public static double swerveGearRatio = 8.14d;
+        public static double distFromCenterX = Units.inchesToMeters(9.5); // TODO
+        public static double distFromCenterY = Units.inchesToMeters(13.25); // TODO
+
+        // same as 2024 v1 constants
+        public static SwerveModule flModule = new SwerveModule(
+                "Front Left",
+                Constants.ElectronicsPorts.frontLeftDrive,
+                Constants.ElectronicsPorts.frontLeftEncoder,
+                Constants.ElectronicsPorts.frontLeftAngle,
+                new Translation2d(distFromCenterX, distFromCenterY));
+                
+        public static SwerveModule frModule = new SwerveModule(
+                "Front Right",
+                Constants.ElectronicsPorts.frontRightDrive,
+                Constants.ElectronicsPorts.frontRightEncoder,
+                Constants.ElectronicsPorts.frontRightAngle,
+                new Translation2d(distFromCenterX, -distFromCenterY));
+        public static SwerveModule brModule = new SwerveModule(
+                "Back Right",
+                Constants.ElectronicsPorts.backRightDrive,
+                Constants.ElectronicsPorts.backRightEncoder,
+                Constants.ElectronicsPorts.backRightAngle,
+                new Translation2d(-distFromCenterX, -distFromCenterY));
+        public static SwerveModule blModule = new SwerveModule(
+                "Back Left",
+                Constants.ElectronicsPorts.backLeftDrive,
+                Constants.ElectronicsPorts.backLeftEncoder,
+                Constants.ElectronicsPorts.backLeftAngle,
+                new Translation2d(-distFromCenterX, distFromCenterY));
+
     }
+
     public static final int one = 1;
 }

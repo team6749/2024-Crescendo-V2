@@ -28,7 +28,7 @@ public class SwerveModule implements Sendable {
     public final PIDController velocityPIDController = new PIDController(0.0, 0, 0);
     public final PIDController anglePIDController = new PIDController(0.1, 0, 0);
 
-    public SwerveModule(String name,  int driveMotorPort, int angleMotorPort, int encoderPort, Translation2d locationFromCenter) {
+    public SwerveModule(String name,  int driveMotorPort, int encoderPort, int angleMotorPort, Translation2d locationFromCenter) {
         this.name = name;
         driveMotor = new TalonFX(driveMotorPort);
         angleMotor = new TalonFX(angleMotorPort);
