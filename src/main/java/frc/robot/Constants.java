@@ -32,9 +32,12 @@ public final class Constants {
     }
 
     public static class FieldConstants {
-		public static Translation2d targetPosition2d = new Translation2d(0.35, 5.55); // in terms of x and y on the field
-		public static Translation3d targetPosition3d = new Translation3d(targetPosition2d.getX(), targetPosition2d.getY(), 2.1082); // height of speaker opening meters
-		public static Pose3d targetPosition3dWithAngle = new Pose3d(targetPosition3d, new Rotation3d(0.0, Units.degreesToRadians(-45), 0.0));
+        public static Translation2d targetPosition2d = new Translation2d(0.35, 5.55); // in terms of x and y on the
+                                                                                      // field
+        public static Translation3d targetPosition3d = new Translation3d(targetPosition2d.getX(),
+                targetPosition2d.getY(), 2.1082); // height of speaker opening meters
+        public static Pose3d targetPosition3dWithAngle = new Pose3d(targetPosition3d,
+                new Rotation3d(0.0, Units.degreesToRadians(-45), 0.0));
     }
 
     public static class ElectronicsPorts {
@@ -66,7 +69,7 @@ public final class Constants {
                 Constants.ElectronicsPorts.frontLeftEncoder,
                 Constants.ElectronicsPorts.frontLeftAngle,
                 new Translation2d(distFromCenterX, distFromCenterY));
-                
+
         public static SwerveModule frModule = new SwerveModule(
                 "Front Right",
                 Constants.ElectronicsPorts.frontRightDrive,
@@ -85,7 +88,7 @@ public final class Constants {
                 Constants.ElectronicsPorts.backLeftEncoder,
                 Constants.ElectronicsPorts.backLeftAngle,
                 new Translation2d(-distFromCenterX, distFromCenterY));
-        public static SwerveModule[] swerveModuleArray = {flModule, frModule, brModule, blModule};
+        public static SwerveModule[] swerveModuleArray = { flModule, frModule, brModule, blModule };
 
     }
 
