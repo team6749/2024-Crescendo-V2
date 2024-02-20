@@ -57,6 +57,8 @@ public final class Constants {
     }
 
     public static class SwerveConstants {
+        public static double chassisWidthMetersNoBumpers = Units.inchesToMeters(24);
+        public static double chassisLengthMetersNoBumpers = Units.inchesToMeters(24);
         public static double swerveWheelDiameterMeters = .1d;
         public static double swerveGearRatio = 8.14d;
         public static double distFromCenterX = Units.inchesToMeters(9.5); // TODO
