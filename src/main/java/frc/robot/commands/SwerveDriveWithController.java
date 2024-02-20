@@ -4,11 +4,17 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.SwerveDrivebase;
 
 public class SwerveDriveWithController extends Command {
 	/** Creates a new SwerveDriveController. */
-	private SwerveSubsystem swerveDriveSubsystem;
+	private SwerveDrivebase swerveDriveSubsystem;
 	private XboxController controller;
 	private ChassisSpeeds desiredSpeeds;
 
@@ -16,7 +22,7 @@ public class SwerveDriveWithController extends Command {
 	private SlewRateLimiter ySpeedLimiter = new SlewRateLimiter(2);
 	private SlewRateLimiter thetaSpeedLimiter = new SlewRateLimiter(5);
 
-	public SwerveDriveController(SwerveSubsystem subsystem, XboxController controller) {
+	public SwerveDriveWithController(SwerveDrivebase subsystem, XboxController controller) {
 		// Use addRequirements() here to declare subsystem dependencies.
 		swerveDriveSubsystem = subsystem;
 		this.controller = controller;
@@ -44,7 +50,7 @@ public class SwerveDriveWithController extends Command {
 			case FieldOriented:
 				// put field oriented drive here.
 				desiredSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed,
-						thetaSpeed, swerveDriveSubsystem.getGyroRotation());
+						thetaSpeed, swerveDriveSubsystem.getRotation2d());
 				break;
 		}
 
@@ -72,4 +78,4 @@ public class SwerveDriveWithController extends Command {
 		return false;
 	}
 }
-}
+
