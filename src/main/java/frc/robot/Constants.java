@@ -53,7 +53,10 @@ public final class Constants {
         public static final int backLeftDrive = 10;
         public static final int backLeftEncoder = 11;
         public static final int backLeftAngle = 12;
+        
+        public static final int topShooterMotorPort = 17; // TODO make sure this is right
 
+        public static final int bottomShooterMotorPort = 18; //TODO make sure this is right
     }
 
     public static class SwerveConstants {
