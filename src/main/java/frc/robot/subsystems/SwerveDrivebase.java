@@ -100,12 +100,12 @@ public class SwerveDrivebase extends SubsystemBase {
         Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
                 Rotation2d.fromDegrees(botPoseArray[5])); // TODO check that botPoseArray[5] is the correct est rotaton
                                                           // of the robot
-        double currentLatency = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
+        // double currentLatency = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 
         double primaryAprilTagID = limelightNetworkTable.getEntry("id").getDouble(0);
 
         if (limelightHasValidTargets) {
-            poseEstimator.addVisionMeasurement(estimatedPosition, currentLatency);
+            // poseEstimator.addVisionMeasurement(estimatedPosition, currentLatency);
             // poseEstimator.setVisionMeasurementStdDevs(new MatBuilder(Nat.N3(),
             // Nat.N1()).fill(4, 4, 4)); // TODO NEEDED??
         }
