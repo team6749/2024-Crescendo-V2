@@ -8,15 +8,16 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ShooterSubsystem. */
     private TalonFX topShooterMotor;
     private TalonFX bottomShooterMotor;
 
-    public ShooterSubsystem(int topShooterMotorPort, int bottomShooterMotorPort) {
-        topShooterMotor = new TalonFX(topShooterMotorPort);
-        bottomShooterMotor = new TalonFX(bottomShooterMotorPort);
+    public ShooterSubsystem() {
+        topShooterMotor = new TalonFX(Constants.ElectronicsPorts.topShooterMotorPort);
+        bottomShooterMotor = new TalonFX(Constants.ElectronicsPorts.bottomShooterMotorPort);
         // i have to pee rn zac!!!
     }
 
@@ -31,8 +32,8 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param voltage the target voltage or the motor
      */
     public void shootSpeaker(int voltage) {
-        topShooterMotor.setVoltage(voltage); // TODO ask zac if this is right
-        bottomShooterMotor.setVoltage(voltage); // TODO ask zac if this is right
+        topShooterMotor.setVoltage(voltage);
+        bottomShooterMotor.setVoltage(voltage); //TODO find out which one is negative voltage
     }
 
     /**
