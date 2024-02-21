@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -16,7 +17,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public ShooterSubsystem(int topShooterMotorPort, int bottomShooterMotorPort) {
         topShooterMotor = new TalonFX(topShooterMotorPort);
         bottomShooterMotor = new TalonFX(bottomShooterMotorPort);
-        // i have to pee rn zac!!! 
+        // i have to pee rn zac!!!
     }
 
     @Override
@@ -24,4 +25,23 @@ public class ShooterSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
+    /**
+     * sets both shooter motors to a certain amount of voltage
+     * 
+     * @param voltage the target voltage or the motor
+     */
+    public void shootSpeaker(int voltage) {
+        topShooterMotor.setVoltage(voltage); // TODO ask zac if this is right
+        bottomShooterMotor.setVoltage(voltage); // TODO ask zac if this is right
+    }
+
+    /**
+     * 
+     * https://docs.wpilib.org/en/stable/docs/software/commandbased/subsystems.html
+     * @param voltage the target voltage
+     * @return an instant command to set the motors to voltage
+     */
+    public Command shootSpeakerCommand(int voltage) {
+        return runOnce(() -> shootSpeaker(voltage)); // ERM what is this and will it work
+    }
 }
