@@ -32,6 +32,7 @@ public class RobotContainer {
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
     private final JoystickButton x = new JoystickButton(controller, 3);
+    private final JoystickButton y = new JoystickButton(controller, 4);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -65,7 +66,13 @@ public class RobotContainer {
         // pressed,
         // cancelling on release.
         // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-        x.onTrue(shooterSubsystem.shootSpeakerCommand(3));//TODO adjust voltage lmao
+
+        // Speaker Shooting Command
+        x.whileTrue(shooterSubsystem.shootCommand(6));
+
+        // Amp Shooting Command 
+        // AND TRAP???
+        y.whileTrue(shooterSubsystem.shootCommand(2));
     }
 
     /**

@@ -33,9 +33,9 @@ public class ShooterSubsystem extends SubsystemBase {
      * 
      * @param voltage the target voltage or the motor
      */
-    public void shootSpeaker(int voltage) {
+    public void shoot(int voltage) {
         topShooterMotor.setVoltage(voltage);
-        bottomShooterMotor.setVoltage(voltage); //TODO find out which one is negative voltage
+        bottomShooterMotor.setVoltage(voltage*0.9); //TODO find out which one is negative voltage
     }
 
     /**
@@ -44,7 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param voltage the target voltage
      * @return an instant command to set the motors to voltage
      */
-    public Command shootSpeakerCommand(int voltage) {
-        return runOnce(() -> shootSpeaker(voltage)); // ERM what is this and will it work
+    public Command shootCommand(int voltage) {
+        return run(() -> shoot(voltage)); // ERM what is this and will it work
     }
 }
