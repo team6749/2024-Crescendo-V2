@@ -6,7 +6,6 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PositionalSubsystem;
@@ -47,6 +46,12 @@ public class RobotContainer {
     JoystickButton b = new JoystickButton(controller, 2);
     JoystickButton leftBumper = new JoystickButton(controller, 5);
     JoystickButton rightBumper = new JoystickButton(controller, 6);
+
+    Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
+    Trigger dpad_left = new Trigger(() -> controller.getPOV() == 90);
+    Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
+    Trigger dpad_right = new Trigger(() -> controller.getPOV() == 270);
+
 
     JoystickButton redOne = new JoystickButton(topButtonBoard, 1);
 	JoystickButton redTwo = new JoystickButton(topButtonBoard, 2);
@@ -114,14 +119,19 @@ public class RobotContainer {
         // pressed,
         // cancelling on release.
         // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-        a.whileTrue(new IntakeCommand(intakeSubsystem, true));
-        b.whileTrue(new IntakeCommand(intakeSubsystem, false));
+        a.whileTrue(intakeSubsystem.intakeCommand(false, 6));
+        b.whileTrue(intakeSubsystem.intakeCommand(true, 6));
+
+
 
         redOne.whileTrue(intakeSegment.smoothMoveToAngle(0));
 
 
         leftBumper.whileTrue(intakeSegment.smoothMoveToAngle(0));
         rightBumper.whileTrue(intakeSegment.smoothMoveToAngle(120));
+
+        dpad_left.whileTrue(intakeSubsystem.indexCommand(false, true));
+        dpad_right.whileTrue(intakeSubsystem.indexCommand(false, false));
 
     }
 
