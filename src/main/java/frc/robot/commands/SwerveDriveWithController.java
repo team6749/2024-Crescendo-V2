@@ -18,8 +18,8 @@ public class SwerveDriveWithController extends Command {
 	private XboxController controller;
 	private ChassisSpeeds desiredSpeeds;
 
-	private SlewRateLimiter xSpeedLimiter = new SlewRateLimiter(2);
-	private SlewRateLimiter ySpeedLimiter = new SlewRateLimiter(2);
+	private SlewRateLimiter xAccelerationLimiter = new SlewRateLimiter(2);
+	private SlewRateLimiter yAccelerationLimiter = new SlewRateLimiter(2);
 	private SlewRateLimiter thetaSpeedLimiter = new SlewRateLimiter(5);
 
 	public SwerveDriveWithController(SwerveDrivebase subsystem, XboxController controller) {
@@ -38,8 +38,8 @@ public class SwerveDriveWithController extends Command {
 	@Override
 	public void execute() {
 
-		double xSpeed = xSpeedLimiter.calculate(-controller.getLeftX());
-		double ySpeed = ySpeedLimiter.calculate(-controller.getLeftY());
+		double xSpeed = xAccelerationLimiter.calculate(-controller.getLeftX());
+		double ySpeed = yAccelerationLimiter.calculate(-controller.getLeftY());
 		double thetaSpeed = thetaSpeedLimiter.calculate(-controller.getRightX()); // angular speed
 
 		switch (swerveDriveSubsystem.getSelectedDriveMode()) {
