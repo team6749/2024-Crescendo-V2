@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Speaker"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Speaker to 3"
@@ -21,6 +27,12 @@
           "type": "path",
           "data": {
             "pathName": "3 to Speaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Speaker"
           }
         },
         {
@@ -36,6 +48,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Speaker"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "1 Shoot to 5"
@@ -48,6 +66,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Speaker"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "5 Shoot to 2"
@@ -57,6 +81,12 @@
           "type": "path",
           "data": {
             "pathName": "2 to Speaker V2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Speaker"
           }
         }
       ]
