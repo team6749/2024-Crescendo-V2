@@ -54,6 +54,8 @@ public final class Constants {
         public static final int backLeftEncoder = 11;
         public static final int backLeftAngle = 12;
 
+        public static final int topShooterMotorPort = 13;
+        public static final int bottomShooterMotorPort = 14;
     }
 
     public static class SwerveConstants {
