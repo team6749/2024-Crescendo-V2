@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -14,6 +15,24 @@ public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ShooterSubsystem. */
     private TalonFX topShooterMotor;
     private TalonFX bottomShooterMotor;
+
+    private double topShooterMaxModifier = 1;
+    private double bottomShooterMaxModifier = 1;
+    public double getTopShooterMaxModifier() {
+        return topShooterMaxModifier;
+    }
+
+    public void setTopShooterMaxModifier(double topShooterMaxModifier) {
+        this.topShooterMaxModifier = topShooterMaxModifier;
+    }
+
+    public double getBottomShooterMaxModifier() {
+        return bottomShooterMaxModifier;
+    }
+
+    public void setBottomShooterMaxModifier(double bottomShooterMaxModifier) {
+        this.bottomShooterMaxModifier = bottomShooterMaxModifier;
+    }
 
     public ShooterSubsystem() {
         topShooterMotor = new TalonFX(Constants.ElectronicsPorts.topShooterMotorPort);
@@ -27,6 +46,13 @@ public class ShooterSubsystem extends SubsystemBase {
         topShooterMotor.setVoltage(0);
         bottomShooterMotor.setVoltage(0);
     }
+    @Override
+	public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Shooter Subsystem");
+        builder.addDoubleProperty("Top Shooter limiter", this::getTopShooterMaxModifier, this::setTopShooterMaxModifier);
+        builder.addDoubleProperty("Bottom shooter limiter", this::getBottomShooterMaxModifier, this::setBottomShooterMaxModifier);
+        
+    }
 
     /**
      * sets both shooter motors to a certain amount of voltage
@@ -34,8 +60,8 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param voltage the target voltage or the motor
      */
     public void shoot(int voltage) {
-        topShooterMotor.setVoltage(voltage);
-        bottomShooterMotor.setVoltage(voltage*0.9); //TODO find out which one is negative voltage
+        topShooterMotor.setVoltage(voltage * topShooterMaxModifier);
+        bottomShooterMotor.setVoltage(voltage* bottomShooterMaxModifier); //TODO find out which one is negative voltage
     }
 
     /**

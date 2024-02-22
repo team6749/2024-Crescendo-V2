@@ -9,6 +9,7 @@ import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -40,6 +41,8 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+        SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
+        swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
     }
 
     /**
@@ -57,7 +60,6 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         // new Trigger(m_exampleSubsystem::exampleCondition)
         // .onTrue(new ExampleCommand(m_exampleSubsystem));
