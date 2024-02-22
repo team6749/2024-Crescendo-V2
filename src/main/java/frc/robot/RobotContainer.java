@@ -5,12 +5,14 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.SwerveDriveWithController;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -28,6 +30,10 @@ public class RobotContainer {
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController controller = new XboxController(OperatorConstants.kDriverControllerPort);
     private final SwerveDrivebase swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray);
+    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+
+    private final JoystickButton x = new JoystickButton(controller, 3);
+    private final JoystickButton y = new JoystickButton(controller, 4);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -35,6 +41,8 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+        SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
+        swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
     }
 
     /**
@@ -52,7 +60,6 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         // new Trigger(m_exampleSubsystem::exampleCondition)
         // .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -61,6 +68,13 @@ public class RobotContainer {
         // pressed,
         // cancelling on release.
         // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+        // Speaker Shooting Command
+        x.whileTrue(shooterSubsystem.shootCommand(6));
+
+        // Amp Shooting Command 
+        // AND TRAP???
+        y.whileTrue(shooterSubsystem.shootCommand(2));
     }
 
     /**
@@ -71,6 +85,6 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An example command will be run in autonomous
         // return Autos.exampleAuto(m_exampleSubsystem);
-        return null; // TODO
+        return null;
     }
 }

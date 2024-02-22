@@ -54,9 +54,8 @@ public final class Constants {
         public static final int backLeftEncoder = 11;
         public static final int backLeftAngle = 12;
 
-        public static final int topShooterMotorPort = 17; // TODO make sure this is right
-
-        public static final int bottomShooterMotorPort = 18; // TODO make sure this is right
+        public static final int topShooterMotorPort = 13;
+        public static final int bottomShooterMotorPort = 14;
     }
 
     public static class SwerveConstants {
@@ -64,8 +63,8 @@ public final class Constants {
         public static double chassisLengthMetersNoBumpers = Units.inchesToMeters(24);
         public static double swerveWheelDiameterMeters = .1d;
         public static double swerveGearRatio = 8.14d;
-        public static double distFromCenterX = Units.inchesToMeters(9.5); // TODO
-        public static double distFromCenterY = Units.inchesToMeters(13.25); // TODO
+        public static double distFromCenterXMeters = .2225d;
+        public static double distFromCenterYMeters = .2225d;
 
         // same as 2024 v1 constants
         public static SwerveModule flModule = new SwerveModule(
@@ -73,26 +72,26 @@ public final class Constants {
                 Constants.ElectronicsPorts.frontLeftDrive,
                 Constants.ElectronicsPorts.frontLeftEncoder,
                 Constants.ElectronicsPorts.frontLeftAngle,
-                new Translation2d(distFromCenterX, distFromCenterY));
+                new Translation2d(distFromCenterXMeters, distFromCenterYMeters));
 
         public static SwerveModule frModule = new SwerveModule(
                 "Front Right",
                 Constants.ElectronicsPorts.frontRightDrive,
                 Constants.ElectronicsPorts.frontRightEncoder,
                 Constants.ElectronicsPorts.frontRightAngle,
-                new Translation2d(distFromCenterX, -distFromCenterY));
+                new Translation2d(distFromCenterXMeters, -distFromCenterYMeters));
         public static SwerveModule brModule = new SwerveModule(
                 "Back Right",
                 Constants.ElectronicsPorts.backRightDrive,
                 Constants.ElectronicsPorts.backRightEncoder,
                 Constants.ElectronicsPorts.backRightAngle,
-                new Translation2d(-distFromCenterX, -distFromCenterY));
+                new Translation2d(-distFromCenterXMeters, -distFromCenterYMeters));
         public static SwerveModule blModule = new SwerveModule(
                 "Back Left",
                 Constants.ElectronicsPorts.backLeftDrive,
                 Constants.ElectronicsPorts.backLeftEncoder,
                 Constants.ElectronicsPorts.backLeftAngle,
-                new Translation2d(-distFromCenterX, distFromCenterY));
+                new Translation2d(-distFromCenterXMeters, distFromCenterYMeters));
         public static SwerveModule[] swerveModuleArray = { flModule, frModule, brModule, blModule };
 
     }
