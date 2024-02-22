@@ -57,7 +57,7 @@ public final class Constants {
         public static final int intakeSpark = 15;
         public static final int intakeSwitch = 0;
 
-        public static final int intakePivot = 13;
+        public static final int intakePivot = 16;
 
     }
 
