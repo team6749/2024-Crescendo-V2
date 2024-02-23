@@ -47,6 +47,7 @@ public class RobotContainer {
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
 
         NamedCommands.registerCommand("Shoot Speaker", shooterSubsystem.shootCommand(6));
+        NamedCommands.registerCommand("Shoot Amp", shooterSubsystem.shootCommand(2));
 
         configureBindings();
     }
