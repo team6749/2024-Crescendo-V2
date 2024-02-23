@@ -5,10 +5,10 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PositionalSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -44,6 +44,8 @@ public class RobotContainer {
 
     JoystickButton a = new JoystickButton(controller, 1);
     JoystickButton b = new JoystickButton(controller, 2);
+    JoystickButton x = new JoystickButton(controller, 3);
+    JoystickButton y = new JoystickButton(controller, 4);
     JoystickButton leftBumper = new JoystickButton(controller, 5);
     JoystickButton rightBumper = new JoystickButton(controller, 6);
 
@@ -84,6 +86,9 @@ public class RobotContainer {
             180,
             3,
             false);
+    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+
+
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -93,6 +98,8 @@ public class RobotContainer {
         configureBindings();
 
         SmartDashboard.putData("Intake Segment", intakeSegment);
+        SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
+        swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
     }
 
     /**
@@ -110,7 +117,6 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         // new Trigger(m_exampleSubsystem::exampleCondition)
         // .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -119,8 +125,10 @@ public class RobotContainer {
         // pressed,
         // cancelling on release.
         // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-        a.whileTrue(intakeSubsystem.intakeCommand(false, 6));
-        b.whileTrue(intakeSubsystem.intakeCommand(true, 6));
+       
+        // a.whileTrue(intakeSubsystem.intakeCommand(false, 6));
+        // b.whileTrue(intakeSubsystem.intakeCommand(true, 6));
+        a.whileTrue(shooterSubsystem.shootCommand(-2));
 
 
 
@@ -133,6 +141,13 @@ public class RobotContainer {
         dpad_left.whileTrue(intakeSubsystem.indexCommand(false, true));
         dpad_right.whileTrue(intakeSubsystem.indexCommand(false, false));
 
+
+        // Speaker Shooting Command
+        x.whileTrue(shooterSubsystem.shootCommand(6));
+
+        // Amp Shooting Command 
+        // AND TRAP???
+        y.whileTrue(shooterSubsystem.shootCommand(2));
     }
 
     /**
@@ -143,6 +158,6 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An example command will be run in autonomous
         // return Autos.exampleAuto(m_exampleSubsystem);
-        return null; // TODO
+        return null;
     }
 }

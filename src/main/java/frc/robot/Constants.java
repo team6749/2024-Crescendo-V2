@@ -62,15 +62,17 @@ public final class Constants {
 
         public static final int intakePivot = 16;
 
+        public static final int topShooterMotorPort = 13;
+        public static final int bottomShooterMotorPort = 14;
     }
 
     public static class SwerveConstants {
-        public static double chassisWidthMetersNoBumpers = Units.inchesToMeters(24);
-        public static double chassisLengthMetersNoBumpers = Units.inchesToMeters(24);
+        public static double chassisWidthMetersNoBumpers = Units.inchesToMeters(27);
+        public static double chassisLengthMetersNoBumpers = Units.inchesToMeters(27);
         public static double swerveWheelDiameterMeters = .1d;
         public static double swerveGearRatio = 8.14d;
-        public static double distFromCenterXMeters = .2225d;
-        public static double distFromCenterYMeters = .2225d;
+        public static double distFromCenterXMeters = .2525d;
+        public static double distFromCenterYMeters = .2525d; // 68.5/2 - 9 in actual (close enuf)
 
         // same as 2024 v1 constants
         public static SwerveModule flModule = new SwerveModule(
