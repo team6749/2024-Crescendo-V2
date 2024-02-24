@@ -77,15 +77,15 @@ public class RobotContainer {
 	JoystickButton greenFour = new JoystickButton(bottomButtonBoard, 9);
 	JoystickButton greenFive = new JoystickButton(bottomButtonBoard, 10);
 
-    final PositionalSubsystem intakeSegment = new PositionalSubsystem(
-            8,
-            0,
-            intakePivot,
-            new PIDController(1, 0, 0),
-            -20,
-            180,
-            3,
-            false);
+    // final PositionalSubsystem intakeSegment = new PositionalSubsystem(
+    //         8,
+    //         0,
+    //         intakePivot,
+    //         new PIDController(1, 0, 0),
+    //         -20,
+    //         180,
+    //         3,
+    //         false);
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
 
@@ -97,8 +97,7 @@ public class RobotContainer {
         // Configure the trigger bindings
         configureBindings();
 
-        SmartDashboard.putData("Intake Segment", intakeSegment);
-        SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
+        // SmartDashboard.putData("Intake Segment", intakeSegment);
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
     }
 
@@ -117,6 +116,7 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
+                SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         // new Trigger(m_exampleSubsystem::exampleCondition)
         // .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -128,26 +128,26 @@ public class RobotContainer {
        
         // a.whileTrue(intakeSubsystem.intakeCommand(false, 6));
         // b.whileTrue(intakeSubsystem.intakeCommand(true, 6));
-        a.whileTrue(shooterSubsystem.shootCommand(-2));
+        a.whileTrue(shooterSubsystem.intakeCommand());
 
 
 
-        redOne.whileTrue(intakeSegment.smoothMoveToAngle(0));
+        // redOne.whileTrue(intakeSegment.smoothMoveToAngle(0));
 
 
-        leftBumper.whileTrue(intakeSegment.smoothMoveToAngle(0));
-        rightBumper.whileTrue(intakeSegment.smoothMoveToAngle(120));
+        // leftBumper.whileTrue(intakeSegment.smoothMoveToAngle(0));
+        // rightBumper.whileTrue(intakeSegment.smoothMoveToAngle(120));
 
-        dpad_left.whileTrue(intakeSubsystem.indexCommand(false, true));
-        dpad_right.whileTrue(intakeSubsystem.indexCommand(false, false));
+        rightBumper.whileTrue(intakeSubsystem.indexCommand(true, false));
+        leftBumper.whileTrue(intakeSubsystem.indexCommand(false, true));
 
 
         // Speaker Shooting Command
-        x.whileTrue(shooterSubsystem.shootCommand(6));
+        x.whileTrue(shooterSubsystem.shootCommand());
 
         // Amp Shooting Command 
         // AND TRAP???
-        y.whileTrue(shooterSubsystem.shootCommand(2));
+        y.whileTrue(shooterSubsystem.shootCommand());
     }
 
     /**
