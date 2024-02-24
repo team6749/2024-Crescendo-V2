@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -58,44 +60,40 @@ public class RobotContainer {
     Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
     Trigger dpad_right = new Trigger(() -> controller.getPOV() == 270);
 
-
     JoystickButton redOne = new JoystickButton(topButtonBoard, 1);
-	JoystickButton redTwo = new JoystickButton(topButtonBoard, 2);
-	JoystickButton redThree = new JoystickButton(topButtonBoard, 3);
-	JoystickButton redFour = new JoystickButton(topButtonBoard, 4);
-	JoystickButton redFive = new JoystickButton(topButtonBoard, 5);
-	JoystickButton yellowOne = new JoystickButton(topButtonBoard, 6);
-	JoystickButton yellowTwo = new JoystickButton(topButtonBoard, 7);
-	JoystickButton yellowThree = new JoystickButton(topButtonBoard, 8);
-	JoystickButton yellowFour = new JoystickButton(topButtonBoard, 9);
-	JoystickButton yellowFive = new JoystickButton(topButtonBoard, 10);
+    JoystickButton redTwo = new JoystickButton(topButtonBoard, 2);
+    JoystickButton redThree = new JoystickButton(topButtonBoard, 3);
+    JoystickButton redFour = new JoystickButton(topButtonBoard, 4);
+    JoystickButton redFive = new JoystickButton(topButtonBoard, 5);
+    JoystickButton yellowOne = new JoystickButton(topButtonBoard, 6);
+    JoystickButton yellowTwo = new JoystickButton(topButtonBoard, 7);
+    JoystickButton yellowThree = new JoystickButton(topButtonBoard, 8);
+    JoystickButton yellowFour = new JoystickButton(topButtonBoard, 9);
+    JoystickButton yellowFive = new JoystickButton(topButtonBoard, 10);
 
-	JoystickButton blueOne = new JoystickButton(bottomButtonBoard, 1);
-	JoystickButton blueTwo = new JoystickButton(bottomButtonBoard, 2);
-	JoystickButton blueThree = new JoystickButton(bottomButtonBoard, 3);
-	JoystickButton blueFour = new JoystickButton(bottomButtonBoard, 4);
-	JoystickButton blueFive = new JoystickButton(bottomButtonBoard, 5);
-	JoystickButton greenOne = new JoystickButton(bottomButtonBoard, 6);
-	JoystickButton greenTwo = new JoystickButton(bottomButtonBoard, 7);
-	JoystickButton greenThree = new JoystickButton(bottomButtonBoard, 8);
-	JoystickButton greenFour = new JoystickButton(bottomButtonBoard, 9);
-	JoystickButton greenFive = new JoystickButton(bottomButtonBoard, 10);
+    JoystickButton blueOne = new JoystickButton(bottomButtonBoard, 1);
+    JoystickButton blueTwo = new JoystickButton(bottomButtonBoard, 2);
+    JoystickButton blueThree = new JoystickButton(bottomButtonBoard, 3);
+    JoystickButton blueFour = new JoystickButton(bottomButtonBoard, 4);
+    JoystickButton blueFive = new JoystickButton(bottomButtonBoard, 5);
+    JoystickButton greenOne = new JoystickButton(bottomButtonBoard, 6);
+    JoystickButton greenTwo = new JoystickButton(bottomButtonBoard, 7);
+    JoystickButton greenThree = new JoystickButton(bottomButtonBoard, 8);
+    JoystickButton greenFour = new JoystickButton(bottomButtonBoard, 9);
+    JoystickButton greenFive = new JoystickButton(bottomButtonBoard, 10);
 
     // final PositionalSubsystem intakeSegment = new PositionalSubsystem(
-    //         8,
-    //         0,
-    //         intakePivot,
-    //         new PIDController(1, 0, 0),
-    //         -20,
-    //         180,
-    //         3,
-    //         false);
+    // 8,
+    // 0,
+    // intakePivot,
+    // new PIDController(1, 0, 0),
+    // -20,
+    // 180,
+    // 3,
+    // false);
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
-
-
     private SendableChooser<Command> autoChooser;
-
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -107,7 +105,7 @@ public class RobotContainer {
 
         // SmartDashboard.putData("Intake Segment", intakeSegment);
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
-        
+
         autoChooser = AutoBuilder.buildAutoChooser();
 
         // Another option that allows you to specify the default auto by its name
@@ -115,11 +113,10 @@ public class RobotContainer {
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
-        NamedCommands.registerCommand("Shoot Speaker", shooterSubsystem.shootCommand(6));
-        NamedCommands.registerCommand("Shoot Amp", shooterSubsystem.shootCommand(2));
-        NamedCommands.registerCommand("Index Note", intakeSubsystem.indexCommand(false, true));
 
-            // Build an auto chooser. This will use Commands.none() as the default option.
+
+
+        // Build an auto chooser. This will use Commands.none() as the default option.
         configureBindings();
     }
 
@@ -138,7 +135,11 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-                SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
+        NamedCommands.registerCommand("Shoot In Speaker", shootSpeaker());
+        NamedCommands.registerCommand("Shoot In Amp", shootAmp());
+        NamedCommands.registerCommand("Test Command", ampScoringAuto());
+        
+        SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         // new Trigger(m_exampleSubsystem::exampleCondition)
         // .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -147,29 +148,43 @@ public class RobotContainer {
         // pressed,
         // cancelling on release.
         // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-       
+
         // a.whileTrue(intakeSubsystem.intakeCommand(false, 6));
         // b.whileTrue(intakeSubsystem.intakeCommand(true, 6));
-        a.whileTrue(shooterSubsystem.intakeCommand());
-
-
+        a.whileTrue(intake());
 
         // redOne.whileTrue(intakeSegment.smoothMoveToAngle(0));
-
 
         // leftBumper.whileTrue(intakeSegment.smoothMoveToAngle(0));
         // rightBumper.whileTrue(intakeSegment.smoothMoveToAngle(120));
 
-        rightBumper.whileTrue(intakeSubsystem.indexCommand(true, false));
-        leftBumper.whileTrue(intakeSubsystem.indexCommand(false, true));
-
 
         // Speaker Shooting Command
-        x.whileTrue(shooterSubsystem.shootCommand(6));
+        x.whileTrue(shootSpeaker());
 
-        // Amp Shooting Command 
+        // Amp Shooting Command
         // AND TRAP???
-        y.whileTrue(shooterSubsystem.shootCommand(2));
+        y.whileTrue(shootAmp());
+
+        redOne.whileTrue(shootSpeaker());
+        redTwo.whileTrue(shootSpeaker());
+        redThree.whileTrue(shootSpeaker());
+        redFour.whileTrue(shootSpeaker());
+        redFive.whileTrue(shootSpeaker());
+
+        yellowOne.whileTrue(shootAmp());
+        yellowTwo.whileTrue(shootAmp());
+        yellowThree.whileTrue(shootAmp());
+        yellowFour.whileTrue(shootAmp());
+        yellowFive.whileTrue(shootAmp());
+
+        greenOne.whileTrue(intake());
+        greenTwo.whileTrue(intake());
+        greenThree.whileTrue(intake());
+        greenFour.whileTrue(intake());
+        greenFive.whileTrue(intake());
+
+
     }
 
     /**
@@ -182,5 +197,47 @@ public class RobotContainer {
         // return Autos.exampleAuto(m_exampleSubsystem);
         return autoChooser.getSelected();
         // return new PathPlannerAuto("0 Speaker Leave Top");
+    }
+
+    public Command shootSpeaker() {
+        return Commands.startEnd(
+                () -> {
+                    shooterSubsystem.shoot(6);
+                    intakeSubsystem.indexNote(false, true);
+                },
+                () -> {
+                    shooterSubsystem.shoot(0);
+                    intakeSubsystem.stopIndexer();
+                },
+                shooterSubsystem).withTimeout(1);
+    }
+
+    public Command shootAmp() {
+        return Commands.startEnd(
+                () -> {
+                    shooterSubsystem.shoot(2);
+                    intakeSubsystem.indexNote(false, true);
+                },
+                () -> {
+                    shooterSubsystem.shoot(0);
+                    intakeSubsystem.stopIndexer();
+                },
+                shooterSubsystem).withTimeout(1);
+    }
+
+    public Command intake() {
+        return Commands.startEnd(
+                () -> {
+                    shooterSubsystem.intake();
+                    intakeSubsystem.indexNote(true, false);
+                },
+                () -> {
+                    shooterSubsystem.shoot(0);
+                    intakeSubsystem.stopIndexer();
+                }, shooterSubsystem).withTimeout(1);
+    }
+
+    public Command ampScoringAuto(){
+        return Commands.print("Hello");
     }
 }

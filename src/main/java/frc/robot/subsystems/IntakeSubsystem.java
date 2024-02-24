@@ -31,14 +31,11 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // intakeMotor.set(0);
-        indexerSpark.set(0);
         // This method will be called once per scheduler run
         SmartDashboard.putBoolean("intake switch", indexerSwitch.get());
     }
 
     public void indexNote(boolean reverse, boolean override) {
-        timer.start();
-        if(timer.get() < 1){
         if(!indexerSwitch.get() ){
             if(!reverse){
             indexerSpark.set(0.5);
@@ -49,10 +46,10 @@ public class IntakeSubsystem extends SubsystemBase {
             indexerSpark.set(0.5);
         }
     }
+    public void stopIndexer(){
+        indexerSpark.set(0);
     }
-    public void resetTimer(){
-        timer.reset();
-    }
+    
 
     // public void intake(boolean reverse, double voltage) {
     //     if (!intakeSwitch.get()) {
@@ -65,7 +62,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // }
 
     public Command indexCommand(boolean reverse, boolean override) {
-        return run(() -> indexNote(reverse, override)).andThen(()-> resetTimer()); // ERM what is this and will it work
+        return run(() -> indexNote(reverse, override)); // ERM what is this and will it work
     }
 
     // public Command intakeCommand(boolean reverse, double voltage) {

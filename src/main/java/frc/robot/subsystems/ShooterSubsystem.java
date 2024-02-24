@@ -67,8 +67,6 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        topShooterMotor.setVoltage(0);
-        bottomShooterMotor.setVoltage(0);
     }
 
     @Override
@@ -88,13 +86,12 @@ public class ShooterSubsystem extends SubsystemBase {
      * 
      * @param voltage the target voltage or the motor
      */
-    public void shoot() {
-        System.out.println("HELLO???");
-        timer.start();
-        if (timer.get() < 1) {
-            topShooterMotor.setVoltage(leftvoltage);
-            bottomShooterMotor.setVoltage(rightVoltage * 0.8);
-        }
+    public void shoot(double voltage) {
+        leftvoltage = voltage;
+        rightVoltage = voltage;
+        topShooterMotor.setVoltage(leftvoltage);
+        bottomShooterMotor.setVoltage(rightVoltage * 0.8);
+        
     }
 
     public void intake() {
@@ -113,13 +110,13 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param voltage the target voltage
      * @return an instant command to set the motors to voltage
      */
-    public Command shootCommand(int voltage) {
-        timer.reset();
-        this.rightVoltage = voltage;
-        this.leftvoltage = voltage;
-        return run(()-> shoot()); // ERM what is this and will it work
+    // public Command shootCommand(int voltage) {
+    //     timer.reset();
+    //     this.rightVoltage = voltage;
+    //     this.leftvoltage = voltage;
+    //     return run(()-> shoot()); // ERM what is this and will it work
         
-    }
+    // }
 
     public Command intakeCommand() {
         return run(() -> intake());

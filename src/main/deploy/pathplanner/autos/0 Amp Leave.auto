@@ -18,25 +18,26 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Index Note"
+                  "name": "Shoot In Amp"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Shoot Amp"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "0 Amp to Leave"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "0 Amp to Leave"
+                      }
+                    }
+                  ]
                 }
               }
             ]
