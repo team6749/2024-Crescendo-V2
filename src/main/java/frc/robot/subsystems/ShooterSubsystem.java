@@ -82,7 +82,7 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public void shoot() {
         topShooterMotor.setVoltage(leftvoltage);
-        bottomShooterMotor.setVoltage(rightVoltage); //TODO find out which one is negative voltage
+        bottomShooterMotor.setVoltage(rightVoltage * 0.8);
     }
 
     public void intake(){
@@ -111,8 +111,8 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param voltage the target voltage or the motor
      */
     public void shootSpeaker(int voltage) {
-        topShooterMotor.setVoltage(voltage); // TODO ask zac if this is right
-        bottomShooterMotor.setVoltage(voltage); // TODO ask zac if this is right
+        topShooterMotor.setVoltage(voltage); 
+        bottomShooterMotor.setVoltage(voltage); 
     }
 
     /**

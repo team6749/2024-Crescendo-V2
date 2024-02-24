@@ -18,9 +18,9 @@ public class SwerveDriveWithController extends Command {
     private XboxController controller;
     private ChassisSpeeds desiredSpeeds;
 
-	private SlewRateLimiter xAccelerationLimiter = new SlewRateLimiter(2);
-	private SlewRateLimiter yAccelerationLimiter = new SlewRateLimiter(2);
-	private SlewRateLimiter thetaSpeedLimiter = new SlewRateLimiter(5);
+	private SlewRateLimiter xAccelerationLimiter = new SlewRateLimiter(4);
+	private SlewRateLimiter yAccelerationLimiter = new SlewRateLimiter(4);
+	private SlewRateLimiter thetaSpeedLimiter = new SlewRateLimiter(8);
 
     public SwerveDriveWithController(SwerveDrivebase subsystem, XboxController controller) {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -38,9 +38,9 @@ public class SwerveDriveWithController extends Command {
     @Override
     public void execute() {
 
-		double xSpeed = xAccelerationLimiter.calculate(-controller.getLeftX());
-		double ySpeed = yAccelerationLimiter.calculate(-controller.getLeftY());
-		double thetaSpeed = thetaSpeedLimiter.calculate(-controller.getRightX()); // angular speed
+		double xSpeed = xAccelerationLimiter.calculate(-controller.getLeftX() * 2);
+		double ySpeed = yAccelerationLimiter.calculate(-controller.getLeftY() * 2);
+		double thetaSpeed = thetaSpeedLimiter.calculate(-controller.getRightX() * 3); // angular speed
 
         switch (swerveDriveSubsystem.getSelectedDriveMode()) {
             case RobotOriented:
