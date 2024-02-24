@@ -27,6 +27,9 @@ public class SwerveModule implements Sendable {
     public Translation2d location;
     public final PIDController velocityPIDController = new PIDController(0.0, 0, 0);
     public final PIDController anglePIDController = new PIDController(0.1, 0, 0);
+    public double maxSpeed;
+
+
 
     public SwerveModule(String name, int driveMotorPort, int encoderPort, int angleMotorPort,
             Translation2d locationFromCenter) {
@@ -46,6 +49,7 @@ public class SwerveModule implements Sendable {
         builder.addDoubleProperty("velocity", this::getDriveEncoderVelocity, null);
         builder.addDoubleProperty("position", this::getDriveEncoderPosition, null);
         builder.addDoubleProperty("rotation", this::getRotationEncoder, null);
+        builder.addDoubleProperty("Max Speed", this::getMaxSpeed, this::setMaxSpeed);
 
         SmartDashboard.putData("swerve " + name + " velocity pid", velocityPIDController);
         SmartDashboard.putData("swerve " + name + " angle pid", anglePIDController);
@@ -132,7 +136,7 @@ public class SwerveModule implements Sendable {
         final double driveFeedforward = (state.speedMetersPerSecond * 2.6);
 
         angleMotor.setVoltage(turnOutput);
-        driveMotor.setVoltage(driveOutput + driveFeedforward);
+        driveMotor.setVoltage((driveOutput + driveFeedforward) );
     }
 
     /**
@@ -153,5 +157,14 @@ public class SwerveModule implements Sendable {
         driveMotor.setNeutralMode(NeutralModeValue.Brake);
         angleMotor.setNeutralMode(NeutralModeValue.Brake);
     }
+
+        public double getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(double maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
 
 }
