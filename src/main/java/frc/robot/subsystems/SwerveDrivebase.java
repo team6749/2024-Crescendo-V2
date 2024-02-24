@@ -72,7 +72,7 @@ public class SwerveDrivebase extends SubsystemBase {
         odometry = new SwerveDriveOdometry(kinematics, getRotation2d(), getCurrentModulePositions());
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, getRotation2d(), getCurrentModulePositions(),
-                new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+                new Pose2d(0,0, Rotation2d.fromDegrees(180)));
 
         gyro.calibrate();
         orientation.setDefaultOption("Robot Oriented", DriveOrientation.RobotOriented);
@@ -131,20 +131,19 @@ public class SwerveDrivebase extends SubsystemBase {
         double[] botPoseArray = botPose.getDoubleArray(new double[6]); // Translation(x,y,z), Rotation(roll, pitch,
                                                                        // yaw), full latency
         Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
-                Rotation2d.fromDegrees(botPoseArray[5])); // TODO check that botPoseArray[5] is the correct est rotaton
+                Rotation2d.fromDegrees(botPoseArray[5]).minus(Rotation2d.fromDegrees(90))); // TODO check that botPoseArray[5] is the correct est rotaton
                                                           // of the robot
-        // double currentLatency = Timer.getFPGATimestamp() - (botPoseArray[6] /
-        // 1000.0);
+        double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 
         double primaryAprilTagID = limelightNetworkTable.getEntry("id").getDouble(0);
 
         if (limelightHasValidTargets) {
-            // poseEstimator.addVisionMeasurement(estimatedPosition, currentLatency);
+            poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
             // poseEstimator.setVisionMeasurementStdDevs(new MatBuilder(Nat.N3(),
             // Nat.N1()).fill(4, 4, 4)); // TODO NEEDED??
         }
 
-        field.setRobotPose(getPose2d());
+        field.setRobotPose(poseEstimator.getEstimatedPosition());
 
     }
 
@@ -156,6 +155,13 @@ public class SwerveDrivebase extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("SwerveSubsystem");
         SmartDashboard.putData("gyro", gyro);
+        // builder.addStringProperty("Pose2d Odometry", () -> getPose2dOdometry().toString(), null);
+        // builder.addStringProperty("Pose2d pose estimator", () -> getPose2dPoseEstimator().toString(), null);
+
+        SmartDashboard.putNumber("Pose2d PE X", getPose2dPoseEstimator().getX());
+        SmartDashboard.putNumber("Pose2d PE Y", getPose2dPoseEstimator().getY());
+        SmartDashboard.putNumber("Pose2d Odometry X", getPose2dOdometry().getX());
+        SmartDashboard.putNumber("Pose2d Odometry Y", getPose2dOdometry().getY());
     }
 
     /**
@@ -200,6 +206,20 @@ public class SwerveDrivebase extends SubsystemBase {
     public Pose2d getPose2d() {
         return poseEstimator.getEstimatedPosition();
         // return odometry.getPoseMeters();
+    }
+
+    /**
+     * 
+     * @return a Pose2d ( x, y ) of the robot position IN METERS
+     */
+    public Pose2d getPose2dPoseEstimator() {
+        return poseEstimator.getEstimatedPosition();
+        // return odometry.getPoseMeters();
+    }
+
+    public Pose2d getPose2dOdometry() {
+        // return poseEstimator.getEstimatedPosition();
+        return odometry.getPoseMeters();
     }
 
     /**

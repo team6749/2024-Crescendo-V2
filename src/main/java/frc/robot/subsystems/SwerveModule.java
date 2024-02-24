@@ -107,6 +107,7 @@ public class SwerveModule implements Sendable {
      */
     public SwerveModulePosition getSwerveModulePosition() {
         return new SwerveModulePosition(getDriveEncoderPosition(), Rotation2d.fromDegrees(getRotationEncoder()));
+
     }
 
     /**

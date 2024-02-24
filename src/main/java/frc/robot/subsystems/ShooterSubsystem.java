@@ -96,7 +96,9 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param voltage the target voltage
      * @return an instant command to set the motors to voltage
      */
-    public Command shootCommand() {
+    public Command shootCommand(int voltage) {
+        this.rightVoltage = voltage;
+        this.leftvoltage = voltage;
         return run(() -> shoot()); // ERM what is this and will it work
     }
     public Command intakeCommand(){

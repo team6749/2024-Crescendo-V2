@@ -102,6 +102,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
+        SmartDashboard.putData("Swerve Subsystem", swerveDrivebase);
         configureBindings();
 
         // SmartDashboard.putData("Intake Segment", intakeSegment);
