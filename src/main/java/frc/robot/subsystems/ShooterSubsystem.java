@@ -18,6 +18,25 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private double topShooterMaxModifier = 1;
     private double bottomShooterMaxModifier = 1;
+
+    double leftvoltage = 6;
+    double rightVoltage = 6;
+    public double getRightVoltage() {
+        return rightVoltage;
+    }
+
+    public void setRightVoltage(double rightVoltage) {
+        this.rightVoltage = rightVoltage;
+    }
+
+    public double getLeftVoltage() {
+        return leftvoltage;
+    }
+
+    public void setLeftVoltage(double voltage) {
+        this.leftvoltage = voltage;
+    }
+
     public double getTopShooterMaxModifier() {
         return topShooterMaxModifier;
     }
@@ -51,6 +70,8 @@ public class ShooterSubsystem extends SubsystemBase {
         builder.setSmartDashboardType("Shooter Subsystem");
         builder.addDoubleProperty("Top Shooter limiter", this::getTopShooterMaxModifier, this::setTopShooterMaxModifier);
         builder.addDoubleProperty("Bottom shooter limiter", this::getBottomShooterMaxModifier, this::setBottomShooterMaxModifier);
+        builder.addDoubleProperty("Shooter left voltage input", this::getLeftVoltage, this::setLeftVoltage);
+        builder.addDoubleProperty("shooter right voltage input", this::getRightVoltage, this::setRightVoltage);
         
     }
 
@@ -59,9 +80,14 @@ public class ShooterSubsystem extends SubsystemBase {
      * 
      * @param voltage the target voltage or the motor
      */
-    public void shoot(int voltage) {
-        topShooterMotor.setVoltage(voltage * topShooterMaxModifier);
-        bottomShooterMotor.setVoltage(voltage* bottomShooterMaxModifier); //TODO find out which one is negative voltage
+    public void shoot() {
+        topShooterMotor.setVoltage(leftvoltage);
+        bottomShooterMotor.setVoltage(rightVoltage); //TODO find out which one is negative voltage
+    }
+
+    public void intake(){
+        topShooterMotor.setVoltage(-2);
+        bottomShooterMotor.setVoltage(-2);
     }
 
     /**
@@ -70,8 +96,11 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param voltage the target voltage
      * @return an instant command to set the motors to voltage
      */
-    public Command shootCommand(int voltage) {
-        return run(() -> shoot(voltage)); // ERM what is this and will it work
+    public Command shootCommand() {
+        return run(() -> shoot()); // ERM what is this and will it work
+    }
+    public Command intakeCommand(){
+        return run(() -> intake());
     }
 
     /**
