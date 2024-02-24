@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,23 +18,24 @@ public class IntakeSubsystem extends SubsystemBase {
     CANSparkMax indexerSpark = new CANSparkMax(Constants.ElectronicsPorts.indexerSpark, CANSparkLowLevel.MotorType.kBrushed);
     DigitalInput indexerSwitch = new DigitalInput(Constants.ElectronicsPorts.indexerSwitch);
 
+    Timer timer = new Timer();
+
     // TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
     // DigitalInput intakeSwitch = new DigitalInput(Constants.ElectronicsPorts.intakeSwitch);
 
     /** Creates a new IntakeSubsystem. */
     public IntakeSubsystem() {
+        timer.reset();
     }
 
     @Override
     public void periodic() {
         // intakeMotor.set(0);
-        indexerSpark.set(0);
         // This method will be called once per scheduler run
         SmartDashboard.putBoolean("intake switch", indexerSwitch.get());
     }
 
     public void indexNote(boolean reverse, boolean override) {
-        System.out.println("hel");
         if(!indexerSwitch.get() ){
             if(!reverse){
             indexerSpark.set(0.5);
@@ -44,6 +46,10 @@ public class IntakeSubsystem extends SubsystemBase {
             indexerSpark.set(0.5);
         }
     }
+    public void stopIndexer(){
+        indexerSpark.set(0);
+    }
+    
 
     // public void intake(boolean reverse, double voltage) {
     //     if (!intakeSwitch.get()) {
