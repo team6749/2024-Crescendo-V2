@@ -13,7 +13,7 @@ import frc.robot.subsystems.SwerveDrivebase;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -94,7 +94,7 @@ public class RobotContainer {
 
 
 
-      private final SendableChooser<Command> autoChooser;
+    private SendableChooser<Command> autoChooser;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -117,6 +117,7 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("Shoot Speaker", shooterSubsystem.shootCommand(6));
         NamedCommands.registerCommand("Shoot Amp", shooterSubsystem.shootCommand(2));
+        NamedCommands.registerCommand("Index Note", intakeSubsystem.indexCommand(false, true));
 
             // Build an auto chooser. This will use Commands.none() as the default option.
         configureBindings();
@@ -180,5 +181,6 @@ public class RobotContainer {
         // An example command will be run in autonomous
         // return Autos.exampleAuto(m_exampleSubsystem);
         return autoChooser.getSelected();
+        // return new PathPlannerAuto("0 Speaker Leave Top");
     }
 }

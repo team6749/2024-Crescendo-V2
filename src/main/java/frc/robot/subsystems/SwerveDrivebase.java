@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.enums.DriveOrientation;
 
 public class SwerveDrivebase extends SubsystemBase {
@@ -72,7 +73,7 @@ public class SwerveDrivebase extends SubsystemBase {
         odometry = new SwerveDriveOdometry(kinematics, getRotation2d(), getCurrentModulePositions());
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, getRotation2d(), getCurrentModulePositions(),
-                new Pose2d(0,0, Rotation2d.fromDegrees(180)));
+                new Pose2d(0,0, getRotation2d()));
 
         gyro.calibrate();
         orientation.setDefaultOption("Robot Oriented", DriveOrientation.RobotOriented);
@@ -87,10 +88,10 @@ public class SwerveDrivebase extends SubsystemBase {
                 this::setSubsystemChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+                        new PIDConstants(1, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(1, 0.0, 0.0), // Rotation PID constants
                         4.5, // Max module speed, in m/s
-                        0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                        Math.hypot(Constants.SwerveConstants.distFromCenterXMeters, Constants.SwerveConstants.distFromCenterYMeters), // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
                 () -> {
@@ -131,7 +132,7 @@ public class SwerveDrivebase extends SubsystemBase {
         double[] botPoseArray = botPose.getDoubleArray(new double[6]); // Translation(x,y,z), Rotation(roll, pitch,
                                                                        // yaw), full latency
         Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
-                Rotation2d.fromDegrees(botPoseArray[5]).minus(Rotation2d.fromDegrees(90))); // TODO check that botPoseArray[5] is the correct est rotaton
+                Rotation2d.fromDegrees(botPoseArray[5])); // TODO check that botPoseArray[5] is the correct est rotaton
                                                           // of the robot
         double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 

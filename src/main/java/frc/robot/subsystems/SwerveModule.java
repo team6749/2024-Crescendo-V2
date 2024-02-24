@@ -118,7 +118,7 @@ public class SwerveModule implements Sendable {
     public void setSwerveModuleState(SwerveModuleState desiredState) {
         SmartDashboard.putNumber(name + " Desired Chassis States", desiredState.speedMetersPerSecond);
         // prevents wheels from resetting back to straight orientation
-        if (Math.abs(desiredState.speedMetersPerSecond) < 0.001) {
+        if (Math.abs(desiredState.speedMetersPerSecond) < 0.005) {
             stop();
             return;
         }
