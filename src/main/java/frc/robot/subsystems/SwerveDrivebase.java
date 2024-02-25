@@ -116,6 +116,8 @@ public class SwerveDrivebase extends SubsystemBase {
         odometry.update(getRotation2d(), getCurrentModulePositions());
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
 
+        try {
+            
         NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
 
         boolean limelightHasValidTargets = limelightNetworkTable.getEntry("tv").getDouble(0) == 1.0 ? true : false;
@@ -129,7 +131,7 @@ public class SwerveDrivebase extends SubsystemBase {
 
         NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue"); // always blue relative coords
 
-        double[] botPoseArray = botPose.getDoubleArray(new double[6]); // Translation(x,y,z), Rotation(roll, pitch,
+        double[] botPoseArray = botPose.getDoubleArray(new double[] {0, 0, 0, 0, 0, 0, 0}); // Translation(x,y,z), Rotation(roll, pitch,
                                                                        // yaw), full latency
         Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
                 Rotation2d.fromDegrees(botPoseArray[5])); // TODO check that botPoseArray[5] is the correct est rotaton
@@ -143,6 +145,10 @@ public class SwerveDrivebase extends SubsystemBase {
             // poseEstimator.setVisionMeasurementStdDevs(new MatBuilder(Nat.N3(),
             // Nat.N1()).fill(4, 4, 4)); // TODO NEEDED??
         }
+        } catch (Exception e) {
+            System.out.println("THE LIMELIGHT CODE CRASHED");
+        }
+
 
         field.setRobotPose(poseEstimator.getEstimatedPosition());
 

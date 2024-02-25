@@ -38,9 +38,9 @@ public class SwerveDriveWithController extends Command {
     @Override
     public void execute() {
 
-		double xSpeed = xAccelerationLimiter.calculate(-controller.getLeftX() * 2);
-		double ySpeed = yAccelerationLimiter.calculate(-controller.getLeftY() * 2);
-		double thetaSpeed = thetaSpeedLimiter.calculate(-controller.getRightX() * 3); // angular speed
+		double xSpeed = xAccelerationLimiter.calculate(-controller.getLeftX() * 3);
+		double ySpeed = yAccelerationLimiter.calculate(-controller.getLeftY() * 3);
+		double thetaSpeed = thetaSpeedLimiter.calculate(-controller.getRightX() * 3.5); // angular speed
 
         switch (swerveDriveSubsystem.getSelectedDriveMode()) {
             case RobotOriented:
@@ -54,8 +54,8 @@ public class SwerveDriveWithController extends Command {
                 break;
         }
 
-        if (Math.abs(ySpeed) < 0.15 && Math.abs(xSpeed) < 0.15
-                && Math.abs(thetaSpeed) < 0.15) {
+        if (Math.abs(ySpeed) < 0.25 && Math.abs(xSpeed) < 0.25
+                && Math.abs(thetaSpeed) < 0.2) {
             swerveDriveSubsystem.setSubsystemModuleStates(new SwerveModuleState[] {
                     new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
                     new SwerveModuleState(0, Rotation2d.fromDegrees(0)),

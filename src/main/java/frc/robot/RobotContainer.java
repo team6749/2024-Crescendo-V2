@@ -131,12 +131,12 @@ public class RobotContainer {
      * CommandXboxController
      * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
      * PS4} controllers or
-     * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
      * joysticks}.
      */
     private void configureBindings() {
-        NamedCommands.registerCommand("Shoot In Speaker", shootSpeaker());
-        NamedCommands.registerCommand("Shoot In Amp", shootAmp());
+        NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
+        NamedCommands.registerCommand("Shoot Amp", shootAmp());
         NamedCommands.registerCommand("Test Command", ampScoringAuto());
         
         SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
@@ -202,7 +202,7 @@ public class RobotContainer {
     public Command shootSpeaker() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shoot(6);
+                    shooterSubsystem.shoot(8);
                     intakeSubsystem.indexNote(false, true);
                 },
                 () -> {
