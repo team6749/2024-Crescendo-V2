@@ -60,6 +60,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public ShooterSubsystem() {
         topShooterMotor = new TalonFX(Constants.ElectronicsPorts.topShooterMotorPort);
         bottomShooterMotor = new TalonFX(Constants.ElectronicsPorts.bottomShooterMotorPort);
+        topShooterMotor.setInverted(true);
         timer.reset();
         // i have to pee rn zac!!!
     }
