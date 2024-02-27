@@ -25,6 +25,30 @@ public class ShooterSubsystem extends SubsystemBase {
     double leftvoltage = 6;
     double rightVoltage = 6;
 
+    public ShooterSubsystem() {
+        topShooterMotor = new TalonFX(Constants.ElectronicsPorts.topShooterMotorPort);
+        bottomShooterMotor = new TalonFX(Constants.ElectronicsPorts.bottomShooterMotorPort);
+        timer.reset();
+        // i have to pee rn zac!!!
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Shooter Subsystem");
+        builder.addDoubleProperty("Top Shooter limiter", this::getTopShooterMaxModifier,
+                this::setTopShooterMaxModifier);
+        builder.addDoubleProperty("Bottom shooter limiter", this::getBottomShooterMaxModifier,
+                this::setBottomShooterMaxModifier);
+        builder.addDoubleProperty("Shooter left voltage input", this::getLeftVoltage, this::setLeftVoltage);
+        builder.addDoubleProperty("shooter right voltage input", this::getRightVoltage, this::setRightVoltage);
+
+    }
+    
     public double getRightVoltage() {
         return rightVoltage;
     }
@@ -57,30 +81,7 @@ public class ShooterSubsystem extends SubsystemBase {
         this.bottomShooterMaxModifier = bottomShooterMaxModifier;
     }
 
-    public ShooterSubsystem() {
-        topShooterMotor = new TalonFX(Constants.ElectronicsPorts.topShooterMotorPort);
-        bottomShooterMotor = new TalonFX(Constants.ElectronicsPorts.bottomShooterMotorPort);
-        topShooterMotor.setInverted(true);
-        timer.reset();
-        // i have to pee rn zac!!!
-    }
 
-    @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
-    }
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("Shooter Subsystem");
-        builder.addDoubleProperty("Top Shooter limiter", this::getTopShooterMaxModifier,
-                this::setTopShooterMaxModifier);
-        builder.addDoubleProperty("Bottom shooter limiter", this::getBottomShooterMaxModifier,
-                this::setBottomShooterMaxModifier);
-        builder.addDoubleProperty("Shooter left voltage input", this::getLeftVoltage, this::setLeftVoltage);
-        builder.addDoubleProperty("shooter right voltage input", this::getRightVoltage, this::setRightVoltage);
-
-    }
 
     /**
      * sets both shooter motors to a certain amount of voltage
