@@ -137,7 +137,7 @@ public class RobotContainer {
     private void configureBindings() {
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
-        NamedCommands.registerCommand("Test Command", ampScoringAuto());
+        // NamedCommands.registerCommand("Test Command", ampScoringAuto());
         
         SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
@@ -237,7 +237,4 @@ public class RobotContainer {
                 }, shooterSubsystem).withTimeout(1);
     }
 
-    public Command ampScoringAuto(){
-        return Commands.print("Hello");
-    }
 }
