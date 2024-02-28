@@ -55,10 +55,10 @@ public class RobotContainer {
     JoystickButton leftBumper = new JoystickButton(controller, 5);
     JoystickButton rightBumper = new JoystickButton(controller, 6);
 
-    Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
-    Trigger dpad_left = new Trigger(() -> controller.getPOV() == 90);
-    Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
-    Trigger dpad_right = new Trigger(() -> controller.getPOV() == 270);
+    Trigger dpad_up = new Trigger(() -> controller.getPOV() == 180);
+    Trigger dpad_left = new Trigger(() -> controller.getPOV() == 270);
+    Trigger dpad_down = new Trigger(() -> controller.getPOV() == 0);
+    Trigger dpad_right = new Trigger(() -> controller.getPOV() == 90);
 
     JoystickButton redOne = new JoystickButton(topButtonBoard, 1);
     JoystickButton redTwo = new JoystickButton(topButtonBoard, 2);
@@ -164,7 +164,11 @@ public class RobotContainer {
 
         // Amp Shooting Command
         // AND TRAP???
-        y.whileTrue(shootAmp());
+        // y.whileTrue(shootAmp());
+
+        y.whileTrue(intakeSubsystem.intakeCommand(false, 4));
+
+        dpad_right.whileTrue(intakeSubsystem.intakeCommand(true, 4));
 
         redOne.whileTrue(shootSpeaker());
         redTwo.whileTrue(shootSpeaker());

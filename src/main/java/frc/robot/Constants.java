@@ -57,8 +57,8 @@ public final class Constants {
         public static final int indexerSpark = 15;
         public static final int indexerSwitch = 0;
 
-        // public static final int intakeMotor = 18;
-        // public static final int intakeSwitch = 1;
+        public static final int intakeMotor = 18;
+        public static final int intakeSwitch = 1;
 
         public static final int intakePivot = 16;
 
