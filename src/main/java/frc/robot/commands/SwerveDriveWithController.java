@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -21,6 +22,8 @@ public class SwerveDriveWithController extends Command {
 	private SlewRateLimiter xAccelerationLimiter = new SlewRateLimiter(4);
 	private SlewRateLimiter yAccelerationLimiter = new SlewRateLimiter(4);
 	private SlewRateLimiter thetaSpeedLimiter = new SlewRateLimiter(8);
+
+    private PIDController aimbot = new PIDController(1, 0, 0);
 
     public SwerveDriveWithController(SwerveDrivebase subsystem, XboxController controller) {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -52,6 +55,10 @@ public class SwerveDriveWithController extends Command {
                 desiredSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed,
                         thetaSpeed, swerveDriveSubsystem.getRotation2d());
                 break;
+        }
+        
+        if(controller.getXButton()) {
+            desiredSpeeds = new ChassisSpeeds(desiredSpeeds.vxMetersPerSecond + 0.5, desiredSpeeds.vyMetersPerSecond, desiredSpeeds.omegaRadiansPerSecond + aimbot.calculate(/* target note angle from center */, 0));
         }
 
         if (Math.abs(ySpeed) < 0.25 && Math.abs(xSpeed) < 0.25
