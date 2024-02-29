@@ -104,5 +104,10 @@ public final class Constants {
 
     }
 
+    public static class NoteDetectionConstants {
+        public static double screenWidthPixels;
+        public static double screenHeightPixels;
+        
+    }
     public static final int one = 1;
 }
