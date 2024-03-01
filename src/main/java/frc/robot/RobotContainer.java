@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.NoteDetection;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 
@@ -45,6 +46,7 @@ public class RobotContainer {
     private final Joystick bottomButtonBoard = new Joystick(Constants.OperatorConstants.kBottomButtonBoard);
     private final SwerveDrivebase swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray);
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    private final NoteDetection noteDetection = new NoteDetection();
     TalonFX intakePivot = new TalonFX(Constants.ElectronicsPorts.intakePivot);
 
     JoystickButton a = new JoystickButton(controller, 1);
@@ -103,7 +105,6 @@ public class RobotContainer {
         configureBindings();
 
         // SmartDashboard.putData("Intake Segment", intakeSegment);
-        swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
 
         autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -137,6 +138,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
         NamedCommands.registerCommand("Test Command", ampScoringAuto());
+
+        swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller, blueFive, noteDetection));
         
         SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
