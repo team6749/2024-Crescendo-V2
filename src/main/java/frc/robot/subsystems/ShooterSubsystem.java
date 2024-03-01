@@ -7,38 +7,37 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ShooterSubsystem. */
+    //Initializes motor variables to be declared later
     private TalonFX topShooterMotor;
     private TalonFX bottomShooterMotor;
 
-    Timer timer = new Timer();
 
+    //Initializing variables to control the shooters voltage and modifiers
     private double topShooterMaxModifier = 1;
     private double bottomShooterMaxModifier = 1;
-
     double leftvoltage = 6;
     double rightVoltage = 6;
 
     public ShooterSubsystem() {
+        //Initializes motors with their respective ports from the ElectronicsPorts sub-class in constants
         topShooterMotor = new TalonFX(Constants.ElectronicsPorts.topShooterMotorPort);
         bottomShooterMotor = new TalonFX(Constants.ElectronicsPorts.bottomShooterMotorPort);
-        timer.reset();
-        // i have to pee rn zac!!!
     }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
+        //Initializes a sendable builder which puts data to shuffleboard and allows users to set variables in
+        //shuffleboard without having to re-deploy the code
         builder.setSmartDashboardType("Shooter Subsystem");
         builder.addDoubleProperty("Top Shooter limiter", this::getTopShooterMaxModifier,
                 this::setTopShooterMaxModifier);
@@ -48,7 +47,8 @@ public class ShooterSubsystem extends SubsystemBase {
         builder.addDoubleProperty("shooter right voltage input", this::getRightVoltage, this::setRightVoltage);
 
     }
-    
+
+    //Getters and setters for the shooter motors max voltage and modifiers
     public double getRightVoltage() {
         return rightVoltage;
     }
@@ -81,67 +81,56 @@ public class ShooterSubsystem extends SubsystemBase {
         this.bottomShooterMaxModifier = bottomShooterMaxModifier;
     }
 
-
-
     /**
      * sets both shooter motors to a certain amount of voltage
      * 
-     * @param voltage the target voltage or the motor
+     * @param voltage the target voltage for the motor
      */
     public void shoot(double voltage) {
         leftvoltage = voltage;
         rightVoltage = voltage;
         topShooterMotor.setVoltage(leftvoltage);
         bottomShooterMotor.setVoltage(rightVoltage * 0.8);
-        
+
     }
 
-    public void intake() {
+    /**
+     * sets both shooter motors to a reverse voltage for intaking
+     */
+    public void shooterIntake() {
         topShooterMotor.setVoltage(-2);
         bottomShooterMotor.setVoltage(-2);
     }
 
-    public void resetTimer() {
-        timer.reset();
-    }
-
     /**
+     * Sets the shooter motors to reverse input so that it can intake from the
+     * source
      * 
-     * https://docs.wpilib.org/en/stable/docs/software/commandbased/subsystems.html
-     * 
-     * @param voltage the target voltage
-     * @return an instant command to set the motors to voltage
+     * @return instant command that reverses shooter motors temporarily
      */
-    // public Command shootCommand(int voltage) {
-    //     timer.reset();
-    //     this.rightVoltage = voltage;
-    //     this.leftvoltage = voltage;
-    //     return run(()-> shoot()); // ERM what is this and will it work
-        
-    // }
-
-    public Command intakeCommand() {
-        return run(() -> intake());
+    public Command shooterIntakeCommand() {
+        return run(() -> shooterIntake());
     }
 
     /**
      * sets both shooter motors to a certain amount of voltage
      * 
-     * @param voltage the target voltage or the motor
      */
-    public void shootSpeaker(int voltage) {
-        topShooterMotor.setVoltage(voltage);
-        bottomShooterMotor.setVoltage(voltage);
+    public void shootSpeaker() {
+        topShooterMotor.setVoltage(6);
+        bottomShooterMotor.setVoltage(6);
     }
 
     /**
      * 
      * https://docs.wpilib.org/en/stable/docs/software/commandbased/subsystems.html
      * 
-     * @param voltage the target voltage
-     * @return an instant command to set the motors to voltage
+     * @return an instant command to set the motors to a voltage to shoot into the speaker
      */
-    public Command shootSpeakerCommand(int voltage) {
-        return runOnce(() -> shootSpeaker(voltage)); // ERM what is this and will it work
+    // builds a command in the subsystem to reduce amount of files in the repository
+    // uses runOnce since when the command is called it is called using the
+    // whileTrue parameter for a button
+    public Command shootSpeakerCommand() {
+        return runOnce(() -> shootSpeaker());
     }
 }
