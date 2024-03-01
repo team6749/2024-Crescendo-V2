@@ -55,7 +55,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * @return instantly runs intake motors to intake game piece from the ground
      */
     public void intake(boolean reverse, double voltage) {
-        if (!intakeSwitch.get()) {
+        if(!intakeSwitch.get()) {
             if (!reverse) {
                 intakeMotor.setVoltage(voltage);
             } else if (reverse) {

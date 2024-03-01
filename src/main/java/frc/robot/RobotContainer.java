@@ -208,7 +208,7 @@ public class RobotContainer {
     public Command shootSpeaker() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shoot(8);
+                    shooterSubsystem.shoot(9);
                     intakeSubsystem.indexNote(false, true);
                 },
                 () -> {

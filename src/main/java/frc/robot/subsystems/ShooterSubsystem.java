@@ -90,7 +90,7 @@ public class ShooterSubsystem extends SubsystemBase {
         leftvoltage = voltage;
         rightVoltage = voltage;
         topShooterMotor.setVoltage(leftvoltage);
-        bottomShooterMotor.setVoltage(rightVoltage * 0.8);
+        bottomShooterMotor.setVoltage(rightVoltage);
 
     }
 
