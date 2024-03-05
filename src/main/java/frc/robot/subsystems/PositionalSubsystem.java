@@ -60,7 +60,6 @@ public class PositionalSubsystem extends PIDSubsystem {
 			setSetpoint(maxRange);
 		}
 
-		// TODO accurately measure the velocity of the encoder
 		double time = Timer.getFPGATimestamp();
 		double measurement = getMeasurement();
 		velocity = (measurement - lastMeasurement) * (1d/(time - lastTime)); // 0.02 delta time for loop
