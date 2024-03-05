@@ -125,7 +125,7 @@ public class RobotContainer {
         //Adds any commands we made in the code directly to PathPlanner to be used in autonomous paths
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
-        NamedCommands.registerCommand("Test Command", ampScoringAuto());
+        // NamedCommands.registerCommand("Test Command", ampScoringAuto());
         
 
         //Button to intake notes from the source
@@ -260,4 +260,5 @@ public class RobotContainer {
     public Command ampScoringAuto(){
         return Commands.print("Hello");
     }
+
 }
