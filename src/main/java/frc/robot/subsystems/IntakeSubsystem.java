@@ -4,68 +4,77 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
+    //Defining electronics with their associated device ID's in Constants
     CANSparkMax indexerSpark = new CANSparkMax(Constants.ElectronicsPorts.indexerSpark, CANSparkLowLevel.MotorType.kBrushed);
-    DigitalInput indexerSwitch = new DigitalInput(Constants.ElectronicsPorts.indexerSwitch);
 
-    Timer timer = new Timer();
+    TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
+    DigitalInput intakeSwitch = new DigitalInput(Constants.ElectronicsPorts.intakeSwitch);
 
-    // TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
-    // DigitalInput intakeSwitch = new DigitalInput(Constants.ElectronicsPorts.intakeSwitch);
+
 
     /** Creates a new IntakeSubsystem. */
     public IntakeSubsystem() {
-        timer.reset();
     }
 
     @Override
     public void periodic() {
-        // intakeMotor.set(0);
-        // This method will be called once per scheduler run
-        SmartDashboard.putBoolean("intake switch", indexerSwitch.get());
+        //Default set motors to 0 power so that they do not run randomly
     }
 
+    /**
+     * 
+     * @param reverse boolean to decide whether to intake normally or to spit the game piece out the bottom
+     * @param override boolean to override the limit switch for shooting
+     * @return instantly starts the indexer motors to get the game piece to a desired spot in the robot
+     */
     public void indexNote(boolean reverse, boolean override) {
-        if(!indexerSwitch.get() ){
+        if(!intakeSwitch.get() ){
             if(!reverse){
-            indexerSpark.set(0.5);
+            indexerSpark.setVoltage(8);
             }else if(reverse){
-                indexerSpark.set(-0.5);
+                indexerSpark.setVoltage(8);
             }
         }if(override){
-            indexerSpark.set(0.5);
+            indexerSpark.setVoltage(8);
         }
     }
+    
+    /**
+     * 
+     * @param reverse boolean to deicide to intake normally or to spit game piece out bottom
+     * @param voltage desired voltage to run intake motors at
+     * @return instantly runs intake motors to intake game piece from the ground
+     */
+    public void intake(boolean reverse, double voltage) {
+        if(!intakeSwitch.get()) {
+            if (!reverse) {
+                intakeMotor.setVoltage(voltage);
+            } else if (reverse) {
+                intakeMotor.setVoltage(-voltage);
+            }
+        }
+    }
+
+    /**
+     * Sets indexer motors power to zero
+     */
     public void stopIndexer(){
         indexerSpark.set(0);
     }
-    
-
-    // public void intake(boolean reverse, double voltage) {
-    //     if (!intakeSwitch.get()) {
-    //         if (!reverse) {
-    //             intakeMotor.set(voltage);
-    //         } else if (reverse) {
-    //             intakeMotor.set(-voltage);
-    //         }
-    //     }
-    // }
-
-    public Command indexCommand(boolean reverse, boolean override) {
-        return run(() -> indexNote(reverse, override)); // ERM what is this and will it work
+    /**
+     * sets intake motors power to zero
+     */
+    public void stopIntake(){
+        intakeMotor.set(0);
     }
-
-    // public Command intakeCommand(boolean reverse, double voltage) {
-    //     return run(() -> intake(reverse, voltage));
-    // }
+    
 }

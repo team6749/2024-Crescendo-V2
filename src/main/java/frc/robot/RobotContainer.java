@@ -40,7 +40,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -57,15 +56,19 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
-    // Replace with CommandPS4Controller or CommandJoystick if needed
+    //Initializing any USB plugins for robot control, in our case: 1 xbox controller(defined using XBoxController or CommandXboxController class), 
+    //can be substituted with PS5 Controller by using CommandPS5Controller class and two button boards(defined as joysticks)
     private final XboxController controller = new XboxController(OperatorConstants.kDriverControllerPort);
     private final Joystick topButtonBoard = new Joystick(Constants.OperatorConstants.kTopButtonBoard);
     private final Joystick bottomButtonBoard = new Joystick(Constants.OperatorConstants.kBottomButtonBoard);
+    
+    //Subsystems
     private final SwerveDrivebase swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray);
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final NoteDetection noteDetection = new NoteDetection();
     TalonFX intakePivot = new TalonFX(Constants.ElectronicsPorts.intakePivot);
-
+    
+    //Buttons For Driver Controller
     JoystickButton a = new JoystickButton(controller, 1);
     JoystickButton b = new JoystickButton(controller, 2);
     JoystickButton x = new JoystickButton(controller, 3);
@@ -73,11 +76,12 @@ public class RobotContainer {
     JoystickButton leftBumper = new JoystickButton(controller, 5);
     JoystickButton rightBumper = new JoystickButton(controller, 6);
 
-    Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
-    Trigger dpad_left = new Trigger(() -> controller.getPOV() == 90);
-    Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
-    Trigger dpad_right = new Trigger(() -> controller.getPOV() == 270);
+    Trigger dpad_up = new Trigger(() -> controller.getPOV() == 180);
+    Trigger dpad_left = new Trigger(() -> controller.getPOV() == 270);
+    Trigger dpad_down = new Trigger(() -> controller.getPOV() == 0);
+    Trigger dpad_right = new Trigger(() -> controller.getPOV() == 90);
 
+    //Buttons For Top Button Board (red and yellow)
     JoystickButton redOne = new JoystickButton(topButtonBoard, 1);
     JoystickButton redTwo = new JoystickButton(topButtonBoard, 2);
     JoystickButton redThree = new JoystickButton(topButtonBoard, 3);
@@ -89,6 +93,7 @@ public class RobotContainer {
     JoystickButton yellowFour = new JoystickButton(topButtonBoard, 9);
     JoystickButton yellowFive = new JoystickButton(topButtonBoard, 10);
 
+    //Buttons For Bottom Button Board (blue and green)
     JoystickButton blueOne = new JoystickButton(bottomButtonBoard, 1);
     JoystickButton blueTwo = new JoystickButton(bottomButtonBoard, 2);
     JoystickButton blueThree = new JoystickButton(bottomButtonBoard, 3);
@@ -117,13 +122,18 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        // Configure the trigger bindings
+        //Calling this sends any data put in a sendable builder or any other data to the shuffleboard application. 
+        //Driver station should automatically open shuffleboard when opened, if it does not, search it up in windows and pick the right year version (if given multiple options)
         SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
         SmartDashboard.putData("Swerve Subsystem", swerveDrivebase);
+        SmartDashboard.putData("Intake Subsystem", intakeSubsystem);
+        // SmartDashboard.putData("Auto Chooser", autoChooser);
+        
+        //Function that actually activates the different commands
         configureBindings();
 
-        // SmartDashboard.putData("Intake Segment", intakeSegment);
 
+        //Acesses any built autonomous paths from PathPlanner and puts them as options in the auto builder
         autoChooser = AutoBuilder.buildAutoChooser();
 
         // Another option that allows you to specify the default auto by its name
@@ -150,6 +160,7 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
+        //Adds any commands we made in the code directly to PathPlanner to be used in autonomous paths
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
 
@@ -160,45 +171,54 @@ public class RobotContainer {
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         // new Trigger(m_exampleSubsystem::exampleCondition)
         // .onTrue(new ExampleCommand(m_exampleSubsystem));
+        // NamedCommands.registerCommand("Test Command", ampScoringAuto());
+        
 
-        // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-        // pressed,
-        // cancelling on release.
-        // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+        //Button to intake notes from the source
+        a.whileTrue(sourceIntake());
 
-        // a.whileTrue(intakeSubsystem.intakeCommand(false, 6));
-        // b.whileTrue(intakeSubsystem.intakeCommand(true, 6));
-        a.whileTrue(intake());
-
-        // redOne.whileTrue(intakeSegment.smoothMoveToAngle(0));
-
-        // leftBumper.whileTrue(intakeSegment.smoothMoveToAngle(0));
-        // rightBumper.whileTrue(intakeSegment.smoothMoveToAngle(120));
-
-        // Speaker Shooting Command
+        //Button to shoot into speaker
         x.whileTrue(shootSpeaker());
 
-        // Amp Shooting Command
-        // AND TRAP???
+        //Button to shoot into the amp
         y.whileTrue(shootAmp());
 
+        //Button to intake notes from the ground
+        dpad_down.whileTrue(groundIntake());
+        //Button to intake from the source
+        dpad_up.whileTrue(sourceIntake());
+        
+        //Buttons to shoot into speaker
+        dpad_left.whileTrue(shootSpeaker());
+        dpad_right.whileTrue(shootSpeaker());
+
+        //All red buttons on the button board run the command to shoot into the speaker
         redOne.whileTrue(shootSpeaker());
         redTwo.whileTrue(shootSpeaker());
         redThree.whileTrue(shootSpeaker());
         redFour.whileTrue(shootSpeaker());
         redFive.whileTrue(shootSpeaker());
 
+        //All yellow buttons on the button board run the command to shoot into the amp
         yellowOne.whileTrue(shootAmp());
         yellowTwo.whileTrue(shootAmp());
         yellowThree.whileTrue(shootAmp());
         yellowFour.whileTrue(shootAmp());
         yellowFive.whileTrue(shootAmp());
+        
+        //All blue buttons on the button board run the command to intake from the ground
+        blueOne.onTrue(groundIntake());
+        blueTwo.whileTrue(groundIntake());
+        blueThree.whileTrue(groundIntake());
+        blueFour.whileTrue(groundIntake());
+        blueFive.whileTrue(groundIntake());
 
-        greenOne.whileTrue(intake());
-        greenTwo.whileTrue(intake());
-        greenThree.whileTrue(intake());
-        greenFour.whileTrue(intake());
-        greenFive.whileTrue(intake());
+        //All green buttons on the button board run the command to intake from source (drop into robot)
+        greenOne.whileTrue(sourceIntake());
+        greenTwo.whileTrue(sourceIntake());
+        greenThree.whileTrue(sourceIntake());
+        greenFour.whileTrue(sourceIntake());
+        greenFive.whileTrue(sourceIntake());
 
     }
 
@@ -219,17 +239,35 @@ public class RobotContainer {
         // return new PathPlannerAuto("0 Speaker Leave Top");
     }
 
+    //StartEnd Commands are very useful, they take 3 inputs: the functions to run when command starts, functions to run when command ends
+    // and the subsystem used, and the subsystems any functions you used are in. They also take an additional optional timeout function
+    /*public Command exampleStartEndCommand(){
+        return Commands.startEnd(
+            ()-> {
+                functions to run when command is initialized
+                    e.g.: run motors
+            },
+            ()->{
+                functions to run when command ends
+                    e.g.: turn off motors
+            },
+            subsystem used
+            ).withTimeout(amount of time to run the command); 
+    }
+     */    
+
     public Command shootSpeaker() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shoot(8);
+                    shooterSubsystem.shoot(9);
                     intakeSubsystem.indexNote(false, true);
                 },
                 () -> {
                     shooterSubsystem.shoot(0);
                     intakeSubsystem.stopIndexer();
                 },
-                shooterSubsystem).withTimeout(1);
+                shooterSubsystem, intakeSubsystem
+                ).withTimeout(1);
     }
 
     public Command shootAmp() {
@@ -245,16 +283,33 @@ public class RobotContainer {
                 shooterSubsystem).withTimeout(1);
     }
 
-    public Command intake() {
+    public Command sourceIntake() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.intake();
+                    shooterSubsystem.shooterIntake();
                     intakeSubsystem.indexNote(true, false);
                 },
                 () -> {
                     shooterSubsystem.shoot(0);
                     intakeSubsystem.stopIndexer();
                 }, shooterSubsystem).withTimeout(1);
+    }
+
+    public Command groundIntake(){
+        return Commands.startEnd(
+                ()->{
+                    intakeSubsystem.intake(true, 1);
+                    intakeSubsystem.indexNote(false, false);
+                },
+                ()->{
+                    intakeSubsystem.stopIndexer();
+                    intakeSubsystem.stopIntake();
+                }, intakeSubsystem).withTimeout(10);
+    }
+
+
+    public Command ampScoringAuto(){
+        return Commands.print("Hello");
     }
 
 }
