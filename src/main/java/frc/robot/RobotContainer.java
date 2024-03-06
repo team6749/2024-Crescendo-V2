@@ -12,11 +12,28 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.CommandUtil;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.commands.PathfindLTV;
+import com.pathplanner.lib.util.GeometryUtil;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -94,7 +111,8 @@ public class RobotContainer {
     // false);
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
-    private SendableChooser<Command> autoChooser;
+    private final SendableChooser<Command> autoChooser;
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -113,9 +131,6 @@ public class RobotContainer {
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
-
-
-
         // Build an auto chooser. This will use Commands.none() as the default option.
         configureBindings();
     }
@@ -131,16 +146,16 @@ public class RobotContainer {
      * CommandXboxController
      * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
      * PS4} controllers or
-    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+     * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
      * joysticks}.
      */
     private void configureBindings() {
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
-        NamedCommands.registerCommand("Test Command", ampScoringAuto());
 
-        swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller, blueFive, noteDetection));
-        
+        swerveDrivebase
+                .setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller, blueFive, noteDetection));
+
         SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         // new Trigger(m_exampleSubsystem::exampleCondition)
@@ -159,7 +174,6 @@ public class RobotContainer {
 
         // leftBumper.whileTrue(intakeSegment.smoothMoveToAngle(0));
         // rightBumper.whileTrue(intakeSegment.smoothMoveToAngle(120));
-
 
         // Speaker Shooting Command
         x.whileTrue(shootSpeaker());
@@ -186,7 +200,6 @@ public class RobotContainer {
         greenFour.whileTrue(intake());
         greenFive.whileTrue(intake());
 
-
     }
 
     /**
@@ -197,7 +210,12 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An example command will be run in autonomous
         // return Autos.exampleAuto(m_exampleSubsystem);
+        System.out.println("(" + autoChooser.getSelected().getName() + ")");
+
+        // System.out.println(PathPlannerAuto.getStaringPoseFromAutoFile(autoChooser.getSelected().getName()));
         return autoChooser.getSelected();
+        // System.out.println(autoChooser.getSelected().toString());
+        // return new PathPlannerAuto(autoChooser.getSelected().toString());
         // return new PathPlannerAuto("0 Speaker Leave Top");
     }
 

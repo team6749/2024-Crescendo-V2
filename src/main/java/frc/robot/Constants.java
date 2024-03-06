@@ -69,7 +69,9 @@ public final class Constants {
     public static class SwerveConstants {
         public static double chassisWidthMetersNoBumpers = .6858d;
         public static double chassisLengthMetersNoBumpers = .6858d;
-        public static double swerveWheelDiameterMeters = .1d;
+        public static double chassisWidthMetersBumpers = .875d;
+        public static double chassisLengthMetersBumpers = .875d;
+        public static double swerveWheelDiameterMeters = .0978d;
         public static double swerveGearRatio = 8.14d;
         public static double distFromCenterXMeters = .2525d;
         public static double distFromCenterYMeters = .2525d; // 68.5/2 - 9 in actual (close enuf)

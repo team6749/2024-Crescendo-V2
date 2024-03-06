@@ -47,7 +47,7 @@ public class SwerveDrivebase extends SubsystemBase {
 
     public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
-    public static final Field2d field = new Field2d();
+    public final Field2d field = new Field2d();
 
     /**
      * constructs a new swerve drivebase comprised of 2 or more modules (typically
@@ -88,8 +88,8 @@ public class SwerveDrivebase extends SubsystemBase {
                 this::setSubsystemChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(1, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(1, 0.0, 0.0), // Rotation PID constants
+                        new PIDConstants(6, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(3, 0.0, 0.0), // Rotation PID constants
                         4.5, // Max module speed, in m/s
                         Math.hypot(Constants.SwerveConstants.distFromCenterXMeters, Constants.SwerveConstants.distFromCenterYMeters), // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -212,7 +212,6 @@ public class SwerveDrivebase extends SubsystemBase {
      */
     public Pose2d getPose2d() {
         return poseEstimator.getEstimatedPosition();
-        // return odometry.getPoseMeters();
     }
 
     /**
