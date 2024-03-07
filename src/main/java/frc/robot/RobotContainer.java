@@ -113,18 +113,16 @@ public class RobotContainer {
         SmartDashboard.putData("Swerve Subsystem", swerveDrivebase);
         SmartDashboard.putData("Intake Subsystem", intakeSubsystem);
         // SmartDashboard.putData("Auto Chooser", autoChooser);
-
         
-        // Build an auto chooser. This will use Commands.none() as the default option.
+        //Adds any commands we made in the code directly to PathPlanner to be used in autonomous paths
+        NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
+        NamedCommands.registerCommand("Shoot Amp", shootAmp());
+        // NamedCommands.registerCommand("Test Command", ampScoringAuto());
+           
         //Acesses any built autonomous paths from PathPlanner and puts them as options in the auto builder
         autoChooser = AutoBuilder.buildAutoChooser();
-        
-        // Another option that allows you to specify the default auto by its name
-        // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
-        
-        SmartDashboard.putData("Auto Chooser", autoChooser);
-        
-        // Function that actually activates the different commands
+        SmartDashboard.putData(autoChooser);
+        //Function that actually activates the different commands
         configureBindings();
     }
 
@@ -143,19 +141,11 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        // Adds any commands we made in the code directly to PathPlanner to be used in
-        // autonomous paths
-        NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
-        NamedCommands.registerCommand("Shoot Amp", shootAmp());
-
+     
         //Default command, will constantly call everything in the "execute" section of the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(groundIntake());
-
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        // new Trigger(m_exampleSubsystem::exampleCondition)
-        // .onTrue(new ExampleCommand(m_exampleSubsystem));
-        // NamedCommands.registerCommand("Test Command", ampScoringAuto());
+        
 
         // Button to intake notes from the source
         a.whileTrue(sourceIntake());
@@ -199,7 +189,7 @@ public class RobotContainer {
         yellowFive.whileTrue(shootAmp());
         
         //All blue buttons on the button board run the command to intake from the ground
-        blueOne.whileTrue(groundIntake());
+        blueOne.whileTrue(Commands.run(() -> {swerveDrivebase.resetTest(); }, swerveDrivebase));
         blueTwo.whileTrue(groundIntake());
         blueThree.whileTrue(groundIntake());
         blueFour.whileTrue(groundIntake());
@@ -220,11 +210,9 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        // return Autos.exampleAuto(m_exampleSubsystem);
-        System.out.println("(" + autoChooser.getSelected().getName() + ")");
+        //Gets the selected data(autonomous path) from shuffleboard that the user chooses
+        intakeSubsystem.setDefaultCommand(groundIntake());
 
-        // System.out.println(PathPlannerAuto.getStaringPoseFromAutoFile(autoChooser.getSelected().getName()));
         return autoChooser.getSelected();
         // System.out.println(autoChooser.getSelected().toString());
         // return new PathPlannerAuto(autoChooser.getSelected().toString());
@@ -255,7 +243,7 @@ public class RobotContainer {
         return Commands.startEnd(
                 () -> {
                     shooterSubsystem.shoot(9, 1, 1);
-                    intakeSubsystem.indexNote(false, true);
+                    intakeSubsystem.indexNote(true);
                 },
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
@@ -268,7 +256,7 @@ public class RobotContainer {
         return Commands.startEnd(
                 () -> {
                     shooterSubsystem.shoot(3, 0.3, 1);
-                    intakeSubsystem.indexNote(false, true);
+                    intakeSubsystem.indexNote(true);
                 },
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
@@ -280,7 +268,7 @@ public class RobotContainer {
         return Commands.startEnd(
                 () -> {
                     shooterSubsystem.shooterIntake();
-                    intakeSubsystem.indexNote(false, false);
+                    intakeSubsystem.indexNote(false);
                 },
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
@@ -290,6 +278,9 @@ public class RobotContainer {
 
     public Command groundIntake() {
         return Commands.startEnd(
+                ()->{
+                    intakeSubsystem.intake(-1);
+                    intakeSubsystem.indexNote(false);
                 () -> {
                     intakeSubsystem.intake(true, 1);
                     intakeSubsystem.indexNote(false, false);
