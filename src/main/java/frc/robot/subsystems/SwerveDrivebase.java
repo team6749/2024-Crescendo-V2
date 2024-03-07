@@ -41,7 +41,6 @@ public class SwerveDrivebase extends SubsystemBase {
     /** Creates a new SwerveDrivebase. */
     public SwerveModule[] modules;
     public SwerveDriveKinematics kinematics;
-    public SwerveDriveOdometry odometry;
     public SwerveModuleState[] states;
     public SwerveDrivePoseEstimator poseEstimator;
     public DriveOrientation selectedOrientation;
@@ -71,7 +70,6 @@ public class SwerveDrivebase extends SubsystemBase {
         kinematics = new SwerveDriveKinematics(translations);
 
         // measurement from just the wheels
-        odometry = new SwerveDriveOdometry(kinematics, getRotation2d(), getCurrentModulePositions());
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, getRotation2d(), getCurrentModulePositions(),
                 new Pose2d(0,0, getRotation2d()));
@@ -114,21 +112,13 @@ public class SwerveDrivebase extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        odometry.update(getRotation2d(), getCurrentModulePositions());
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
 
         try {
             
         NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
 
-        boolean limelightHasValidTargets = limelightNetworkTable.getEntry("tv").getDouble(0) == 1.0 ? true : false;
-        NetworkTableEntry targetDistanceX = limelightNetworkTable.getEntry("tx"); // Horizontal Offset From Crosshair To
-                                                                                  // Target (-27 degrees to 27 degrees)
-        NetworkTableEntry targetDistanceY = limelightNetworkTable.getEntry("ty"); // Vertical Offset From Crosshair To
-                                                                                  // Target (-20.5 degrees to 20.5
-                                                                                  // degrees)
-        NetworkTableEntry targetArea = limelightNetworkTable.getEntry("ta"); // Target Area (0% of image to 100% of
-                                                                             // image)
+        // boolean limelightHasValidTargets = limelightNetworkTable.getEntry("tv").getDouble(0) == 1.0 ? true : false;
 
         NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue"); // always blue relative coords
 
@@ -139,12 +129,8 @@ public class SwerveDrivebase extends SubsystemBase {
                                                           // of the robot
         double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 
-        double primaryAprilTagID = limelightNetworkTable.getEntry("id").getDouble(0);
-
-        if (limelightHasValidTargets) {
+        if (botPoseArray[0] != 0 && botPoseArray[1] != 0 && botPoseArray[2] != 0) {
             poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
-            // poseEstimator.setVisionMeasurementStdDevs(new MatBuilder(Nat.N3(),
-            // Nat.N1()).fill(4, 4, 4)); // TODO NEEDED??
         }
         } catch (Exception e) {
             System.out.println("THE LIMELIGHT CODE CRASHED");
@@ -165,10 +151,8 @@ public class SwerveDrivebase extends SubsystemBase {
         SmartDashboard.putData("gyro", gyro);
         // builder.addStringProperty("Pose2d Odometry", () -> getPose2dOdometry().toString(), null);
         // builder.addStringProperty("Pose2d pose estimator", () -> getPose2dPoseEstimator().toString(), null);
-        SmartDashboard.putNumber("Pose2d PE X", getPose2dPoseEstimator().getX());
-        SmartDashboard.putNumber("Pose2d PE Y", getPose2dPoseEstimator().getY());
-        SmartDashboard.putNumber("Pose2d Odometry X", getPose2dOdometry().getX());
-        SmartDashboard.putNumber("Pose2d Odometry Y", getPose2dOdometry().getY());
+        SmartDashboard.putNumber("Pose2d PE X", getPose2d().getX());
+        SmartDashboard.putNumber("Pose2d PE Y", getPose2d().getY());
         SmartDashboard.putString("Orientation", getSelectedDriveMode().toString());
     }
 
@@ -213,22 +197,8 @@ public class SwerveDrivebase extends SubsystemBase {
      */
     public Pose2d getPose2d() {
         return poseEstimator.getEstimatedPosition();
-        // return odometry.getPoseMeters();
     }
 
-    /**
-     * 
-     * @return a Pose2d ( x, y ) of the robot position IN METERS
-     */
-    public Pose2d getPose2dPoseEstimator() {
-        return poseEstimator.getEstimatedPosition();
-        // return odometry.getPoseMeters();
-    }
-
-    public Pose2d getPose2dOdometry() {
-        // return poseEstimator.getEstimatedPosition();
-        return odometry.getPoseMeters();
-    }
 
     /**
      * 
@@ -277,26 +247,19 @@ public class SwerveDrivebase extends SubsystemBase {
      * @param pose2d current position of the robot
      */
     public void resetOdometry(Pose2d pose2d) {
-        odometry.resetPosition(
-                getRotation2d(),
-                getCurrentModulePositions(),
-                pose2d);
+        System.out.println("Resetting Odometry at " + pose2d.getX() + " " + pose2d.getY());
 
         poseEstimator.resetPosition(
                 getRotation2d(),
                 getCurrentModulePositions(),
                 pose2d);
+        System.out.println(poseEstimator.getEstimatedPosition().getX() + " " + poseEstimator.getEstimatedPosition().getY() + " " + poseEstimator.getEstimatedPosition().toString());
     }
 
-    /**
-     * resets the Position on the field of the Robot
-     * used for the robot autonomous in order to delete the last saved position on
-     * field
-     * 
-     */
-    public void resetOdometry() {
-        resetOdometry(getPose2d());
+    public void resetTest () {
+        resetOdometry(new Pose2d(new Translation2d(5, 1), new Rotation2d(0)));
     }
+
 
     /**
      * loops through each module and running stop(), a function to cut power to the
