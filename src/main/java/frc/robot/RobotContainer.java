@@ -19,8 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -127,7 +125,7 @@ public class RobotContainer {
         //Adds any commands we made in the code directly to PathPlanner to be used in autonomous paths
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
-        NamedCommands.registerCommand("Test Command", ampScoringAuto());
+        // NamedCommands.registerCommand("Test Command", ampScoringAuto());
         
 
         //Button to intake notes from the source
@@ -255,4 +253,5 @@ public class RobotContainer {
     public Command ampScoringAuto(){
         return Commands.print("Hello");
     }
+
 }
