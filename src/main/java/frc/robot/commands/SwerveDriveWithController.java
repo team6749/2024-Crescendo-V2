@@ -34,13 +34,16 @@ public class SwerveDriveWithController extends Command {
     public void initialize() {
     }
 
+    static double maxLinearSpeedms = 4.5;
+    static double maxRotationalSpeedDegrees = 180;
+
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
 
-		double xSpeed = xAccelerationLimiter.calculate(-controller.getLeftX() * 3);
-		double ySpeed = yAccelerationLimiter.calculate(-controller.getLeftY() * 3);
-		double thetaSpeed = thetaSpeedLimiter.calculate(-controller.getRightX() * 3.5); // angular speed
+		double xSpeed = xAccelerationLimiter.calculate(-controller.getLeftX() * maxLinearSpeedms);
+		double ySpeed = yAccelerationLimiter.calculate(-controller.getLeftY() * maxLinearSpeedms);
+		double thetaSpeed = thetaSpeedLimiter.calculate(-controller.getRightX() * Math.toDegrees(maxRotationalSpeedDegrees)); // angular speed
 
         switch (swerveDriveSubsystem.getSelectedDriveMode()) {
             case RobotOriented:
