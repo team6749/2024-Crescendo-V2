@@ -4,12 +4,15 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.notemodel.Note;
 import frc.robot.subsystems.SwerveDrivebase;
 
 public class SwerveDriveWithController extends Command {
@@ -53,6 +56,7 @@ public class SwerveDriveWithController extends Command {
                         thetaSpeed, swerveDriveSubsystem.getRotation2d());
                 break;
         }
+        
 
         if (Math.abs(ySpeed) < 0.25 && Math.abs(xSpeed) < 0.25
                 && Math.abs(thetaSpeed) < 0.2) {

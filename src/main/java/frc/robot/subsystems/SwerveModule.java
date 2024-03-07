@@ -134,7 +134,7 @@ public class SwerveModule implements Sendable {
         // Calculate the turning motor output from the turning PID controller.
         final double turnOutput = anglePIDController.calculate(getRotationEncoder(), state.angle.getDegrees());
 
-        final double driveFeedforward = (state.speedMetersPerSecond * 2.6);
+        final double driveFeedforward = (state.speedMetersPerSecond * 2.8);
 
         angleMotor.setVoltage(turnOutput);
         driveMotor.setVoltage((driveOutput + driveFeedforward) );
