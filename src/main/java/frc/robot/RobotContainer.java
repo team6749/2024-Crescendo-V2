@@ -242,11 +242,11 @@ public class RobotContainer {
     public Command shootSpeaker() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shoot(9, 1, 1);
+                    shooterSubsystem.shootSpeakerCommand();                    
                     intakeSubsystem.indexNote(true);
                 },
                 () -> {
-                    shooterSubsystem.shoot(0, 1, 1);
+                    shooterSubsystem.stopCommand();
                     intakeSubsystem.stopIndexer();
                 },
                 shooterSubsystem, intakeSubsystem).withTimeout(1);
@@ -255,11 +255,11 @@ public class RobotContainer {
     public Command shootAmp() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shoot(3, 0.3, 1);
+                    shooterSubsystem.shootAmpCommand();
                     intakeSubsystem.indexNote(true);
                 },
                 () -> {
-                    shooterSubsystem.shoot(0, 1, 1);
+                    shooterSubsystem.stopCommand();
                     intakeSubsystem.stopIndexer();
                 }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
@@ -267,7 +267,7 @@ public class RobotContainer {
     public Command sourceIntake() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shooterIntake();
+                    // shooterSubsystem.shooterIntake();
                     intakeSubsystem.indexNote(false);
                 },
                 () -> {
@@ -278,12 +278,9 @@ public class RobotContainer {
 
     public Command groundIntake() {
         return Commands.startEnd(
-                ()->{
+                () -> {
                     intakeSubsystem.intake(-1);
                     intakeSubsystem.indexNote(false);
-                () -> {
-                    intakeSubsystem.intake(true, 1);
-                    intakeSubsystem.indexNote(false, false);
                 },
                 () -> {
                     intakeSubsystem.stopIndexer();
