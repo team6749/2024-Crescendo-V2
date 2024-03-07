@@ -54,9 +54,9 @@ public class IntakeSubsystem extends SubsystemBase {
     public void indexNote(boolean reverse, boolean override) {
         if(!getLimitSwitch()){
             if(!reverse){
-                indexerVoltage = 5;
+                indexerVoltage = 6.5;
             }else if(reverse){
-                indexerVoltage = -5;
+                indexerVoltage = -6.5;
             }
         }if(override){
             indexerVoltage = 8;
