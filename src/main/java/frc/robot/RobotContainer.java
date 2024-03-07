@@ -102,7 +102,7 @@ public class RobotContainer {
 
         //Default command, will constantly call everything in the "execute" section of the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
-
+        intakeSubsystem.setDefaultCommand(groundIntake());
         //Acesses any built autonomous paths from PathPlanner and puts them as options in the auto builder
         autoChooser = AutoBuilder.buildAutoChooser();
     }
@@ -137,6 +137,8 @@ public class RobotContainer {
         //Button to shoot into the amp
         y.whileTrue(shootAmp());
 
+        leftBumper.onTrue(swerveDrivebase.driveModeCommand());
+
         //Button to intake notes from the ground
         dpad_down.whileTrue(groundIntake());
         //Button to intake from the source
@@ -161,7 +163,7 @@ public class RobotContainer {
         yellowFive.whileTrue(shootAmp());
         
         //All blue buttons on the button board run the command to intake from the ground
-        blueOne.onTrue(groundIntake());
+        blueOne.whileTrue(groundIntake());
         blueTwo.whileTrue(groundIntake());
         blueThree.whileTrue(groundIntake());
         blueFour.whileTrue(groundIntake());
@@ -172,7 +174,7 @@ public class RobotContainer {
         greenTwo.whileTrue(sourceIntake());
         greenThree.whileTrue(sourceIntake());
         greenFour.whileTrue(sourceIntake());
-        greenFive.whileTrue(sourceIntake());
+        greenFive.onTrue(swerveDrivebase.driveModeCommand());
 
 
     }
@@ -236,12 +238,12 @@ public class RobotContainer {
         return Commands.startEnd(
                 () -> {
                     shooterSubsystem.shooterIntake();
-                    intakeSubsystem.indexNote(true, false);
+                    intakeSubsystem.indexNote(false, false);
                 },
                 () -> {
                     shooterSubsystem.shoot(0);
                     intakeSubsystem.stopIndexer();
-                }, shooterSubsystem).withTimeout(1);
+                }, shooterSubsystem).until(()-> intakeSubsystem.getLimitSwitch());
     }
 
     public Command groundIntake(){
@@ -253,7 +255,7 @@ public class RobotContainer {
                 ()->{
                     intakeSubsystem.stopIndexer();
                     intakeSubsystem.stopIntake();
-                }, intakeSubsystem).withTimeout(10);
+                }, intakeSubsystem).until(()-> intakeSubsystem.getLimitSwitch());
     }
 
 
