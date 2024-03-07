@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.enums.DriveOrientation;
@@ -43,7 +44,7 @@ public class SwerveDrivebase extends SubsystemBase {
     public SwerveDriveOdometry odometry;
     public SwerveModuleState[] states;
     public SwerveDrivePoseEstimator poseEstimator;
-    public SendableChooser<DriveOrientation> orientation = new SendableChooser<DriveOrientation>();
+    public DriveOrientation selectedOrientation;
 
     public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
@@ -76,9 +77,9 @@ public class SwerveDrivebase extends SubsystemBase {
                 new Pose2d(0,0, getRotation2d()));
 
         gyro.calibrate();
-        orientation.setDefaultOption("Robot Oriented", DriveOrientation.RobotOriented);
-        orientation.addOption("Field Oriented", DriveOrientation.FieldOriented);
-        SmartDashboard.putData("Drive Mode", orientation);
+
+        selectedOrientation = DriveOrientation.RobotOriented;
+
         SmartDashboard.putData("field map", field);
 
         AutoBuilder.configureHolonomic(
@@ -164,11 +165,11 @@ public class SwerveDrivebase extends SubsystemBase {
         SmartDashboard.putData("gyro", gyro);
         // builder.addStringProperty("Pose2d Odometry", () -> getPose2dOdometry().toString(), null);
         // builder.addStringProperty("Pose2d pose estimator", () -> getPose2dPoseEstimator().toString(), null);
-
         SmartDashboard.putNumber("Pose2d PE X", getPose2dPoseEstimator().getX());
         SmartDashboard.putNumber("Pose2d PE Y", getPose2dPoseEstimator().getY());
         SmartDashboard.putNumber("Pose2d Odometry X", getPose2dOdometry().getX());
         SmartDashboard.putNumber("Pose2d Odometry Y", getPose2dOdometry().getY());
+        SmartDashboard.putString("Orientation", getSelectedDriveMode().toString());
     }
 
     /**
@@ -308,14 +309,32 @@ public class SwerveDrivebase extends SubsystemBase {
     }
 
     /**
-     * gets the driveMode from the SendableChooser in shuffleboard
+     * gets the driveMode orientation
      * 
      * @return the current select DriveMode, either RobotOriented or FieldOriented
      */
     public DriveOrientation getSelectedDriveMode() {
-        return orientation.getSelected();
+        return selectedOrientation;
     }
 
+    /**
+     *  sets the driveMode orientation
+     * */
+    public void setSelectedDriveMode(DriveOrientation newOrientation) {
+        selectedOrientation = newOrientation;
+    }
+
+    private void toggleSelectedDriveMode() {
+        if (selectedOrientation == DriveOrientation.FieldOriented) {
+            setSelectedDriveMode(DriveOrientation.RobotOriented);
+        } else {
+            setSelectedDriveMode(DriveOrientation.FieldOriented);
+        }
+    }
+    
+    public Command driveModeCommand() {
+        return runOnce(() -> toggleSelectedDriveMode());
+    }
     /**
      * sets each module to the NeutralModeValue - either Break or coast
      * Coast moves without locking the wheels, Break locks the wheels and resists

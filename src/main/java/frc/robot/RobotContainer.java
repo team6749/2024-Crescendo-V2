@@ -102,7 +102,7 @@ public class RobotContainer {
 
         //Default command, will constantly call everything in the "execute" section of the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
-
+        intakeSubsystem.setDefaultCommand(groundIntake());
         //Acesses any built autonomous paths from PathPlanner and puts them as options in the auto builder
         autoChooser = AutoBuilder.buildAutoChooser();
     }
@@ -139,6 +139,8 @@ public class RobotContainer {
         //Button to shoot into the amp
         y.onTrue(shootAmp());
 
+        leftBumper.onTrue(swerveDrivebase.driveModeCommand());
+
         //Button to intake notes from the ground
         dpad_down.whileTrue(groundIntake());
         //Button to intake from the source
@@ -160,14 +162,27 @@ public class RobotContainer {
 
         redFive.whileTrue(shootSpeaker());
 
-        dpad_left.onTrue(shootSpeaker());
+        //All yellow buttons on the button board run the command to shoot into the amp
+        yellowOne.whileTrue(shootAmp());
+        yellowTwo.whileTrue(shootAmp());
+        yellowThree.whileTrue(shootAmp());
+        yellowFour.whileTrue(shootAmp());
+        yellowFive.whileTrue(shootAmp());
+        
+        //All blue buttons on the button board run the command to intake from the ground
+        blueOne.whileTrue(groundIntake());
+        blueTwo.whileTrue(groundIntake());
+        blueThree.whileTrue(groundIntake());
+        blueFour.whileTrue(groundIntake());
+        blueFive.whileTrue(groundIntake());
 
-        dpad_right.onTrue(shootSpeaker());
+        //All green buttons on the button board run the command to intake from source (drop into robot)
+        greenOne.whileTrue(sourceIntake());
+        greenTwo.whileTrue(sourceIntake());
+        greenThree.whileTrue(sourceIntake());
+        greenFour.whileTrue(sourceIntake());
+        greenFive.onTrue(swerveDrivebase.driveModeCommand());
 
-        redFive.whileTrue(sourceIntake());
-        yellowFive.onTrue(shootSpeaker());
-        blueFive.onTrue(shootAmp());
-        greenFive.whileTrue(groundIntake());
     }
 
     /**
@@ -221,8 +236,7 @@ public class RobotContainer {
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
-                },
-                shooterSubsystem).withTimeout(1);
+                }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
 
     public Command sourceIntake() {
@@ -234,7 +248,7 @@ public class RobotContainer {
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
-                }, shooterSubsystem).withTimeout(1);
+                }, shooterSubsystem).until(()-> intakeSubsystem.getLimitSwitch());
     }
 
     public Command groundIntake(){
