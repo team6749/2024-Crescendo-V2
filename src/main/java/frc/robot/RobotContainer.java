@@ -54,9 +54,9 @@ public class RobotContainer {
     JoystickButton leftBumper = new JoystickButton(controller, 5);
     JoystickButton rightBumper = new JoystickButton(controller, 6);
 
-    Trigger dpad_up = new Trigger(() -> controller.getPOV() == 180);
+    Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
     Trigger dpad_left = new Trigger(() -> controller.getPOV() == 270);
-    Trigger dpad_down = new Trigger(() -> controller.getPOV() == 0);
+    Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
     Trigger dpad_right = new Trigger(() -> controller.getPOV() == 90);
 
     //Buttons For Top Button Board (red and yellow)
@@ -131,11 +131,13 @@ public class RobotContainer {
         //Button to intake notes from the source
         a.whileTrue(sourceIntake());
 
+        b.whileTrue(groundIntake());
+
         //Button to shoot into speaker
-        x.whileTrue(shootSpeaker());
+        x.onTrue(shootSpeaker());
 
         //Button to shoot into the amp
-        y.whileTrue(shootAmp());
+        y.onTrue(shootAmp());
 
         leftBumper.onTrue(swerveDrivebase.driveModeCommand());
 
@@ -145,14 +147,19 @@ public class RobotContainer {
         dpad_up.whileTrue(sourceIntake());
         
         //Buttons to shoot into speaker
-        dpad_left.whileTrue(shootSpeaker());
-        dpad_right.whileTrue(shootSpeaker());
+        dpad_left.onTrue(shootSpeaker());
+        dpad_right.onTrue(shootSpeaker());
 
-        //All red buttons on the button board run the command to shoot into the speaker
+        
+        
         redOne.whileTrue(shootSpeaker());
+
         redTwo.whileTrue(shootSpeaker());
+
         redThree.whileTrue(shootSpeaker());
+
         redFour.whileTrue(shootSpeaker());
+
         redFive.whileTrue(shootSpeaker());
 
         //All yellow buttons on the button board run the command to shoot into the amp
@@ -175,7 +182,6 @@ public class RobotContainer {
         greenThree.whileTrue(sourceIntake());
         greenFour.whileTrue(sourceIntake());
         greenFive.onTrue(swerveDrivebase.driveModeCommand());
-
 
     }
 
@@ -210,11 +216,11 @@ public class RobotContainer {
     public Command shootSpeaker() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shoot(9);
+                    shooterSubsystem.shoot(9, 1, 1);
                     intakeSubsystem.indexNote(false, true);
                 },
                 () -> {
-                    shooterSubsystem.shoot(0);
+                    shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
                 },
                 shooterSubsystem, intakeSubsystem
@@ -224,11 +230,11 @@ public class RobotContainer {
     public Command shootAmp() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shoot(2);
+                    shooterSubsystem.shoot(3, 0.3, 1);
                     intakeSubsystem.indexNote(false, true);
                 },
                 () -> {
-                    shooterSubsystem.shoot(0);
+                    shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
                 },
                 shooterSubsystem).withTimeout(1);
@@ -241,7 +247,7 @@ public class RobotContainer {
                     intakeSubsystem.indexNote(false, false);
                 },
                 () -> {
-                    shooterSubsystem.shoot(0);
+                    shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
                 }, shooterSubsystem).until(()-> intakeSubsystem.getLimitSwitch());
     }

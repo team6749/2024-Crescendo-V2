@@ -86,11 +86,11 @@ public class ShooterSubsystem extends SubsystemBase {
      * 
      * @param voltage the target voltage for the motor
      */
-    public void shoot(double voltage) {
+    public void shoot(double voltage, double topModifier, double bottomModifier) {
         leftvoltage = voltage;
         rightVoltage = voltage;
-        topShooterMotor.setVoltage(leftvoltage);
-        bottomShooterMotor.setVoltage(rightVoltage);
+        topShooterMotor.setVoltage(leftvoltage * topModifier);
+        bottomShooterMotor.setVoltage(rightVoltage * bottomModifier);
 
     }
 
