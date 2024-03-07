@@ -7,34 +7,14 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.NoteDetection;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.CommandUtil;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.commands.PathfindLTV;
-import com.pathplanner.lib.util.GeometryUtil;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -68,7 +48,6 @@ public class RobotContainer {
     // Subsystems
     private final SwerveDrivebase swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray);
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-    private final NoteDetection noteDetection = new NoteDetection();
     TalonFX intakePivot = new TalonFX(Constants.ElectronicsPorts.intakePivot);
 
     // Buttons For Driver Controller
@@ -79,9 +58,9 @@ public class RobotContainer {
     JoystickButton leftBumper = new JoystickButton(controller, 5);
     JoystickButton rightBumper = new JoystickButton(controller, 6);
 
-    Trigger dpad_up = new Trigger(() -> controller.getPOV() == 180);
+    Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
     Trigger dpad_left = new Trigger(() -> controller.getPOV() == 270);
-    Trigger dpad_down = new Trigger(() -> controller.getPOV() == 0);
+    Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
     Trigger dpad_right = new Trigger(() -> controller.getPOV() == 90);
 
     // Buttons For Top Button Board (red and yellow)
@@ -135,19 +114,17 @@ public class RobotContainer {
         SmartDashboard.putData("Intake Subsystem", intakeSubsystem);
         // SmartDashboard.putData("Auto Chooser", autoChooser);
 
-        // Function that actually activates the different commands
-        configureBindings();
-
-        // Acesses any built autonomous paths from PathPlanner and puts them as options
-        // in the auto builder
+        
+        // Build an auto chooser. This will use Commands.none() as the default option.
+        //Acesses any built autonomous paths from PathPlanner and puts them as options in the auto builder
         autoChooser = AutoBuilder.buildAutoChooser();
-
+        
         // Another option that allows you to specify the default auto by its name
         // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
-
+        
         SmartDashboard.putData("Auto Chooser", autoChooser);
-
-        // Build an auto chooser. This will use Commands.none() as the default option.
+        
+        // Function that actually activates the different commands
         configureBindings();
     }
 
@@ -171,10 +148,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
 
-        swerveDrivebase
-                .setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller, blueFive, noteDetection));
+        //Default command, will constantly call everything in the "execute" section of the command
+        swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
+        intakeSubsystem.setDefaultCommand(groundIntake());
 
-        SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         // new Trigger(m_exampleSubsystem::exampleCondition)
         // .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -183,26 +160,57 @@ public class RobotContainer {
         // Button to intake notes from the source
         a.whileTrue(sourceIntake());
 
-        // Button to shoot into speaker
-        x.whileTrue(shootSpeaker());
+        b.whileTrue(groundIntake());
 
-        // Button to shoot into the amp
-        y.whileTrue(shootAmp());
+        //Button to shoot into speaker
+        x.onTrue(shootSpeaker());
+
+        //Button to shoot into the amp
+        y.onTrue(shootAmp());
+
+        leftBumper.onTrue(swerveDrivebase.driveModeCommand());
 
         // Button to intake notes from the ground
         dpad_down.whileTrue(groundIntake());
         // Button to intake from the source
         dpad_up.whileTrue(sourceIntake());
+        
+        //Buttons to shoot into speaker
+        dpad_left.onTrue(shootSpeaker());
+        dpad_right.onTrue(shootSpeaker());
 
-        // Buttons to shoot into speaker
-        dpad_left.whileTrue(shootSpeaker());
-        dpad_right.whileTrue(shootSpeaker());
+        
+        
+        redOne.whileTrue(shootSpeaker());
 
-        redFive.whileTrue(sourceIntake());
-        yellowFive.onTrue(shootSpeaker());
-        blueFive.onTrue(shootAmp());
-        greenFive.whileTrue(groundIntake());
-        redOne.whileTrue(driveForward());
+        redTwo.whileTrue(shootSpeaker());
+
+        redThree.whileTrue(shootSpeaker());
+
+        redFour.whileTrue(shootSpeaker());
+
+        redFive.whileTrue(shootSpeaker());
+
+        //All yellow buttons on the button board run the command to shoot into the amp
+        yellowOne.whileTrue(shootAmp());
+        yellowTwo.whileTrue(shootAmp());
+        yellowThree.whileTrue(shootAmp());
+        yellowFour.whileTrue(shootAmp());
+        yellowFive.whileTrue(shootAmp());
+        
+        //All blue buttons on the button board run the command to intake from the ground
+        blueOne.whileTrue(groundIntake());
+        blueTwo.whileTrue(groundIntake());
+        blueThree.whileTrue(groundIntake());
+        blueFour.whileTrue(groundIntake());
+        blueFive.whileTrue(groundIntake());
+
+        //All green buttons on the button board run the command to intake from source (drop into robot)
+        greenOne.whileTrue(sourceIntake());
+        greenTwo.whileTrue(sourceIntake());
+        greenThree.whileTrue(sourceIntake());
+        greenFour.whileTrue(sourceIntake());
+        greenFive.onTrue(swerveDrivebase.driveModeCommand());
 
     }
 
@@ -246,11 +254,11 @@ public class RobotContainer {
     public Command shootSpeaker() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shoot(9);
+                    shooterSubsystem.shoot(9, 1, 1);
                     intakeSubsystem.indexNote(false, true);
                 },
                 () -> {
-                    shooterSubsystem.shoot(0);
+                    shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
                 },
                 shooterSubsystem, intakeSubsystem).withTimeout(1);
@@ -259,26 +267,25 @@ public class RobotContainer {
     public Command shootAmp() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shoot(2);
+                    shooterSubsystem.shoot(3, 0.3, 1);
                     intakeSubsystem.indexNote(false, true);
                 },
                 () -> {
-                    shooterSubsystem.shoot(0);
+                    shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
-                },
-                shooterSubsystem).withTimeout(1);
+                }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
 
     public Command sourceIntake() {
         return Commands.startEnd(
                 () -> {
                     shooterSubsystem.shooterIntake();
-                    intakeSubsystem.indexNote(true, false);
+                    intakeSubsystem.indexNote(false, false);
                 },
                 () -> {
-                    shooterSubsystem.shoot(0);
+                    shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
-                }, shooterSubsystem).withTimeout(1);
+                }, shooterSubsystem).until(()-> intakeSubsystem.getLimitSwitch());
     }
 
     public Command groundIntake() {
@@ -290,7 +297,7 @@ public class RobotContainer {
                 () -> {
                     intakeSubsystem.stopIndexer();
                     intakeSubsystem.stopIntake();
-                }, intakeSubsystem).withTimeout(10);
+                }, intakeSubsystem).until(()-> intakeSubsystem.getLimitSwitch());
     }
 
     public Command ampScoringAuto() {
