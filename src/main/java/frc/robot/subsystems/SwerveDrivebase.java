@@ -165,11 +165,7 @@ public class SwerveDrivebase extends SubsystemBase {
         SmartDashboard.putData("gyro", gyro);
         // builder.addStringProperty("Pose2d Odometry", () -> getPose2dOdometry().toString(), null);
         // builder.addStringProperty("Pose2d pose estimator", () -> getPose2dPoseEstimator().toString(), null);
-        SmartDashboard.putNumber("Pose2d PE X", getPose2dPoseEstimator().getX());
-        SmartDashboard.putNumber("Pose2d PE Y", getPose2dPoseEstimator().getY());
-        SmartDashboard.putNumber("Pose2d Odometry X", getPose2dOdometry().getX());
-        SmartDashboard.putNumber("Pose2d Odometry Y", getPose2dOdometry().getY());
-        SmartDashboard.putString("Orientation", getSelectedDriveMode().toString());
+        builder.addStringProperty("Orientation", () -> getSelectedDriveMode().toString(), null);
     }
 
     /**
