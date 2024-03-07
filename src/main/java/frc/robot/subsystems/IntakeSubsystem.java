@@ -4,12 +4,19 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -19,15 +26,23 @@ public class IntakeSubsystem extends SubsystemBase {
     TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
     DigitalInput intakeSwitch = new DigitalInput(Constants.ElectronicsPorts.intakeSwitch);
 
+    double indexerVoltage = 0;
+    double intakeVoltage = 0;
+
 
 
     /** Creates a new IntakeSubsystem. */
     public IntakeSubsystem() {
+        indexerSpark.setIdleMode(IdleMode.kBrake);
+        intakeMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
     @Override
     public void periodic() {
         //Default set motors to 0 power so that they do not run randomly
+        intakeMotor.setVoltage(intakeVoltage);
+        indexerSpark.setVoltage(indexerVoltage);    
+        SmartDashboard.putBoolean("Intake limit switch", intakeSwitch.get());
     }
 
     /**
@@ -37,14 +52,14 @@ public class IntakeSubsystem extends SubsystemBase {
      * @return instantly starts the indexer motors to get the game piece to a desired spot in the robot
      */
     public void indexNote(boolean reverse, boolean override) {
-        if(!intakeSwitch.get() ){
+        if(!getLimitSwitch()){
             if(!reverse){
-            indexerSpark.setVoltage(8);
+                indexerVoltage = 5;
             }else if(reverse){
-                indexerSpark.setVoltage(8);
+                indexerVoltage = -5;
             }
         }if(override){
-            indexerSpark.setVoltage(8);
+            indexerVoltage = 8;
         }
     }
     
@@ -55,26 +70,38 @@ public class IntakeSubsystem extends SubsystemBase {
      * @return instantly runs intake motors to intake game piece from the ground
      */
     public void intake(boolean reverse, double voltage) {
-        if(!intakeSwitch.get()) {
+        if(!getLimitSwitch()) {
             if (!reverse) {
-                intakeMotor.setVoltage(voltage);
+                this.intakeVoltage = voltage;
             } else if (reverse) {
-                intakeMotor.setVoltage(-voltage);
+                this.intakeVoltage = -voltage;
             }
         }
     }
+
+    public boolean getLimitSwitch(){
+        return intakeSwitch.get();
+    }
+
 
     /**
      * Sets indexer motors power to zero
      */
     public void stopIndexer(){
-        indexerSpark.set(0);
+        indexerVoltage = 0;
     }
     /**
      * sets intake motors power to zero
      */
     public void stopIntake(){
-        intakeMotor.set(0);
+        intakeVoltage = 0;
+    }
+
+    public Command intakeComand(){
+        return run(()-> intake(false, 2)).finallyDo(()-> stopIntake());
+    }
+    public Command indexCommand(){
+        return run(()->indexNote(false, false)).finallyDo(()->stopIndexer());
     }
     
 }
