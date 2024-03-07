@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3725738150477713,
-      "y": 5.562647359246215
+      "x": 0.0,
+      "y": 0.0
     },
     "rotation": 0
   },
@@ -12,15 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Shoot Speaker"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "0 Speaker Leave Bottom"
+            "pathName": "Drive 1 Meter"
           }
         }
       ]
