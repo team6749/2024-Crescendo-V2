@@ -48,9 +48,9 @@ public class SwerveDriveWithController extends Command {
             joystickRotation = 0;
         }
 
-        double yJoystickInput = joystickGainCurve(-controller.getLeftY());
-        double xJoystickInput = joystickGainCurve(-controller.getLeftX());
-        double thetaJoystickInput = joystickGainCurve(-joystickRotation);
+        double yJoystickInput = joystickResponseCurve(-controller.getLeftY());
+        double xJoystickInput = joystickResponseCurve(-controller.getLeftX());
+        double thetaJoystickInput = joystickResponseCurve(-joystickRotation);
 
         if (magnitude(yJoystickInput, xJoystickInput) < JoystickConstants.deadZoneRange) {
             xJoystickInput = 0;
@@ -93,12 +93,12 @@ public class SwerveDriveWithController extends Command {
      * and then will ramp up the inputs as the joystick moves further from the
      * resting position
      * 
-     * @param input
+     * @param input literal reading from the joystick
      * @return
      */
-    public double joystickGainCurve(double input) {
-        return (JoystickConstants.joystickSensitivityGainAdjustment * (Math.pow(input, 3)))
-                + ((1 - JoystickConstants.joystickSensitivityGainAdjustment) * input);
+    public double joystickResponseCurve(double input) {
+        return (JoystickConstants.joystickLinearityAdjustment * (Math.pow(input, 3)))
+                + ((1 - JoystickConstants.joystickLinearityAdjustment) * input);
     }
 
     double magnitude(double x, double y) {

@@ -141,7 +141,7 @@ public final class Constants {
         public static final double maxLinearSpeedms = 4.5;
         public static final double maxRotationalSpeedDegrees = 180;
 
-        public static final double joystickSensitivityGainAdjustment = 0.8;
+        public static final double joystickLinearityAdjustment = 0.8;
     }
         
 
