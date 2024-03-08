@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.JoystickConstants;
 import frc.robot.notemodel.Note;
 import frc.robot.subsystems.SwerveDrivebase;
 
@@ -37,13 +38,28 @@ public class SwerveDriveWithController extends Command {
     public void initialize() {
     }
 
+    
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
 
-		double xSpeed = xAccelerationLimiter.calculate(-controller.getLeftX() * 3);
-		double ySpeed = yAccelerationLimiter.calculate(-controller.getLeftY() * 3);
-		double thetaSpeed = thetaSpeedLimiter.calculate(-controller.getRightX() * 3.5); // angular speed
+        double joystickRotation = controller.getRightX();
+        if (Math.abs(joystickRotation) < JoystickConstants.deadZoneRotation) {
+            joystickRotation = 0;
+        }
+
+        double yJoystickInput = limitedJoystickInput(-controller.getLeftY());
+        double xJoystickInput = limitedJoystickInput(-controller.getLeftX());
+        double thetaJoystickInput = limitedJoystickInput(-joystickRotation);
+
+        if (magnitude(yJoystickInput, xJoystickInput) < JoystickConstants.deadZoneRange) {
+            xJoystickInput = 0;
+            yJoystickInput = 0;
+        }
+
+        double ySpeed = yJoystickInput * JoystickConstants.maxLinearSpeedms;
+        double xSpeed = xJoystickInput * JoystickConstants.maxLinearSpeedms;
+        double thetaSpeed = thetaJoystickInput * Math.toDegrees(JoystickConstants.maxRotationalSpeedDegrees);
 
         switch (swerveDriveSubsystem.getSelectedDriveMode()) {
             case RobotOriented:
@@ -56,19 +72,8 @@ public class SwerveDriveWithController extends Command {
                         thetaSpeed, swerveDriveSubsystem.getRotation2d());
                 break;
         }
-        
 
-        if (Math.abs(ySpeed) < 0.25 && Math.abs(xSpeed) < 0.25
-                && Math.abs(thetaSpeed) < 0.2) {
-            swerveDriveSubsystem.setSubsystemModuleStates(new SwerveModuleState[] {
-                    new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
-                    new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
-                    new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
-                    new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
-            });
-        } else {
-            swerveDriveSubsystem.setSubsystemChassisSpeeds(desiredSpeeds);
-        }
+        swerveDriveSubsystem.setSubsystemChassisSpeeds(desiredSpeeds);
     }
 
     // Called once the command ends or is interrupted.
@@ -81,4 +86,18 @@ public class SwerveDriveWithController extends Command {
     public boolean isFinished() {
         return false;
     }
+
+    // limiting joystick sense
+    public double limitedJoystickInput(double input) {
+        double limitedOutput = (JoystickConstants.limitedOutput * (Math.pow(input, 3))) + ((1 - JoystickConstants.limitedOutput) * input);
+        return limitedOutput;
+    }
+
+    double magnitude(double x, double y) {
+        final double xSquared   = Math.pow(x, 2);
+        final double ySquared   = Math.pow(y, 2);
+        
+        return Math.sqrt(xSquared + ySquared);
+      }
+    
 }
