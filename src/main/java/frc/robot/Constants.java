@@ -137,11 +137,11 @@ public final class Constants {
     public static class JoystickConstants {
         public static final double deadZoneRange = 0.15;
         public static final double deadZoneRotation = 0.10;
-        
+
         public static final double maxLinearSpeedms = 4.5;
         public static final double maxRotationalSpeedDegrees = 180;
 
-        public static final double limitedOutput = 0.8;
+        public static final double joystickSensitivityGainAdjustment = 0.8;
     }
         
 
