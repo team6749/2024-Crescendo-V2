@@ -12,9 +12,11 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
@@ -25,7 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
             CANSparkLowLevel.MotorType.kBrushed);
 
     TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
-    DigitalInput intakeSwitch = new DigitalInput(Constants.ElectronicsPorts.intakeSwitch);
+    private DigitalInput intakeSwitch = new DigitalInput(Constants.ElectronicsPorts.intakeSwitch);
 
     double indexerVoltage = 0;
     double intakeVoltage = 0;
@@ -36,29 +38,29 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        // TODO Auto-generated method stub
+        super.initSendable(builder);
+        builder.addBooleanProperty("limit switch", () -> getLimitSwitch(), null);
+    }
+    
+
     @Override
     public void periodic() {
         // Default set motors to 0 power so that they do not run randomly
         intakeMotor.setVoltage(intakeVoltage);
         indexerSpark.setVoltage(indexerVoltage);
-        SmartDashboard.putBoolean("Intake limit switch", intakeSwitch.get());
     }
 
     /**
-     * 
-     * @param reverse  boolean to decide whether to intake normally or to spit the
-     *                 game piece out the bottom
-     * @param override boolean to override the limit switch for shooting
+     * @param volts volts to run the indexer at
      * @return instantly starts the indexer motors to get the game piece to a
      *         desired spot in the robot
      */
-    public void indexNote(boolean override) {
-        if (!getLimitSwitch()) {
-            indexerVoltage = 6.5;
-        }
-        if (override) {
-            indexerVoltage = 8;
-        }
+    public void indexNote(double volts) {
+        indexerVoltage = volts;
     }
 
     /**
@@ -69,9 +71,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * @return instantly runs intake motors to intake game piece from the ground
      */
     public void intake(double voltage) {
-        if (!getLimitSwitch()) {
-            this.intakeVoltage = voltage;
-        }
+        this.intakeVoltage = voltage;
     }
 
     /**
