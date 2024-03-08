@@ -113,16 +113,19 @@ public class RobotContainer {
         SmartDashboard.putData("Swerve Subsystem", swerveDrivebase);
         SmartDashboard.putData("Intake Subsystem", intakeSubsystem);
         // SmartDashboard.putData("Auto Chooser", autoChooser);
-        
-        //Adds any commands we made in the code directly to PathPlanner to be used in autonomous paths
+
+        // Adds any commands we made in the code directly to PathPlanner to be used in
+        // autonomous paths
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
+        NamedCommands.registerCommand("Intake", groundIntake());
         // NamedCommands.registerCommand("Test Command", ampScoringAuto());
-           
-        //Acesses any built autonomous paths from PathPlanner and puts them as options in the auto builder
+
+        // Acesses any built autonomous paths from PathPlanner and puts them as options
+        // in the auto builder
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData(autoChooser);
-        //Function that actually activates the different commands
+        // Function that actually activates the different commands
         configureBindings();
     }
 
@@ -141,21 +144,21 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-     
-        //Default command, will constantly call everything in the "execute" section of the command
+
+        // Default command, will constantly call everything in the "execute" section of
+        // the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(groundIntake());
-        
 
         // Button to intake notes from the source
         a.whileTrue(sourceIntake());
 
         b.whileTrue(groundIntake());
 
-        //Button to shoot into speaker
+        // Button to shoot into speaker
         x.onTrue(shootSpeaker());
 
-        //Button to shoot into the amp
+        // Button to shoot into the amp
         y.onTrue(shootAmp());
 
         leftBumper.onTrue(swerveDrivebase.driveModeCommand());
@@ -164,13 +167,11 @@ public class RobotContainer {
         dpad_down.whileTrue(groundIntake());
         // Button to intake from the source
         dpad_up.whileTrue(sourceIntake());
-        
-        //Buttons to shoot into speaker
+
+        // Buttons to shoot into speaker
         dpad_left.onTrue(shootSpeaker());
         dpad_right.onTrue(shootSpeaker());
 
-        
-        
         redOne.whileTrue(shootSpeaker());
 
         redTwo.whileTrue(shootSpeaker());
@@ -181,21 +182,25 @@ public class RobotContainer {
 
         redFive.whileTrue(shootSpeaker());
 
-        //All yellow buttons on the button board run the command to shoot into the amp
+        // All yellow buttons on the button board run the command to shoot into the amp
         yellowOne.whileTrue(shootAmp());
         yellowTwo.whileTrue(shootAmp());
         yellowThree.whileTrue(shootAmp());
         yellowFour.whileTrue(shootAmp());
         yellowFive.whileTrue(shootAmp());
-        
-        //All blue buttons on the button board run the command to intake from the ground
-        blueOne.whileTrue(Commands.run(() -> {swerveDrivebase.resetTest(); }, swerveDrivebase));
+
+        // All blue buttons on the button board run the command to intake from the
+        // ground
+        blueOne.whileTrue(Commands.run(() -> {
+            swerveDrivebase.resetTest();
+        }, swerveDrivebase));
         blueTwo.whileTrue(groundIntake());
         blueThree.whileTrue(groundIntake());
         blueFour.whileTrue(groundIntake());
         blueFive.whileTrue(groundIntake());
 
-        //All green buttons on the button board run the command to intake from source (drop into robot)
+        // All green buttons on the button board run the command to intake from source
+        // (drop into robot)
         greenOne.whileTrue(sourceIntake());
         greenTwo.whileTrue(sourceIntake());
         greenThree.whileTrue(sourceIntake());
@@ -210,53 +215,32 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        //Gets the selected data(autonomous path) from shuffleboard that the user chooses
-        intakeSubsystem.setDefaultCommand(groundIntake());
+        // Gets the selected data(autonomous path) from shuffleboard that the user
+        // chooses
 
         return autoChooser.getSelected();
-        // System.out.println(autoChooser.getSelected().toString());
-        // return new PathPlannerAuto(autoChooser.getSelected().toString());
-        // return new PathPlannerAuto("0 Speaker Leave Top");
     }
-
-    // StartEnd Commands are very useful, they take 3 inputs: the functions to run
-    // when command starts, functions to run when command ends
-    // and the subsystem used, and the subsystems any functions you used are in.
-    // They also take an additional optional timeout function
-    /*
-     * public Command exampleStartEndCommand(){
-     * return Commands.startEnd(
-     * ()-> {
-     * functions to run when command is initialized
-     * e.g.: run motors
-     * },
-     * ()->{
-     * functions to run when command ends
-     * e.g.: turn off motors
-     * },
-     * subsystem used
-     * ).withTimeout(amount of time to run the command);
-     * }
-     */
 
     public Command shootSpeaker() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shootSpeakerCommand();                    
-                    intakeSubsystem.indexNote(true);
+                    System.out.println("started shoot command");
+                    shooterSubsystem.shootSpeakerCommand();
+                    intakeSubsystem.indexNote(8);
                 },
                 () -> {
+                    System.out.println("ended shoot command");
                     shooterSubsystem.stopCommand();
                     intakeSubsystem.stopIndexer();
                 },
-                shooterSubsystem, intakeSubsystem).withTimeout(1);
+                shooterSubsystem, intakeSubsystem).withTimeout(0.5);
     }
 
     public Command shootAmp() {
         return Commands.startEnd(
                 () -> {
                     shooterSubsystem.shootAmpCommand();
-                    intakeSubsystem.indexNote(true);
+                    intakeSubsystem.indexNote(8);
                 },
                 () -> {
                     shooterSubsystem.stopCommand();
@@ -268,24 +252,30 @@ public class RobotContainer {
         return Commands.startEnd(
                 () -> {
                     // shooterSubsystem.shooterIntake();
-                    intakeSubsystem.indexNote(false);
+                    intakeSubsystem.indexNote(5);
                 },
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
-                }, shooterSubsystem).until(()-> intakeSubsystem.getLimitSwitch());
+                }, shooterSubsystem, intakeSubsystem).until(() -> intakeSubsystem.getLimitSwitch());
     }
 
     public Command groundIntake() {
-        return Commands.startEnd(
+        return Commands.runEnd(
                 () -> {
-                    intakeSubsystem.intake(-1);
-                    intakeSubsystem.indexNote(false);
+                    if (intakeSubsystem.getLimitSwitch() == false) {
+                        intakeSubsystem.intake(-1);
+                        intakeSubsystem.indexNote(5);
+                    } else {
+                        intakeSubsystem.stopIndexer();
+                        intakeSubsystem.stopIntake();
+                    }
                 },
                 () -> {
+                    System.out.println("ended intake command");
                     intakeSubsystem.stopIndexer();
                     intakeSubsystem.stopIntake();
-                }, intakeSubsystem).until(()-> intakeSubsystem.getLimitSwitch());
+                }, intakeSubsystem);
     }
 
     public Command ampScoringAuto() {

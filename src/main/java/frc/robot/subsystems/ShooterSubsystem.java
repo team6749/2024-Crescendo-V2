@@ -21,8 +21,8 @@ public class ShooterSubsystem extends SubsystemBase {
     // Initializing variables to control the shooters voltage and modifiers
     private double topShooterMaxModifier = 1;
     private double bottomShooterMaxModifier = 1;
-    double leftvoltage = 6;
-    double rightVoltage = 6;
+    double leftvoltage = 0;
+    double rightVoltage = 0;
 
     public ShooterSubsystem() {
         // Initializes motors with their respective ports from the ElectronicsPorts
@@ -101,9 +101,10 @@ public class ShooterSubsystem extends SubsystemBase {
     public Command shootSpeakerCommand() {
         return Commands.run(
                 () -> {
-                    shoot(9, 1, 1);
+                    shoot(10, 1, 1);
                 }, this);
     }
+
     public Command shootAmpCommand() {
         return Commands.run(
                 () -> {
