@@ -133,6 +133,18 @@ public final class Constants {
         public static double screenHeightPixels;
         
     }
+
+    public static class JoystickConstants {
+        public static final double deadZoneRange = 0.15;
+        public static final double deadZoneRotation = 0.10;
+
+        public static final double maxLinearSpeedms = 4.5;
+        public static final double maxRotationalSpeedDegrees = 360;
+
+        public static final double joystickLinearityAdjustment = 0.8;
+    }
+        
+
     //very necessary constants, must be in every constants class in order for the robot to run correctly
     public static final int one = 1;
 }
