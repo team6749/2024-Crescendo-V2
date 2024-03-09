@@ -96,4 +96,22 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeVoltage = 0;
     }
 
+    public Command groundIntake() {
+        return Commands.runEnd(
+                () -> {
+                    if (getLimitSwitch() == false) {
+                        intake(-1);
+                        indexNote(5);
+                    } else {
+                        stopIndexer();
+                        stopIntake();
+                    }
+                },
+                () -> {
+                    System.out.println("ended intake command");
+                    stopIndexer();
+                    stopIntake();
+                }, this);
+    }
+
 }
