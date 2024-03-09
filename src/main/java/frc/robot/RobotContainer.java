@@ -150,10 +150,9 @@ public class RobotContainer {
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(groundIntake());
 
-        // Button to intake game piece from the source
+        // Button to intake notes from the source
         a.whileTrue(sourceIntake());
 
-        // Button to intake game piece from the ground
         b.whileTrue(groundIntake());
 
         // Button to shoot into speaker
@@ -173,22 +172,22 @@ public class RobotContainer {
         dpad_left.onTrue(shootSpeaker());
         dpad_right.onTrue(shootSpeaker());
 
-        redOne.onTrue(shootSpeaker());
+        redOne.whileTrue(shootSpeaker());
 
-        redTwo.onTrue(shootSpeaker());
+        redTwo.whileTrue(shootSpeaker());
 
-        redThree.onTrue(shootSpeaker());
+        redThree.whileTrue(shootSpeaker());
 
-        redFour.onTrue(shootSpeaker());
+        redFour.whileTrue(shootSpeaker());
 
-        redFive.onTrue(shootSpeaker());
+        redFive.whileTrue(shootSpeaker());
 
         // All yellow buttons on the button board run the command to shoot into the amp
-        yellowOne.onTrue(shootAmp());
-        yellowTwo.onTrue(shootAmp());
-        yellowThree.onTrue(shootAmp());
-        yellowFour.onTrue(shootAmp());
-        yellowFive.onTrue(shootTrap());
+        yellowOne.whileTrue(shootAmp());
+        yellowTwo.whileTrue(shootAmp());
+        yellowThree.whileTrue(shootAmp());
+        yellowFour.whileTrue(shootAmp());
+        yellowFive.whileTrue(shootAmp());
 
         // All blue buttons on the button board run the command to intake from the
         // ground
@@ -226,12 +225,12 @@ public class RobotContainer {
         return Commands.startEnd(
                 () -> {
                     System.out.println("started shoot command");
-                    shooterSubsystem.shoot(10, 1, 1);
+                    shooterSubsystem.shootSpeakerCommand();
                     intakeSubsystem.indexNote(8);
                 },
                 () -> {
                     System.out.println("ended shoot command");
-                    shooterSubsystem.shoot(0, 1, 1);
+                    shooterSubsystem.stopCommand();
                     intakeSubsystem.stopIndexer();
                 },
                 shooterSubsystem, intakeSubsystem).withTimeout(0.5);
@@ -240,11 +239,11 @@ public class RobotContainer {
     public Command shootAmp() {
         return Commands.startEnd(
                 () -> {
-                    shooterSubsystem.shoot(3, 0.3, 1);
+                    shooterSubsystem.shootAmpCommand();
                     intakeSubsystem.indexNote(8);
                 },
                 () -> {
-                    shooterSubsystem.shoot(0, 1, 1);
+                    shooterSubsystem.stopCommand();
                     intakeSubsystem.stopIndexer();
                 }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
@@ -277,18 +276,6 @@ public class RobotContainer {
                     intakeSubsystem.stopIndexer();
                     intakeSubsystem.stopIntake();
                 }, intakeSubsystem);
-    }
-
-    public Command shootTrap(){
-        return Commands.startEnd(
-            ()-> {
-                intakeSubsystem.indexNote(5);
-                shooterSubsystem.shoot(5, 1, 0.9);
-            }, 
-            ()->{
-                intakeSubsystem.stopIndexer();
-                shooterSubsystem.shoot(0, 1, 1);
-            }, intakeSubsystem, shooterSubsystem).withTimeout(0.5);
     }
 
     public Command ampScoringAuto() {
