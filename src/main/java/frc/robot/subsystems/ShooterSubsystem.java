@@ -8,36 +8,41 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ShooterSubsystem. */
-    //Initializes motor variables to be declared later
+    // Initializes motor variables to be declared later
     private TalonFX topShooterMotor;
     private TalonFX bottomShooterMotor;
 
-
-    //Initializing variables to control the shooters voltage and modifiers
+    // Initializing variables to control the shooters voltage and modifiers
     private double topShooterMaxModifier = 1;
     private double bottomShooterMaxModifier = 1;
-    double leftvoltage = 6;
-    double rightVoltage = 6;
+    double leftvoltage = 0;
+    double rightVoltage = 0;
 
     public ShooterSubsystem() {
-        //Initializes motors with their respective ports from the ElectronicsPorts sub-class in constants
+        // Initializes motors with their respective ports from the ElectronicsPorts
+        // sub-class in constants
         topShooterMotor = new TalonFX(Constants.ElectronicsPorts.topShooterMotorPort);
         bottomShooterMotor = new TalonFX(Constants.ElectronicsPorts.bottomShooterMotorPort);
     }
 
     @Override
     public void periodic() {
+        topShooterMotor.setVoltage(leftvoltage * topShooterMaxModifier);
+        bottomShooterMotor.setVoltage(rightVoltage * bottomShooterMaxModifier);
+
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        //Initializes a sendable builder which puts data to shuffleboard and allows users to set variables in
-        //shuffleboard without having to re-deploy the code
+        // Initializes a sendable builder which puts data to shuffleboard and allows
+        // users to set variables in
+        // shuffleboard without having to re-deploy the code
         builder.setSmartDashboardType("Shooter Subsystem");
         builder.addDoubleProperty("Top Shooter limiter", this::getTopShooterMaxModifier,
                 this::setTopShooterMaxModifier);
@@ -48,7 +53,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     }
 
-    //Getters and setters for the shooter motors max voltage and modifiers
+    // Getters and setters for the shooter motors max voltage and modifiers
     public double getRightVoltage() {
         return rightVoltage;
     }
@@ -89,48 +94,29 @@ public class ShooterSubsystem extends SubsystemBase {
     public void shoot(double voltage, double topModifier, double bottomModifier) {
         leftvoltage = voltage;
         rightVoltage = voltage;
-        topShooterMotor.setVoltage(leftvoltage * topModifier);
-        bottomShooterMotor.setVoltage(rightVoltage * bottomModifier);
-
+        this.bottomShooterMaxModifier = bottomModifier;
+        this.topShooterMaxModifier = topModifier;
     }
 
-    /**
-     * sets both shooter motors to a reverse voltage for intaking
-     */
-    public void shooterIntake() {
-        topShooterMotor.setVoltage(-2);
-        bottomShooterMotor.setVoltage(-2);
-    }
-
-    /**
-     * Sets the shooter motors to reverse input so that it can intake from the
-     * source
-     * 
-     * @return instant command that reverses shooter motors temporarily
-     */
-    public Command shooterIntakeCommand() {
-        return run(() -> shooterIntake());
-    }
-
-    /**
-     * sets both shooter motors to a certain amount of voltage
-     * 
-     */
-    public void shootSpeaker() {
-        topShooterMotor.setVoltage(6);
-        bottomShooterMotor.setVoltage(6);
-    }
-
-    /**
-     * 
-     * https://docs.wpilib.org/en/stable/docs/software/commandbased/subsystems.html
-     * 
-     * @return an instant command to set the motors to a voltage to shoot into the speaker
-     */
-    // builds a command in the subsystem to reduce amount of files in the repository
-    // uses runOnce since when the command is called it is called using the
-    // whileTrue parameter for a button
     public Command shootSpeakerCommand() {
-        return runOnce(() -> shootSpeaker());
+        return Commands.run(
+                () -> {
+                    shoot(10, 1, 1);
+                }, this);
     }
+
+    public Command shootAmpCommand() {
+        return Commands.run(
+                () -> {
+                    shoot(3, .3, 1);
+                }, this);
+    }
+
+    public Command stopCommand() {
+        return Commands.run(
+                () -> {
+                    shoot(0, 1, 1);
+                }, this);
+    }
+
 }
