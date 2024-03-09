@@ -98,25 +98,4 @@ public class ShooterSubsystem extends SubsystemBase {
         this.topShooterMaxModifier = topModifier;
     }
 
-    public Command shootSpeakerCommand() {
-        return Commands.run(
-                () -> {
-                    shoot(10, 1, 1);
-                }, this);
-    }
-
-    public Command shootAmpCommand() {
-        return Commands.run(
-                () -> {
-                    shoot(3, .3, 1);
-                }, this);
-    }
-
-    public Command stopCommand() {
-        return Commands.run(
-                () -> {
-                    shoot(0, 1, 1);
-                }, this);
-    }
-
 }

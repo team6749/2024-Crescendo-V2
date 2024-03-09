@@ -118,7 +118,7 @@ public class RobotContainer {
         // autonomous paths
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
-        NamedCommands.registerCommand("Intake", groundIntake());
+        NamedCommands.registerCommand("Intake", intakeSubsystem.groundIntake());
         // NamedCommands.registerCommand("Test Command", ampScoringAuto());
 
         // Acesses any built autonomous paths from PathPlanner and puts them as options
@@ -148,13 +148,13 @@ public class RobotContainer {
         // Default command, will constantly call everything in the "execute" section of
         // the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
-        intakeSubsystem.setDefaultCommand(groundIntake());
+        intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
 
         // Button to intake game piece from the source
         a.whileTrue(sourceIntake());
 
         // Button to intake game piece from the ground
-        b.whileTrue(groundIntake());
+        b.whileTrue(intakeSubsystem.groundIntake());
 
         // Button to shoot into speaker
         x.onTrue(shootSpeaker());
@@ -165,7 +165,7 @@ public class RobotContainer {
         leftBumper.onTrue(swerveDrivebase.driveModeCommand());
 
         // Button to intake notes from the ground
-        dpad_down.whileTrue(groundIntake());
+        dpad_down.whileTrue(intakeSubsystem.groundIntake());
         // Button to intake from the source
         dpad_up.whileTrue(sourceIntake());
 
@@ -188,17 +188,17 @@ public class RobotContainer {
         yellowTwo.onTrue(shootAmp());
         yellowThree.onTrue(shootAmp());
         yellowFour.onTrue(shootAmp());
-        yellowFive.onTrue(shootTrap());
+        yellowFive.onTrue(shootAmp());
 
         // All blue buttons on the button board run the command to intake from the
         // ground
         blueOne.whileTrue(Commands.run(() -> {
             swerveDrivebase.resetTest();
         }, swerveDrivebase));
-        blueTwo.whileTrue(groundIntake());
-        blueThree.whileTrue(groundIntake());
-        blueFour.whileTrue(groundIntake());
-        blueFive.whileTrue(groundIntake());
+        blueTwo.whileTrue(intakeSubsystem.groundIntake());
+        blueThree.whileTrue(intakeSubsystem.groundIntake());
+        blueFour.whileTrue(intakeSubsystem.groundIntake());
+        blueFive.whileTrue(intakeSubsystem.groundIntake());
 
         // All green buttons on the button board run the command to intake from source
         // (drop into robot)
@@ -261,35 +261,8 @@ public class RobotContainer {
                 }, shooterSubsystem, intakeSubsystem).until(() -> intakeSubsystem.getLimitSwitch());
     }
 
-    public Command groundIntake() {
-        return Commands.runEnd(
-                () -> {
-                    if (intakeSubsystem.getLimitSwitch() == false) {
-                        intakeSubsystem.intake(-1);
-                        intakeSubsystem.indexNote(5);
-                    } else {
-                        intakeSubsystem.stopIndexer();
-                        intakeSubsystem.stopIntake();
-                    }
-                },
-                () -> {
-                    System.out.println("ended intake command");
-                    intakeSubsystem.stopIndexer();
-                    intakeSubsystem.stopIntake();
-                }, intakeSubsystem);
-    }
 
-    public Command shootTrap(){
-        return Commands.startEnd(
-            ()-> {
-                intakeSubsystem.indexNote(5);
-                shooterSubsystem.shoot(5, 1, 0.9);
-            }, 
-            ()->{
-                intakeSubsystem.stopIndexer();
-                shooterSubsystem.shoot(0, 1, 1);
-            }, intakeSubsystem, shooterSubsystem).withTimeout(0.5);
-    }
+
 
     public Command ampScoringAuto() {
         return Commands.print("Hello");
