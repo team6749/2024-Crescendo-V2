@@ -226,8 +226,8 @@ public class RobotContainer {
         return Commands.startEnd(
                 () -> {
                     System.out.println("started shoot command");
-                    shooterSubsystem.shoot(10, 1, 1);
-                    intakeSubsystem.indexNote(8);
+                    shooterSubsystem.shoot(9, 1, 1);
+                    intakeSubsystem.indexNote(10);
                 },
                 () -> {
                     System.out.println("ended shoot command");
