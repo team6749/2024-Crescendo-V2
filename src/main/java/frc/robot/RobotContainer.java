@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -192,10 +193,8 @@ public class RobotContainer {
 
         // All blue buttons on the button board run the command to intake from the
         // ground
-        blueOne.whileTrue(Commands.run(() -> {
-            swerveDrivebase.resetTest();
-        }, swerveDrivebase));
-        blueTwo.whileTrue(intakeSubsystem.groundIntake());
+        blueOne.whileTrue(swerveDrivebase.resetOdometryCommand());
+        blueTwo.whileTrue(driveForward());
         blueThree.whileTrue(intakeSubsystem.groundIntake());
         blueFour.whileTrue(intakeSubsystem.groundIntake());
         blueFive.whileTrue(intakeSubsystem.groundIntake());
@@ -271,7 +270,7 @@ public class RobotContainer {
     public Command driveForward() {
         return Commands.runEnd(
                 () -> {
-                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(99, 0, 0));
+                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0.2, 0, 0));
                 },
                 () -> {
                     swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
