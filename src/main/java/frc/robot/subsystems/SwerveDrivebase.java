@@ -72,7 +72,7 @@ public class SwerveDrivebase extends SubsystemBase {
         // measurement from just the wheels
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, getRotation2d(), getCurrentModulePositions(),
-                new Pose2d(0,0, getRotation2d()));
+                new Pose2d(0, 0, getRotation2d()));
 
         gyro.calibrate();
 
@@ -90,7 +90,10 @@ public class SwerveDrivebase extends SubsystemBase {
                         new PIDConstants(6, 0.0, 0.0), // Translation PID constants
                         new PIDConstants(3, 0.0, 0.0), // Rotation PID constants
                         4.5, // Max module speed, in m/s
-                        Math.hypot(Constants.SwerveConstants.distFromCenterXMeters, Constants.SwerveConstants.distFromCenterYMeters), // Drive base radius in meters. Distance from robot center to furthest module.
+                        Math.hypot(Constants.SwerveConstants.distFromCenterXMeters,
+                                Constants.SwerveConstants.distFromCenterYMeters), // Drive base radius in meters.
+                                                                                  // Distance from robot center to
+                                                                                  // furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
                 () -> {
@@ -115,27 +118,31 @@ public class SwerveDrivebase extends SubsystemBase {
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
 
         try {
-            
-        NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
 
-        // boolean limelightHasValidTargets = limelightNetworkTable.getEntry("tv").getDouble(0) == 1.0 ? true : false;
+            NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
 
-        NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue"); // always blue relative coords
+            // boolean limelightHasValidTargets =
+            // limelightNetworkTable.getEntry("tv").getDouble(0) == 1.0 ? true : false;
 
-        double[] botPoseArray = botPose.getDoubleArray(new double[] {0, 0, 0, 0, 0, 0, 0}); // Translation(x,y,z), Rotation(roll, pitch,
-                                                                       // yaw), full latency
-        Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
-                Rotation2d.fromDegrees(botPoseArray[5])); // TODO check that botPoseArray[5] is the correct est rotaton
-                                                          // of the robot
-        double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
+            NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue"); // always blue relative
+                                                                                           // coords
 
-        if (botPoseArray[0] != 0 && botPoseArray[1] != 0 && botPoseArray[2] != 0) {
-            poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
-        }
+            double[] botPoseArray = botPose.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 }); // Translation(x,y,z),
+                                                                                                  // Rotation(roll,
+                                                                                                  // pitch,
+            // yaw), full latency
+            Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
+                    Rotation2d.fromDegrees(botPoseArray[5])); // TODO check that botPoseArray[5] is the correct est
+                                                              // rotaton
+                                                              // of the robot
+            double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
+
+            if (botPoseArray[0] != 0 && botPoseArray[1] != 0 && botPoseArray[2] != 0) {
+                poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
+            }
         } catch (Exception e) {
             System.out.println("THE LIMELIGHT CODE CRASHED");
         }
-
 
         field.setRobotPose(poseEstimator.getEstimatedPosition());
 
@@ -149,8 +156,10 @@ public class SwerveDrivebase extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("SwerveSubsystem");
         SmartDashboard.putData("gyro", gyro);
-        // builder.addStringProperty("Pose2d Odometry", () -> getPose2dOdometry().toString(), null);
-        // builder.addStringProperty("Pose2d pose estimator", () -> getPose2dPoseEstimator().toString(), null);
+        // builder.addStringProperty("Pose2d Odometry", () ->
+        // getPose2dOdometry().toString(), null);
+        // builder.addStringProperty("Pose2d pose estimator", () ->
+        // getPose2dPoseEstimator().toString(), null);
         SmartDashboard.putNumber("Pose2d PE X", getPose2d().getX());
         SmartDashboard.putNumber("Pose2d PE Y", getPose2d().getY());
         SmartDashboard.putString("Orientation", getSelectedDriveMode().toString());
@@ -199,7 +208,6 @@ public class SwerveDrivebase extends SubsystemBase {
     public Pose2d getPose2d() {
         return poseEstimator.getEstimatedPosition();
     }
-
 
     /**
      * 
@@ -254,13 +262,9 @@ public class SwerveDrivebase extends SubsystemBase {
                 getRotation2d(),
                 getCurrentModulePositions(),
                 pose2d);
-        System.out.println(poseEstimator.getEstimatedPosition().getX() + " " + poseEstimator.getEstimatedPosition().getY() + " " + poseEstimator.getEstimatedPosition().toString());
+        System.out.println(poseEstimator.getEstimatedPosition().getX() + " "
+                + poseEstimator.getEstimatedPosition().getY() + " " + poseEstimator.getEstimatedPosition().toString());
     }
-
-    public void resetTest () {
-        resetOdometry(new Pose2d(new Translation2d(5, 1), new Rotation2d(0)));
-    }
-
 
     /**
      * loops through each module and running stop(), a function to cut power to the
@@ -282,8 +286,8 @@ public class SwerveDrivebase extends SubsystemBase {
     }
 
     /**
-     *  sets the driveMode orientation
-     * */
+     * sets the driveMode orientation
+     */
     public void setSelectedDriveMode(DriveOrientation newOrientation) {
         selectedOrientation = newOrientation;
     }
@@ -295,10 +299,15 @@ public class SwerveDrivebase extends SubsystemBase {
             setSelectedDriveMode(DriveOrientation.FieldOriented);
         }
     }
-    
+
     public Command driveModeCommand() {
         return runOnce(() -> toggleSelectedDriveMode());
     }
+
+    public Command resetOdometryCommand() {
+        return runOnce(() -> resetOdometry(new Pose2d(new Translation2d(0, 0), new Rotation2d(0))));
+    }
+
     /**
      * sets each module to the NeutralModeValue - either Break or coast
      * Coast moves without locking the wheels, Break locks the wheels and resists
