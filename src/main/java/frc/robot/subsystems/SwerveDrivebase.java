@@ -5,6 +5,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -23,25 +27,27 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.enums.DriveOrientation;
 
 public class SwerveDrivebase extends SubsystemBase {
     /** Creates a new SwerveDrivebase. */
     public SwerveModule[] modules;
     public SwerveDriveKinematics kinematics;
-    public SwerveDriveOdometry odometry;
     public SwerveModuleState[] states;
     public SwerveDrivePoseEstimator poseEstimator;
-    public SendableChooser<DriveOrientation> orientation = new SendableChooser<DriveOrientation>();
+    public DriveOrientation selectedOrientation;
 
     public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
-    public static final Field2d field = new Field2d();
+    public final Field2d field = new Field2d();
 
     /**
      * constructs a new swerve drivebase comprised of 2 or more modules (typically
@@ -64,53 +70,81 @@ public class SwerveDrivebase extends SubsystemBase {
         kinematics = new SwerveDriveKinematics(translations);
 
         // measurement from just the wheels
-        odometry = new SwerveDriveOdometry(kinematics, getRotation2d(), getCurrentModulePositions());
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, getRotation2d(), getCurrentModulePositions(),
-                new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+                new Pose2d(0, 0, getRotation2d()));
 
         gyro.calibrate();
-        orientation.setDefaultOption("Robot Oriented", DriveOrientation.RobotOriented);
-        orientation.addOption("Field Oriented", DriveOrientation.FieldOriented);
-        SmartDashboard.putData("Drive Mode", orientation);
+
+        selectedOrientation = DriveOrientation.RobotOriented;
+
         SmartDashboard.putData("field map", field);
+
+        AutoBuilder.configureHolonomic(
+                this::getPose2d, // Robot pose supplier
+                this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+                this::getSubsystemChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                this::setSubsystemChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
+                                                 // Constants class
+                        new PIDConstants(6, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(3, 0.0, 0.0), // Rotation PID constants
+                        4.5, // Max module speed, in m/s
+                        Math.hypot(Constants.SwerveConstants.distFromCenterXMeters,
+                                Constants.SwerveConstants.distFromCenterYMeters), // Drive base radius in meters.
+                                                                                  // Distance from robot center to
+                                                                                  // furthest module.
+                        new ReplanningConfig() // Default path replanning config. See the API for the options here
+                ),
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red
+                    // alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
+                this // Reference to this subsystem to set requirements
+        );
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        odometry.update(getRotation2d(), getCurrentModulePositions());
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
 
-        NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
+        try {
 
-        boolean limelightHasValidTargets = limelightNetworkTable.getEntry("tv").getDouble(0) == 1.0 ? true : false;
-        NetworkTableEntry targetDistanceX = limelightNetworkTable.getEntry("tx"); // Horizontal Offset From Crosshair To
-                                                                                  // Target (-27 degrees to 27 degrees)
-        NetworkTableEntry targetDistanceY = limelightNetworkTable.getEntry("ty"); // Vertical Offset From Crosshair To
-                                                                                  // Target (-20.5 degrees to 20.5
-                                                                                  // degrees)
-        NetworkTableEntry targetArea = limelightNetworkTable.getEntry("ta"); // Target Area (0% of image to 100% of
-                                                                             // image)
+            NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
 
-        NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue"); // always blue relative coords
+            // boolean limelightHasValidTargets =
+            // limelightNetworkTable.getEntry("tv").getDouble(0) == 1.0 ? true : false;
 
-        double[] botPoseArray = botPose.getDoubleArray(new double[6]); // Translation(x,y,z), Rotation(roll, pitch,
-                                                                       // yaw), full latency
-        Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
-                Rotation2d.fromDegrees(botPoseArray[5])); // TODO check that botPoseArray[5] is the correct est rotaton
-                                                          // of the robot
-        // double currentLatency = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
+            NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue"); // always blue relative
+                                                                                           // coords
 
-        double primaryAprilTagID = limelightNetworkTable.getEntry("id").getDouble(0);
+            double[] botPoseArray = botPose.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 }); // Translation(x,y,z),
+                                                                                                  // Rotation(roll,
+                                                                                                  // pitch,
+            // yaw), full latency
+            Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
+                    Rotation2d.fromDegrees(botPoseArray[5])); // TODO check that botPoseArray[5] is the correct est
+                                                              // rotaton
+                                                              // of the robot
+            double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 
-        if (limelightHasValidTargets) {
-            // poseEstimator.addVisionMeasurement(estimatedPosition, currentLatency);
-            // poseEstimator.setVisionMeasurementStdDevs(new MatBuilder(Nat.N3(),
-            // Nat.N1()).fill(4, 4, 4)); // TODO NEEDED??
+            if (botPoseArray[0] != 0 && botPoseArray[1] != 0 && botPoseArray[2] != 0) {
+                poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
+            }
+        } catch (Exception e) {
+            System.out.println("THE LIMELIGHT CODE CRASHED");
         }
 
-        field.setRobotPose(getPose2d());
+        field.setRobotPose(poseEstimator.getEstimatedPosition());
 
     }
 
@@ -122,6 +156,14 @@ public class SwerveDrivebase extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("SwerveSubsystem");
         SmartDashboard.putData("gyro", gyro);
+        // builder.addStringProperty("Pose2d Odometry", () ->
+        // getPose2dOdometry().toString(), null);
+        // builder.addStringProperty("Pose2d pose estimator", () ->
+        // getPose2dPoseEstimator().toString(), null);
+        SmartDashboard.putNumber("Pose2d PE X", getPose2d().getX());
+        SmartDashboard.putNumber("Pose2d PE Y", getPose2d().getY());
+        SmartDashboard.putString("Orientation", getSelectedDriveMode().toString());
+        builder.addStringProperty("Orientation", () -> getSelectedDriveMode().toString(), null);
     }
 
     /**
@@ -165,7 +207,6 @@ public class SwerveDrivebase extends SubsystemBase {
      */
     public Pose2d getPose2d() {
         return poseEstimator.getEstimatedPosition();
-        // return odometry.getPoseMeters();
     }
 
     /**
@@ -215,25 +256,14 @@ public class SwerveDrivebase extends SubsystemBase {
      * @param pose2d current position of the robot
      */
     public void resetOdometry(Pose2d pose2d) {
-        odometry.resetPosition(
-                getRotation2d(),
-                getCurrentModulePositions(),
-                pose2d);
+        System.out.println("Resetting Odometry at " + pose2d.getX() + " " + pose2d.getY());
 
         poseEstimator.resetPosition(
                 getRotation2d(),
                 getCurrentModulePositions(),
                 pose2d);
-    }
-
-    /**
-     * resets the Position on the field of the Robot
-     * used for the robot autonomous in order to delete the last saved position on
-     * field
-     * 
-     */
-    public void resetOdometry() {
-        resetOdometry(getPose2d());
+        System.out.println(poseEstimator.getEstimatedPosition().getX() + " "
+                + poseEstimator.getEstimatedPosition().getY() + " " + poseEstimator.getEstimatedPosition().toString());
     }
 
     /**
@@ -247,12 +277,35 @@ public class SwerveDrivebase extends SubsystemBase {
     }
 
     /**
-     * gets the driveMode from the SendableChooser in shuffleboard
+     * gets the driveMode orientation
      * 
      * @return the current select DriveMode, either RobotOriented or FieldOriented
      */
     public DriveOrientation getSelectedDriveMode() {
-        return orientation.getSelected();
+        return selectedOrientation;
+    }
+
+    /**
+     * sets the driveMode orientation
+     */
+    public void setSelectedDriveMode(DriveOrientation newOrientation) {
+        selectedOrientation = newOrientation;
+    }
+
+    private void toggleSelectedDriveMode() {
+        if (selectedOrientation == DriveOrientation.FieldOriented) {
+            setSelectedDriveMode(DriveOrientation.RobotOriented);
+        } else {
+            setSelectedDriveMode(DriveOrientation.FieldOriented);
+        }
+    }
+
+    public Command driveModeCommand() {
+        return runOnce(() -> toggleSelectedDriveMode());
+    }
+
+    public Command resetOdometryCommand() {
+        return runOnce(() -> resetOdometry(new Pose2d(new Translation2d(0, 0), new Rotation2d(0))));
     }
 
     /**
