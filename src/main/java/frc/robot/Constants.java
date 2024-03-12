@@ -76,6 +76,7 @@ public final class Constants {
         public static final int bottomShooterMotorPort = 14;
 
         public static final int climberMotor = 20;
+        public static final int climberSwitch = 3;
 
         //Also would put any pneumatic things here (we do not have on our 2024 robot, but put here for example)
         //There are examples of pneumatics code being put to use in the 2022 and 2023 mainseason robots

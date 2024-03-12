@@ -4,15 +4,66 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
+    TalonFX climber = new TalonFX(Constants.ElectronicsPorts.climberMotor);
+    DigitalInput climberSwitch = new DigitalInput(Constants.ElectronicsPorts.climberSwitch);
+    
+
+
     /** Creates a new ClimberSubsystem. */
     public ClimberSubsystem() {
+        climber.setNeutralMode(NeutralModeValue.Brake);
     }
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("Climber limit switch", getClimberSwitch());
         // This method will be called once per scheduler run
     }
+
+    public Boolean getClimberSwitch() {
+        return climberSwitch.get();
+    }
+
+    public void climberUp(){
+        climber.setVoltage(2);
+    }
+    public void climberDown(){
+        if(!climberSwitch.get()){
+            climber.setVoltage(-2);
+        }
+    }
+    public void climberStop(){
+        climber.setVoltage(0);
+    }
+
+public Command raiseClimber(){
+    return Commands.startEnd(
+        ()-> {
+            climberUp();
+        }, 
+        ()-> {
+            climberStop();
+        }, this);
+}
+
+public Command lowerClimber(){
+    return Commands.startEnd(
+        ()-> {
+            climberDown();
+        },
+        ()-> {
+            climberStop();
+        }, this);
+}
 }
