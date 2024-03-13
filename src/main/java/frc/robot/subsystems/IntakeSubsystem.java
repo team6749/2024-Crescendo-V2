@@ -98,7 +98,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 () -> {
                     if (getLimitSwitch() == false) {
                         intake(-1);
-                        indexNote(5);
+                        indexNote(6);
                     } else {
                         stopIndexer();
                         stopIntake();

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.787031987758696,
-      "y": 6.686887667641241
+      "x": 1.35,
+      "y": 5.53
     },
     "rotation": 0
   },
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker to 3"
+                  "pathName": "S2 to 3"
                 }
               },
               {
@@ -43,51 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "3 to Speaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Speaker"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Speaker to 2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "2 to Speaker"
+                  "pathName": "3 to S2"
                 }
               },
               {
@@ -112,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker to 1"
+                  "pathName": "S2 to 2"
                 }
               },
               {
@@ -131,7 +87,51 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "1 to Speaker"
+                  "pathName": "2 to S2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Speaker"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2 to 1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "1 to S2"
                 }
               },
               {
