@@ -113,6 +113,7 @@ public class RobotContainer {
         SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
         SmartDashboard.putData("Swerve Subsystem", swerveDrivebase);
         SmartDashboard.putData("Intake Subsystem", intakeSubsystem);
+        SmartDashboard.putData("Climber subsystem", climberSubsystem);
         // SmartDashboard.putData("Auto Chooser", autoChooser);
 
         // Adds any commands we made in the code directly to PathPlanner to be used in
