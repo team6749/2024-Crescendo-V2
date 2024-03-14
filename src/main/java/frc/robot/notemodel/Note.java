@@ -6,7 +6,6 @@ package frc.robot.notemodel;
 
 import java.util.List;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.Idle;
 
 /** Add your docs here. */
 public class Note {
