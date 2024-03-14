@@ -64,6 +64,9 @@ public class RobotContainer {
     Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
     Trigger dpad_right = new Trigger(() -> controller.getPOV() == 90);
 
+    Trigger left_trigger = new Trigger(() -> controller.getLeftTriggerAxis() > 0.1);
+    Trigger right_trigger = new Trigger(() -> controller.getRightTriggerAxis() > 0.1);
+
     // Buttons For Top Button Board (red and yellow)
     JoystickButton redOne = new JoystickButton(topButtonBoard, 1);
     JoystickButton redTwo = new JoystickButton(topButtonBoard, 2);
@@ -175,6 +178,9 @@ public class RobotContainer {
         dpad_up.whileTrue(climberSubsystem.raiseClimber());
         dpad_down.whileTrue(climberSubsystem.lowerClimber());
 
+        left_trigger.whileTrue(climberSubsystem.raiseClimber());
+        right_trigger.whileTrue(climberSubsystem.lowerClimber());
+
         // Buttons to shoot into speaker
         dpad_left.onTrue(shootSpeaker());
         dpad_right.onTrue(shootSpeaker());
@@ -265,9 +271,6 @@ public class RobotContainer {
                 }, shooterSubsystem, intakeSubsystem).until(() -> intakeSubsystem.getLimitSwitch());
     }
 
-
-
-
     public Command ampScoringAuto() {
         return Commands.print("Hello");
     }
@@ -280,6 +283,18 @@ public class RobotContainer {
                 () -> {
                     swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
                 }, swerveDrivebase);
+    }
+
+    public Command trapShooting() {
+        return Commands.startEnd(
+                () -> {
+                    intakeSubsystem.indexNote(5);
+                    shooterSubsystem.shoot(5, 1, 1);
+                },
+                () -> {
+                    intakeSubsystem.stopIndexer();
+                    shooterSubsystem.shoot(0, 1, 1);
+                }, intakeSubsystem, shooterSubsystem).withTimeout(1);
     }
 
 }

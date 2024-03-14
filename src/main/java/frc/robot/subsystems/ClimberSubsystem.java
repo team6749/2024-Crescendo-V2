@@ -17,7 +17,7 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
     TalonFX climber = new TalonFX(Constants.ElectronicsPorts.climberMotor);
     DigitalInput climberSwitch = new DigitalInput(Constants.ElectronicsPorts.climberSwitch);
-    boolean climberDown;
+    boolean climberDown = true;
     
 
 
@@ -44,14 +44,14 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public void climberUp(){
-        climber.setVoltage(2);
+        climber.setVoltage(4);
     }
     public void climberDown(){
         // if(!getClimberSwitch()){
         // climber.setVoltage(0);
         // }
         // else{
-            climber.setVoltage(-2);
+            climber.setVoltage(-4);
         // }  
     }
     public void climberStop(){
