@@ -159,8 +159,7 @@ public class RobotContainer {
         // Button to intake game piece from the source
         a.whileTrue(sourceIntake());
 
-        // Button to intake game piece from the ground
-        b.whileTrue(intakeSubsystem.groundIntake());
+        b.onTrue(trapShooting());
 
         // Button to shoot into speaker
         x.onTrue(shootSpeaker());
