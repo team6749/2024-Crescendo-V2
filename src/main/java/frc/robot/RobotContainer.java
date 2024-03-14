@@ -18,6 +18,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -90,6 +91,7 @@ public class RobotContainer {
     JoystickButton greenThree = new JoystickButton(bottomButtonBoard, 8);
     JoystickButton greenFour = new JoystickButton(bottomButtonBoard, 9);
     JoystickButton greenFive = new JoystickButton(bottomButtonBoard, 10);
+
 
     // final PositionalSubsystem intakeSegment = new PositionalSubsystem(
     // 8,
@@ -287,13 +289,15 @@ public class RobotContainer {
     public Command trapShooting() {
         return Commands.startEnd(
                 () -> {
-                    intakeSubsystem.indexNote(5);
-                    shooterSubsystem.shoot(5, 1, 1);
+                    intakeSubsystem.indexNote(8);
+                    //shooterSubsystem.shoot(shooterSubsystem.getVoltage(), shooterSubsystem.getTopShooterMaxModifier(), shooterSubsystem.getBottomShooterMaxModifier());
+                    shooterSubsystem.shoot(8, 1, 0.75);
                 },
                 () -> {
                     intakeSubsystem.stopIndexer();
                     shooterSubsystem.shoot(0, 1, 1);
-                }, intakeSubsystem, shooterSubsystem).withTimeout(1);
+                }, intakeSubsystem, shooterSubsystem).withTimeout(2);
+
     }
 
 }

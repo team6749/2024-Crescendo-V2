@@ -6,10 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
-import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.I2C;
@@ -20,8 +17,7 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     // Defining electronics with their associated device ID's in Constants
-    CANSparkMax indexerSpark = new CANSparkMax(Constants.ElectronicsPorts.indexerSpark,
-            CANSparkLowLevel.MotorType.kBrushed);
+    TalonFX indexerMotor = new TalonFX(Constants.ElectronicsPorts.indexerFalcon);
 
     TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
 
@@ -34,7 +30,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     /** Creates a new IntakeSubsystem. */
     public IntakeSubsystem() {
-        indexerSpark.setIdleMode(IdleMode.kBrake);
+        indexerMotor.setNeutralMode(NeutralModeValue.Brake);
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
@@ -53,7 +49,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
         // Default set motors to 0 power so that they do not run randomly
         intakeMotor.setVoltage(intakeVoltage);
-        indexerSpark.setVoltage(indexerVoltage);
+        indexerMotor.setVoltage(indexerVoltage);
         proximity = colorSensor.getProximity();
     }
 
@@ -116,6 +112,7 @@ public class IntakeSubsystem extends SubsystemBase {
                     stopIntake();
                 }, this);
     }
+
 
 
 
