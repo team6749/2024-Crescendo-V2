@@ -4,15 +4,15 @@
 
 package frc.robot.subsystems;
 
-
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,10 +24,13 @@ public class IntakeSubsystem extends SubsystemBase {
             CANSparkLowLevel.MotorType.kBrushed);
 
     TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
-    private DigitalInput intakeSwitch = new DigitalInput(Constants.ElectronicsPorts.intakeSwitch);
+
+    ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
     double indexerVoltage = 0;
     double intakeVoltage = 0;
+
+    double proximity = 0;
 
     /** Creates a new IntakeSubsystem. */
     public IntakeSubsystem() {
@@ -40,7 +43,9 @@ public class IntakeSubsystem extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         // TODO Auto-generated method stub
         super.initSendable(builder);
-        builder.addBooleanProperty("limit switch", () -> getLimitSwitch(), null);
+        builder.addBooleanProperty("note dectected", () -> getNoteDetected(), null);
+        builder.addDoubleProperty("proximity", () -> proximity, null);
+        builder.addBooleanProperty("Color sensor working?", () -> colorSensor.isConnected(), null);
     }
     
 
@@ -49,6 +54,7 @@ public class IntakeSubsystem extends SubsystemBase {
         // Default set motors to 0 power so that they do not run randomly
         intakeMotor.setVoltage(intakeVoltage);
         indexerSpark.setVoltage(indexerVoltage);
+        proximity = colorSensor.getProximity();
     }
 
     /**
@@ -73,10 +79,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     /**
      * 
-     * @return the state of the limit switch :)
+     * @return is the note within range of the color sensor
      */
-    public boolean getLimitSwitch() {
-        return intakeSwitch.get();
+    public boolean getNoteDetected() {
+        return proximity > 500;
     }
 
     /**
@@ -96,7 +102,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public Command groundIntake() {
         return Commands.runEnd(
                 () -> {
-                    if (getLimitSwitch() == false) {
+                    if (getNoteDetected() == false) {
                         intake(-1);
                         indexNote(6);
                     } else {
@@ -110,5 +116,7 @@ public class IntakeSubsystem extends SubsystemBase {
                     stopIntake();
                 }, this);
     }
+
+
 
 }

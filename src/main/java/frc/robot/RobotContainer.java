@@ -267,7 +267,7 @@ public class RobotContainer {
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
-                }, shooterSubsystem, intakeSubsystem).until(() -> intakeSubsystem.getLimitSwitch());
+                }, shooterSubsystem, intakeSubsystem).until(() -> intakeSubsystem.getNoteDetected());
     }
 
     public Command ampScoringAuto() {
