@@ -64,6 +64,9 @@ public class RobotContainer {
     Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
     Trigger dpad_right = new Trigger(() -> controller.getPOV() == 90);
 
+    Trigger left_trigger = new Trigger(() -> controller.getLeftTriggerAxis() > 0.1);
+    Trigger right_trigger = new Trigger(() -> controller.getRightTriggerAxis() > 0.1);
+
     // Buttons For Top Button Board (red and yellow)
     JoystickButton redOne = new JoystickButton(topButtonBoard, 1);
     JoystickButton redTwo = new JoystickButton(topButtonBoard, 2);
@@ -172,6 +175,9 @@ public class RobotContainer {
         // // Button to intake from the source
         // dpad_up.whileTrue(sourceIntake());
 
+        left_trigger.whileTrue(climberSubsystem.raiseClimber());
+        right_trigger.whileTrue(climberSubsystem.lowerClimber());
+        
         dpad_up.whileTrue(climberSubsystem.raiseClimber());
         dpad_down.whileTrue(climberSubsystem.lowerClimber());
 
