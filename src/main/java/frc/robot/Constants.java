@@ -67,7 +67,7 @@ public final class Constants {
         public static final int backLeftEncoder = 11;
         public static final int backLeftAngle = 12;
 
-        public static final int indexerSpark = 15;
+        public static final int indexerFalcon = 15;
 
         public static final int intakeMotor = 18;
         public static final int intakeSwitch = 0;

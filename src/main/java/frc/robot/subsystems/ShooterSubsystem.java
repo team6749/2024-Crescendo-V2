@@ -19,8 +19,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // Initializing variables to control the shooters voltage and modifiers
     private double topShooterMaxModifier = 1;
     private double bottomShooterMaxModifier = 1;
-    double leftvoltage = 0;
-    double rightVoltage = 0;
+    double voltage = 0;
 
     public ShooterSubsystem() {
         // Initializes motors with their respective ports from the ElectronicsPorts
@@ -31,8 +30,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        topShooterMotor.setVoltage(leftvoltage * topShooterMaxModifier);
-        bottomShooterMotor.setVoltage(rightVoltage * bottomShooterMaxModifier);
+        topShooterMotor.setVoltage(voltage * topShooterMaxModifier);
+        bottomShooterMotor.setVoltage(voltage * bottomShooterMaxModifier);
 
     }
 
@@ -46,27 +45,18 @@ public class ShooterSubsystem extends SubsystemBase {
                 this::setTopShooterMaxModifier);
         builder.addDoubleProperty("Bottom shooter limiter", this::getBottomShooterMaxModifier,
                 this::setBottomShooterMaxModifier);
-        builder.addDoubleProperty("Shooter left voltage input", this::getLeftVoltage, this::setLeftVoltage);
-        builder.addDoubleProperty("shooter right voltage input", this::getRightVoltage, this::setRightVoltage);
+        builder.addDoubleProperty("Shooter voltage", this::getVoltage, this::setVotlage);
 
     }
 
     // Getters and setters for the shooter motors max voltage and modifiers
-    public double getRightVoltage() {
-        return rightVoltage;
-    }
+   public double getVoltage(){
+    return voltage;
+   }
 
-    public void setRightVoltage(double rightVoltage) {
-        this.rightVoltage = rightVoltage;
-    }
-
-    public double getLeftVoltage() {
-        return leftvoltage;
-    }
-
-    public void setLeftVoltage(double voltage) {
-        this.leftvoltage = voltage;
-    }
+   public void setVotlage(double voltage){
+    this.voltage = voltage;
+   }
 
     public double getTopShooterMaxModifier() {
         return topShooterMaxModifier;
@@ -90,8 +80,7 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param voltage the target voltage for the motor
      */
     public void shoot(double voltage, double topModifier, double bottomModifier) {
-        leftvoltage = voltage;
-        rightVoltage = voltage;
+        this.voltage = voltage;
         this.bottomShooterMaxModifier = bottomModifier;
         this.topShooterMaxModifier = topModifier;
     }

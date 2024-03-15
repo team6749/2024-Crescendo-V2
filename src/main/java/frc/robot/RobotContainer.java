@@ -91,6 +91,7 @@ public class RobotContainer {
     JoystickButton greenFour = new JoystickButton(bottomButtonBoard, 9);
     JoystickButton greenFive = new JoystickButton(bottomButtonBoard, 10);
 
+
     // final PositionalSubsystem intakeSegment = new PositionalSubsystem(
     // 8,
     // 0,
@@ -159,8 +160,7 @@ public class RobotContainer {
         // Button to intake game piece from the source
         a.whileTrue(sourceIntake());
 
-        // Button to intake game piece from the ground
-        b.whileTrue(intakeSubsystem.groundIntake());
+        b.onTrue(trapShooting());
 
         // Button to shoot into speaker
         x.onTrue(shootSpeaker());
@@ -175,11 +175,11 @@ public class RobotContainer {
         // // Button to intake from the source
         // dpad_up.whileTrue(sourceIntake());
 
-        left_trigger.whileTrue(climberSubsystem.raiseClimber());
-        right_trigger.whileTrue(climberSubsystem.lowerClimber());
-        
         dpad_up.whileTrue(climberSubsystem.raiseClimber());
         dpad_down.whileTrue(climberSubsystem.lowerClimber());
+
+        left_trigger.whileTrue(climberSubsystem.raiseClimber());
+        right_trigger.whileTrue(climberSubsystem.lowerClimber());
 
         // Buttons to shoot into speaker
         dpad_left.onTrue(shootSpeaker());
@@ -271,9 +271,6 @@ public class RobotContainer {
                 }, shooterSubsystem, intakeSubsystem).until(() -> intakeSubsystem.getNoteDetected());
     }
 
-
-
-
     public Command ampScoringAuto() {
         return Commands.print("Hello");
     }
@@ -286,6 +283,20 @@ public class RobotContainer {
                 () -> {
                     swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
                 }, swerveDrivebase);
+    }
+
+    public Command trapShooting() {
+        return Commands.startEnd(
+                () -> {
+                    intakeSubsystem.indexNote(8);
+                    //shooterSubsystem.shoot(shooterSubsystem.getVoltage(), shooterSubsystem.getTopShooterMaxModifier(), shooterSubsystem.getBottomShooterMaxModifier());
+                    shooterSubsystem.shoot(8, 1, 0.75);
+                },
+                () -> {
+                    intakeSubsystem.stopIndexer();
+                    shooterSubsystem.shoot(0, 1, 1);
+                }, intakeSubsystem, shooterSubsystem).withTimeout(2);
+
     }
 
 }

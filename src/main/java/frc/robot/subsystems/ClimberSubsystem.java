@@ -30,7 +30,6 @@ public class ClimberSubsystem extends SubsystemBase {
     public ClimberSubsystem() {
         climber.setNeutralMode(NeutralModeValue.Brake);
         climber.setInverted(true);
-
     }
 
     @Override
@@ -121,4 +120,5 @@ public class ClimberSubsystem extends SubsystemBase {
                     stop();
                 }, this);
     }
+
 }
