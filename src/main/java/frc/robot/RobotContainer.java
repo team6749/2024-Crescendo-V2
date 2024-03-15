@@ -200,14 +200,14 @@ public class RobotContainer {
 
         redFour.onTrue(shootSpeaker());
 
-        redFive.onTrue(shootSpeaker());
+        redFive.whileTrue(climberSubsystem.raiseClimber());
 
         // All yellow buttons on the button board run the command to shoot into the amp
         yellowOne.onTrue(shootAmp());
         yellowTwo.onTrue(shootAmp());
         yellowThree.onTrue(shootAmp());
         yellowFour.onTrue(shootAmp());
-        yellowFive.onTrue(shootAmp());
+        yellowFive.whileTrue(climberSubsystem.lowerClimber());
 
         // All blue buttons on the button board run the command to intake from the
         // ground
