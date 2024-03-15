@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -23,13 +24,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
     boolean isClimberEnabled = false;
     double targetVoltage;
-    Debouncer sensorlessHomerDebounce = new Debouncer(1, Debouncer.DebounceType.kRising);
+    Debouncer sensorlessHomerDebounce = new Debouncer(0.05, Debouncer.DebounceType.kRising);
     
 
     /** Creates a new ClimberSubsystem. */
     public ClimberSubsystem() {
         climber.setNeutralMode(NeutralModeValue.Brake);
-        climber.setInverted(true);
     }
 
     @Override
@@ -38,19 +38,19 @@ public class ClimberSubsystem extends SubsystemBase {
         if (RobotState.isEnabled()) {
             if (getBottomLimitSwitch() && climberHomed == false) {
                 climberHomed = true;
-                setClimberPosition(-0.01);
+                setClimberPosition(0.01);
                 climber.stopMotor();
             }
             if (climberHomed == false) {
-                climber.setVoltage(-1);
+                climber.setVoltage(0.5);
                 return;
             }
         }
-        if (getBottomLimitSwitch() && targetVoltage < 0) {
+        if ((getClimberPosition() < 0 || getBottomLimitSwitch()) && targetVoltage > 0) {
             climber.stopMotor();
             return;
         }
-        if (getClimberPosition() > 0.3 && targetVoltage > 0) {
+        if (getClimberPosition() > 0.5 && targetVoltage < 0) {
             climber.stopMotor();
             return;
         }
@@ -67,11 +67,12 @@ public class ClimberSubsystem extends SubsystemBase {
         builder.addDoubleProperty("Climber voltage", () -> targetVoltage, this::setTargetVoltage);
         builder.addDoubleProperty("Climber velocity", this::getClimberVelocity, null);
         builder.addDoubleProperty("Climber Position", this::getClimberPosition, null);
+        builder.addDoubleProperty("Climber actual voltage%", () -> climber.getMotorVoltage().getValueAsDouble(), null);
         builder.setSafeState(this::stop);
     }
 
     public Boolean getBottomLimitSwitch() {
-        return sensorlessHomerDebounce.calculate(getClimberVelocity() < 0.01);
+        return (sensorlessHomerDebounce.calculate(climber.getMotorVoltage().getValueAsDouble() > 0) && getClimberVelocity() > -0.004);
     }
 
     public void setTargetVoltage(double voltage) {
@@ -88,21 +89,21 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public double getClimberPosition() {
-        return (climber.getRotorPosition().getValueAsDouble() * Constants.conversionConstants.climberConversion);
+        return -(climber.getPosition().getValueAsDouble() * Constants.conversionConstants.climberConversion);
     }
 
     private void setClimberPosition(double newPosition) {
-        climber.setPosition(newPosition * Constants.conversionConstants.climberConversion);
+        climber.setPosition(-(newPosition / Constants.conversionConstants.climberConversion));
     }
 
     public double getClimberVelocity() {
-        return (climber.getVelocity().getValueAsDouble() * Constants.conversionConstants.climberConversion);
+        return -(climber.getVelocity().getValueAsDouble() * Constants.conversionConstants.climberConversion);
     }
 
     public Command raiseClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(2);
+                    setTargetVoltage(-3);
                     start();
                 },
                 () -> {
@@ -113,7 +114,7 @@ public class ClimberSubsystem extends SubsystemBase {
     public Command lowerClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(-2);
+                    setTargetVoltage(3);
                     start();
                 },
                 () -> {

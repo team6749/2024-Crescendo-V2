@@ -86,7 +86,7 @@ public final class Constants {
     }
 
     public static class conversionConstants{
-        public static double climberConversion = Math.PI * 0.0275 / 25;
+        public static double climberConversion = Math.PI * 0.0279 / 20.25;
     }
 
     /**
