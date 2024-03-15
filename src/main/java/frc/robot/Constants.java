@@ -85,6 +85,10 @@ public final class Constants {
         // public static final int solenoid = 4;
     }
 
+    public static class conversionConstants{
+        public static double climberConversion = Math.PI * 0.0275 / 25;
+    }
+
     /**
      * Sub-class of Constants that contains measurements for swerve drive
      * as well as initializes the swerve modules
