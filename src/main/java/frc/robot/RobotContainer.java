@@ -14,11 +14,16 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.ShooterSubsystem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,6 +42,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+    
     // The robot's subsystems and commands are defined here...
 
     // Initializing any USB plugins for robot control, in our case: 1 xbox
@@ -106,10 +112,17 @@ public class RobotContainer {
 
     private final SendableChooser<Command> autoChooser;
 
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        List<PointOfInterest> pointsOfInterest = new ArrayList<>();
+        pointsOfInterest.add(0, new PointOfInterest("Amp", new Pose2d(new Translation2d(1.83, 7.65), new Rotation2d(90)), 5, 1));
+        pointsOfInterest.add(1, new PointOfInterest("Stage up", new Pose2d(new Translation2d(4, 5.38), new Rotation2d(119.39)), 1, 0.5));
+        pointsOfInterest.add(2, new PointOfInterest("Stage down", new Pose2d(new Translation2d(4.05, 2.75), new Rotation2d(-117.98)), 1, 0.5));
+        pointsOfInterest.add(4, new PointOfInterest("Stage middle", new Pose2d(new Translation2d(6.31, 4.06), new Rotation2d(0)), 1, 0.6));
+        
         // Calling this sends any data put in a sendable builder or any other data to
         // the shuffleboard application.
         // Driver station should automatically open shuffleboard when opened, if it does
@@ -136,6 +149,7 @@ public class RobotContainer {
         configureBindings();
 
     }
+
 
     /**
      * Use this method to define your trigger->command mappings. Triggers can be
