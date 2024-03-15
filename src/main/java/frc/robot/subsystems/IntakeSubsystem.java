@@ -93,6 +93,10 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeVoltage = 0;
     }
 
+    /**
+     * runs the intake and indexer to pick up notes and feed them into the robot
+     * @return stops intaking if not is detected and then sets indexer and intake power to 0 volts
+     */
     public Command groundIntake() {
         return Commands.runEnd(
                 () -> {

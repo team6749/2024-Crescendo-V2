@@ -71,31 +71,57 @@ public class ClimberSubsystem extends SubsystemBase {
         builder.setSafeState(this::stop);
     }
 
+    /**
+     * function to test and see if the climber motor starts stalling
+     * @return a boolean value, true if motor is stalling
+     */
     public Boolean getBottomLimitSwitch() {
         return (sensorlessHomerDebounce.calculate(climber.getMotorVoltage().getValueAsDouble() > 0) && getClimberVelocity() > -0.004);
     }
 
+    /**
+     * sets climber target voltage
+     * @param voltage amount of volts to apply to motor
+     */
     public void setTargetVoltage(double voltage) {
         this.targetVoltage = voltage;
     }
 
+    /**
+     * allows climber to move
+     */
     public void start() {
         isClimberEnabled = true;
     }
 
+    /**
+     * stops allowing climber to move and physically stops the motor itself
+     */
     public void stop() {
         isClimberEnabled = false;
         climber.stopMotor();
     }
 
+    /**
+     * function to get the sensors position with a conversion factor to make the units in meters
+     * @return climbers height in meters
+     */
     public double getClimberPosition() {
         return -(climber.getPosition().getValueAsDouble() * Constants.conversionConstants.climberConversion);
     }
 
+    /**
+     * set the value that the encoder on the motor will read
+     * @param newPosition the desired value the motor should read
+     */
     private void setClimberPosition(double newPosition) {
         climber.setPosition(-(newPosition / Constants.conversionConstants.climberConversion));
     }
 
+    /**
+     * get the measurement of the motors encoder, with a conversion factor to make the units meters per second
+     * @return the current velocity of the climber in meters per second
+     */
     public double getClimberVelocity() {
         return -(climber.getVelocity().getValueAsDouble() * Constants.conversionConstants.climberConversion);
     }
