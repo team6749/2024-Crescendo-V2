@@ -130,9 +130,7 @@ public class SwerveDrivebase extends SubsystemBase {
                                                                                                   // pitch,
             // yaw), full latency
             Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
-                    Rotation2d.fromDegrees(botPoseArray[5])); // TODO check that botPoseArray[5] is the correct est
-                                                              // rotaton
-                                                              // of the robot
+                    Rotation2d.fromDegrees(botPoseArray[5]));
             double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 
             if (botPoseArray[0] != 0 && botPoseArray[1] != 0 && botPoseArray[2] != 0) {
