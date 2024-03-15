@@ -179,23 +179,17 @@ public class RobotContainer {
         y.onTrue(shootAmp());
 
         leftBumper.onTrue(swerveDrivebase.driveModeCommand());
+
         back_button.onTrue(swerveDrivebase.resetOdometryCommand());
         start_button.whileTrue(driveForward());
-
 
         left_trigger.whileTrue(climberSubsystem.raiseClimber());
         right_trigger.whileTrue(climberSubsystem.lowerClimber());
 
 
-        redOne.onTrue(shootSpeaker());
-        redTwo.onTrue(shootSpeaker());
-        redThree.onTrue(shootSpeaker());
         redFour.onTrue(shootSpeaker());
         redFive.whileTrue(climberSubsystem.raiseClimber());
 
-        yellowOne.onTrue(shootAmp());
-        yellowTwo.onTrue(shootAmp());
-        yellowThree.onTrue(shootAmp());
         yellowFour.onTrue(shootAmp());
         yellowFive.whileTrue(climberSubsystem.lowerClimber());
 
@@ -206,6 +200,12 @@ public class RobotContainer {
 
 
         //unused buttons
+        //redOne
+        //redTwo
+        //redThree
+        //yellowOne
+        //yellowTwo
+        //yellowThree
         //blueThree
         //blueFour
         //blueFive
