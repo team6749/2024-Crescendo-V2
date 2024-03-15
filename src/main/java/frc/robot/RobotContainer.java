@@ -254,21 +254,6 @@ public class RobotContainer {
                 }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
 
-    public Command sourceIntake() {
-        return Commands.startEnd(
-                () -> {
-                    // shooterSubsystem.shooterIntake();
-                    intakeSubsystem.indexNote(5);
-                },
-                () -> {
-                    shooterSubsystem.shoot(0, 1, 1);
-                    intakeSubsystem.stopIndexer();
-                }, shooterSubsystem, intakeSubsystem).until(() -> intakeSubsystem.getNoteDetected());
-    }
-
-    public Command ampScoringAuto() {
-        return Commands.print("Hello");
-    }
 
     public Command driveForward() {
         return Commands.runEnd(

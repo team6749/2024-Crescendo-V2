@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -117,14 +118,9 @@ public class SwerveDrivebase extends SubsystemBase {
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
 
         try {
-
             NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
 
-            // boolean limelightHasValidTargets =
-            // limelightNetworkTable.getEntry("tv").getDouble(0) == 1.0 ? true : false;
-
-            NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue"); // always blue relative
-                                                                                           // coords
+            NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue");
 
             double[] botPoseArray = botPose.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 }); // Translation(x,y,z),
                                                                                                   // Rotation(roll,
