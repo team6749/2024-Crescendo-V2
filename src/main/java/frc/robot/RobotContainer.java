@@ -18,7 +18,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -60,13 +59,16 @@ public class RobotContainer {
     JoystickButton leftBumper = new JoystickButton(controller, 5);
     JoystickButton rightBumper = new JoystickButton(controller, 6);
 
+    Trigger left_trigger = new Trigger(() -> controller.getLeftTriggerAxis() > 0.1);
+    Trigger right_trigger = new Trigger(() -> controller.getRightTriggerAxis() > 0.1);
+
     Trigger dpad_up = new Trigger(() -> controller.getPOV() == 0);
     Trigger dpad_left = new Trigger(() -> controller.getPOV() == 270);
     Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
     Trigger dpad_right = new Trigger(() -> controller.getPOV() == 90);
 
-    Trigger left_trigger = new Trigger(() -> controller.getLeftTriggerAxis() > 0.1);
-    Trigger right_trigger = new Trigger(() -> controller.getRightTriggerAxis() > 0.1);
+    JoystickButton start_button = new JoystickButton(controller, 8);
+    JoystickButton back_button = new JoystickButton(controller, 7);
 
     // Buttons For Top Button Board (red and yellow)
     JoystickButton redOne = new JoystickButton(topButtonBoard, 1);
@@ -74,6 +76,7 @@ public class RobotContainer {
     JoystickButton redThree = new JoystickButton(topButtonBoard, 3);
     JoystickButton redFour = new JoystickButton(topButtonBoard, 4);
     JoystickButton redFive = new JoystickButton(topButtonBoard, 5);
+
     JoystickButton yellowOne = new JoystickButton(topButtonBoard, 6);
     JoystickButton yellowTwo = new JoystickButton(topButtonBoard, 7);
     JoystickButton yellowThree = new JoystickButton(topButtonBoard, 8);
@@ -86,6 +89,7 @@ public class RobotContainer {
     JoystickButton blueThree = new JoystickButton(bottomButtonBoard, 3);
     JoystickButton blueFour = new JoystickButton(bottomButtonBoard, 4);
     JoystickButton blueFive = new JoystickButton(bottomButtonBoard, 5);
+
     JoystickButton greenOne = new JoystickButton(bottomButtonBoard, 6);
     JoystickButton greenTwo = new JoystickButton(bottomButtonBoard, 7);
     JoystickButton greenThree = new JoystickButton(bottomButtonBoard, 8);
@@ -158,9 +162,14 @@ public class RobotContainer {
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
 
-        // Button to intake game piece from the source
-        a.whileTrue(sourceIntake());
+        //unused controller inputs
+        // a.whileTrue()
+        // dpad_left.whileTrue()
+        // dpad_right.whileTrue()
+        // dpad_up.whileTrue()
+        // dpad_down.whileTrue()
 
+        //Button to shoot into the trap
         b.onTrue(trapShooting());
 
         // Button to shoot into speaker
@@ -171,54 +180,39 @@ public class RobotContainer {
 
         leftBumper.onTrue(swerveDrivebase.driveModeCommand());
 
-        // // Button to intake notes from the ground
-        // dpad_down.whileTrue(intakeSubsystem.groundIntake());
-        // // Button to intake from the source
-        // dpad_up.whileTrue(sourceIntake());
-
-        dpad_up.whileTrue(climberSubsystem.raiseClimber());
-        dpad_down.whileTrue(climberSubsystem.lowerClimber());
+        back_button.onTrue(swerveDrivebase.resetOdometryCommand());
+        start_button.whileTrue(driveForward());
 
         left_trigger.whileTrue(climberSubsystem.raiseClimber());
         right_trigger.whileTrue(climberSubsystem.lowerClimber());
 
-        // Buttons to shoot into speaker
-        dpad_left.onTrue(shootSpeaker());
-        dpad_right.onTrue(shootSpeaker());
-
-        redOne.onTrue(shootSpeaker());
-
-        redTwo.onTrue(shootSpeaker());
-
-        redThree.onTrue(shootSpeaker());
 
         redFour.onTrue(shootSpeaker());
+        redFive.whileTrue(climberSubsystem.raiseClimber());
 
-        redFive.onTrue(shootSpeaker());
-
-        // All yellow buttons on the button board run the command to shoot into the amp
-        yellowOne.onTrue(shootAmp());
-        yellowTwo.onTrue(shootAmp());
-        yellowThree.onTrue(shootAmp());
         yellowFour.onTrue(shootAmp());
-        yellowFive.onTrue(shootAmp());
+        yellowFive.whileTrue(climberSubsystem.lowerClimber());
 
-        // All blue buttons on the button board run the command to intake from the
-        // ground
+        //operator buttons
         blueOne.whileTrue(swerveDrivebase.resetOdometryCommand());
         blueTwo.whileTrue(driveForward());
-        blueThree.whileTrue(intakeSubsystem.groundIntake());
-        blueFour.whileTrue(intakeSubsystem.groundIntake());
-        blueFive.whileTrue(intakeSubsystem.groundIntake());
-
-        // All green buttons on the button board run the command to intake from source
-        // (drop into robot)
-        greenOne.whileTrue(sourceIntake());
-        greenTwo.whileTrue(sourceIntake());
-        greenThree.whileTrue(sourceIntake());
-        greenFour.whileTrue(sourceIntake());
         greenFive.onTrue(swerveDrivebase.driveModeCommand());
 
+
+        //unused buttons
+        //redOne
+        //redTwo
+        //redThree
+        //yellowOne
+        //yellowTwo
+        //yellowThree
+        //blueThree
+        //blueFour
+        //blueFive
+        //greenOne
+        //greenTwo
+        //greenThree
+        //greenFour
     }
 
     /**
