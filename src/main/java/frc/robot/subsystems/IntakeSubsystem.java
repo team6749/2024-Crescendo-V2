@@ -37,7 +37,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        // TODO Auto-generated method stub
         super.initSendable(builder);
         builder.addBooleanProperty("note dectected", () -> getNoteDetected(), null);
         builder.addDoubleProperty("proximity", () -> proximity, null);

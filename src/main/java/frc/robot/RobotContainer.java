@@ -18,7 +18,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -67,6 +66,9 @@ public class RobotContainer {
 
     Trigger left_trigger = new Trigger(() -> controller.getLeftTriggerAxis() > 0.1);
     Trigger right_trigger = new Trigger(() -> controller.getRightTriggerAxis() > 0.1);
+
+    JoystickButton start_button = new JoystickButton(controller, 8);
+    JoystickButton back_button = new JoystickButton(controller, 7);
 
     // Buttons For Top Button Board (red and yellow)
     JoystickButton redOne = new JoystickButton(topButtonBoard, 1);
@@ -170,6 +172,10 @@ public class RobotContainer {
         y.onTrue(shootAmp());
 
         leftBumper.onTrue(swerveDrivebase.driveModeCommand());
+        
+
+        start_button.whileTrue(driveForward());
+        back_button.onTrue(swerveDrivebase.resetOdometryCommand());
 
         // // Button to intake notes from the ground
         // dpad_down.whileTrue(intakeSubsystem.groundIntake());
