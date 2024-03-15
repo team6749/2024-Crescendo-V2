@@ -46,7 +46,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // Default set motors to 0 power so that they do not run randomly
         intakeMotor.setVoltage(intakeVoltage);
         indexerMotor.setVoltage(indexerVoltage);
         proximity = colorSensor.getProximity();
