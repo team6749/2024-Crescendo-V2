@@ -6,17 +6,19 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDriveWithController;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.ShooterSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,7 +50,7 @@ public class RobotContainer {
     // Subsystems
     private final SwerveDrivebase swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray);
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-    TalonFX intakePivot = new TalonFX(Constants.ElectronicsPorts.intakePivot);
+    private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
     // Buttons For Driver Controller
     JoystickButton a = new JoystickButton(controller, 1);
@@ -62,6 +64,9 @@ public class RobotContainer {
     Trigger dpad_left = new Trigger(() -> controller.getPOV() == 270);
     Trigger dpad_down = new Trigger(() -> controller.getPOV() == 180);
     Trigger dpad_right = new Trigger(() -> controller.getPOV() == 90);
+
+    Trigger left_trigger = new Trigger(() -> controller.getLeftTriggerAxis() > 0.1);
+    Trigger right_trigger = new Trigger(() -> controller.getRightTriggerAxis() > 0.1);
 
     // Buttons For Top Button Board (red and yellow)
     JoystickButton redOne = new JoystickButton(topButtonBoard, 1);
@@ -86,6 +91,7 @@ public class RobotContainer {
     JoystickButton greenThree = new JoystickButton(bottomButtonBoard, 8);
     JoystickButton greenFour = new JoystickButton(bottomButtonBoard, 9);
     JoystickButton greenFive = new JoystickButton(bottomButtonBoard, 10);
+
 
     // final PositionalSubsystem intakeSegment = new PositionalSubsystem(
     // 8,
@@ -112,6 +118,7 @@ public class RobotContainer {
         SmartDashboard.putData("Shooter Subsystem", shooterSubsystem);
         SmartDashboard.putData("Swerve Subsystem", swerveDrivebase);
         SmartDashboard.putData("Intake Subsystem", intakeSubsystem);
+        SmartDashboard.putData("Climber subsystem", climberSubsystem);
         // SmartDashboard.putData("Auto Chooser", autoChooser);
 
         // Adds any commands we made in the code directly to PathPlanner to be used in
@@ -127,6 +134,7 @@ public class RobotContainer {
         SmartDashboard.putData(autoChooser);
         // Function that actually activates the different commands
         configureBindings();
+
     }
 
     /**
@@ -153,8 +161,7 @@ public class RobotContainer {
         // Button to intake game piece from the source
         a.whileTrue(sourceIntake());
 
-        // Button to intake game piece from the ground
-        b.whileTrue(intakeSubsystem.groundIntake());
+        b.onTrue(trapShooting());
 
         // Button to shoot into speaker
         x.onTrue(shootSpeaker());
@@ -164,10 +171,16 @@ public class RobotContainer {
 
         leftBumper.onTrue(swerveDrivebase.driveModeCommand());
 
-        // Button to intake notes from the ground
-        dpad_down.whileTrue(intakeSubsystem.groundIntake());
-        // Button to intake from the source
-        dpad_up.whileTrue(sourceIntake());
+        // // Button to intake notes from the ground
+        // dpad_down.whileTrue(intakeSubsystem.groundIntake());
+        // // Button to intake from the source
+        // dpad_up.whileTrue(sourceIntake());
+
+        dpad_up.whileTrue(climberSubsystem.raiseClimber());
+        dpad_down.whileTrue(climberSubsystem.lowerClimber());
+
+        left_trigger.whileTrue(climberSubsystem.raiseClimber());
+        right_trigger.whileTrue(climberSubsystem.lowerClimber());
 
         // Buttons to shoot into speaker
         dpad_left.onTrue(shootSpeaker());
@@ -259,9 +272,6 @@ public class RobotContainer {
                 }, shooterSubsystem, intakeSubsystem).until(() -> intakeSubsystem.getNoteDetected());
     }
 
-
-
-
     public Command ampScoringAuto() {
         return Commands.print("Hello");
     }
@@ -274,6 +284,20 @@ public class RobotContainer {
                 () -> {
                     swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
                 }, swerveDrivebase);
+    }
+
+    public Command trapShooting() {
+        return Commands.startEnd(
+                () -> {
+                    intakeSubsystem.indexNote(8);
+                    //shooterSubsystem.shoot(shooterSubsystem.getVoltage(), shooterSubsystem.getTopShooterMaxModifier(), shooterSubsystem.getBottomShooterMaxModifier());
+                    shooterSubsystem.shoot(8, 1, 0.75);
+                },
+                () -> {
+                    intakeSubsystem.stopIndexer();
+                    shooterSubsystem.shoot(0, 1, 1);
+                }, intakeSubsystem, shooterSubsystem).withTimeout(2);
+
     }
 
 }
