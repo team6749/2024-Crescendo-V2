@@ -5,8 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.subsystems.SwerveDrivebase;
@@ -65,9 +68,13 @@ public class SwerveDriveWithController extends Command {
                 desiredSpeeds = new ChassisSpeeds(ySpeedms, xSpeedms, thetaSpeedRad);
                 break;
             case FieldOriented:
+                Rotation2d robotOffsetToAlliance = swerveDriveSubsystem.getRotation2d();
+                if(DriverStation.getAlliance().get() == Alliance.Red) {
+                    robotOffsetToAlliance = robotOffsetToAlliance.plus(Rotation2d.fromDegrees(180));
+                }
                 // put field oriented drive here.
                 desiredSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeedms, xSpeedms,
-                        thetaSpeedRad, swerveDriveSubsystem.getRotation2d());
+                        thetaSpeedRad, robotOffsetToAlliance);
                 break;
         }
 
