@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.PointOfInterest;
@@ -55,6 +56,8 @@ public class SwerveDrivebase extends SubsystemBase {
     boolean withinAnyPOI = false;
 
     List<PointOfInterest> pois;
+
+    PointOfInterest nearest = null;
 
     /**
      * constructs a new swerve drivebase comprised of 2 or more modules (typically
@@ -154,21 +157,15 @@ public class SwerveDrivebase extends SubsystemBase {
             }
         }
 
-        // PointOfInterest nearest = null;
-        // for (PointOfInterest poi : pois) {
-        //     if (nearest == null) {
-        //         nearest = poi;
-        //     } else if (poi.getTranslation().getDistance(getPose2d().getTranslation()) < poi.getTranslation()
-        //             .getDistance(nearest.getTranslation())) {
-        //         nearest = poi;
-        //     }
-        // }
         
-        // // we have a POI and it is less than 2m away
-        // if(nearest != null && nearest.getTranslation().getDistance(getPose2d().getTranslation()) < 2) {
-
-        // }
-
+        for (PointOfInterest poi : pois) {
+            if (nearest == null) {
+                nearest = poi;
+            } else if (poi.getTranslation().getDistance(getPose2d().getTranslation()) < nearest.getTranslation()
+                    .getDistance(getPose2d().getTranslation())) {
+                nearest = poi;
+            }
+        }
 
     }
 
@@ -184,6 +181,13 @@ public class SwerveDrivebase extends SubsystemBase {
         builder.addDoubleProperty("Pose2d PE Y", () -> getPose2d().getY(), null);
         builder.addStringProperty("Orientation", () -> getSelectedDriveMode().toString(), null);
         builder.addBooleanProperty("Within POI", () -> withinAnyPOI, null);
+        builder.addStringProperty("closest POI", () -> {
+            if(nearest == null) {
+                return "null";
+            } else {
+                return nearest.name;
+            }
+        }, null);
     }
 
     /**
@@ -341,7 +345,16 @@ public class SwerveDrivebase extends SubsystemBase {
         }
     }
 
-    // Command lol () {
+    public Command badJankAlignWithPoint () {
+        return Commands.runEnd(() -> {
+            double p = 5;
+            Pose2d pose = nearest.relativeTo(getPose2d());
+            ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(pose.getX() * p, pose.getY() * p,
+                        pose.getRotation().getRadians() * 2.5, getPose2d().getRotation());
+            setSubsystemChassisSpeeds(speeds);
+        }, () -> {
+            setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
+        }, this);
+    }
 
-    // }
 }

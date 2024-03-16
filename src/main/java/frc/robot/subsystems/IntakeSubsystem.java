@@ -26,6 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
     double indexerVoltage = 0;
     double intakeVoltage = 0;
 
+    boolean isConnected = false;
     double proximity = 0;
 
     /** Creates a new IntakeSubsystem. */
@@ -40,7 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
         super.initSendable(builder);
         builder.addBooleanProperty("note dectected", () -> getNoteDetected(), null);
         builder.addDoubleProperty("proximity", () -> proximity, null);
-        builder.addBooleanProperty("Color sensor working?", () -> colorSensor.isConnected(), null);
+        builder.addBooleanProperty("Color sensor working?", () -> isConnected, null);
     }
     
 
@@ -49,6 +50,7 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.setVoltage(intakeVoltage);
         indexerMotor.setVoltage(indexerVoltage);
         proximity = colorSensor.getProximity();
+        isConnected = colorSensor.isConnected();
     }
 
     /**
