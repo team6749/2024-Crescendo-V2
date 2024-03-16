@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -35,6 +37,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.PointOfInterest;
 import frc.robot.enums.DriveOrientation;
 
 public class SwerveDrivebase extends SubsystemBase {
@@ -49,14 +52,19 @@ public class SwerveDrivebase extends SubsystemBase {
 
     public final Field2d field = new Field2d();
 
+    boolean withinAnyPOI = false;
+
+    List<PointOfInterest> pois;
+
     /**
      * constructs a new swerve drivebase comprised of 2 or more modules (typically
      * four)
      * 
      * @param modules an array of modules in a drivebase.
      */
-    public SwerveDrivebase(SwerveModule[] modules) {
+    public SwerveDrivebase(SwerveModule[] modules, List<PointOfInterest> pois) {
         this.modules = modules;
+        this.pois = pois;
         Translation2d[] translations = new Translation2d[modules.length];
 
         for (int i = 0; i < translations.length; i++) {
@@ -139,6 +147,29 @@ public class SwerveDrivebase extends SubsystemBase {
 
         field.setRobotPose(poseEstimator.getEstimatedPosition());
 
+        withinAnyPOI = false;
+        for (PointOfInterest point : pois) {
+            if (point.withinTolerance(getPose2d())) {
+                withinAnyPOI = true;
+            }
+        }
+
+        // PointOfInterest nearest = null;
+        // for (PointOfInterest poi : pois) {
+        //     if (nearest == null) {
+        //         nearest = poi;
+        //     } else if (poi.getTranslation().getDistance(getPose2d().getTranslation()) < poi.getTranslation()
+        //             .getDistance(nearest.getTranslation())) {
+        //         nearest = poi;
+        //     }
+        // }
+        
+        // // we have a POI and it is less than 2m away
+        // if(nearest != null && nearest.getTranslation().getDistance(getPose2d().getTranslation()) < 2) {
+
+        // }
+
+
     }
 
     /**
@@ -149,14 +180,10 @@ public class SwerveDrivebase extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("SwerveSubsystem");
         SmartDashboard.putData("gyro", gyro);
-        // builder.addStringProperty("Pose2d Odometry", () ->
-        // getPose2dOdometry().toString(), null);
-        // builder.addStringProperty("Pose2d pose estimator", () ->
-        // getPose2dPoseEstimator().toString(), null);
-        SmartDashboard.putNumber("Pose2d PE X", getPose2d().getX());
-        SmartDashboard.putNumber("Pose2d PE Y", getPose2d().getY());
-        SmartDashboard.putString("Orientation", getSelectedDriveMode().toString());
+        builder.addDoubleProperty("Pose2d PE X", () -> getPose2d().getX(), null);
+        builder.addDoubleProperty("Pose2d PE Y", () -> getPose2d().getY(), null);
         builder.addStringProperty("Orientation", () -> getSelectedDriveMode().toString(), null);
+        builder.addBooleanProperty("Within POI", () -> withinAnyPOI, null);
     }
 
     /**
@@ -313,4 +340,8 @@ public class SwerveDrivebase extends SubsystemBase {
             modules[i].setModuleNeutralMode(neutralModeValue);
         }
     }
+
+    // Command lol () {
+
+    // }
 }
