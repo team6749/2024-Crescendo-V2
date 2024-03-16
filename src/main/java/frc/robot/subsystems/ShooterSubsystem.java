@@ -49,35 +49,60 @@ public class ShooterSubsystem extends SubsystemBase {
 
     }
 
-    // Getters and setters for the shooter motors max voltage and modifiers
+    /**
+     * gets the desired voltage amount for rapid testing, used for getter on a sendable builder
+     * @return the desired voltage for both motors
+     */
    public double getVoltage(){
     return voltage;
    }
 
+   /**
+    * passes through the desired voltage amount for rapid testing, used for setter on a sendable builder
+    * @param voltage
+    */
    public void setVotlage(double voltage){
     this.voltage = voltage;
    }
 
+   /**
+    * gets the desired modifier amount for rapid testing, used for getter on a sendable builder
+    * @return the desired modifier for the top shooter
+    */
     public double getTopShooterMaxModifier() {
         return topShooterMaxModifier;
     }
 
+    /**
+     * passes through the desired modifier amount for rapid testing, used for setter on a sendable builder
+     * @param topShooterMaxModifier the desired modifier for the top shooter
+     */
     public void setTopShooterMaxModifier(double topShooterMaxModifier) {
         this.topShooterMaxModifier = topShooterMaxModifier;
     }
 
+    /**
+     * gets the desired modifier amount for rapid testing, used for getter on a sendable builder
+     * @return the desired modifier for the bottom shooter 
+     */
     public double getBottomShooterMaxModifier() {
         return bottomShooterMaxModifier;
     }
 
+    /**
+     * passes through the desired modifier amount for rapid testing, used for setter on a sendable builder
+     * @param bottomShooterMaxModifier the desired modifier for the bottom shooter
+     */
     public void setBottomShooterMaxModifier(double bottomShooterMaxModifier) {
         this.bottomShooterMaxModifier = bottomShooterMaxModifier;
     }
 
     /**
-     * sets both shooter motors to a certain amount of voltage
+     * sets both shooter motors to a certain amount of voltage as specified by user
      * 
      * @param voltage the target voltage for the motor
+     * @param topModifier the % amount of input voltage to apply to the top shooter
+     * @param bottomModifier the % amount of input voltage to apply to the bottom shooter
      */
     public void shoot(double voltage, double topModifier, double bottomModifier) {
         this.voltage = voltage;
