@@ -54,7 +54,7 @@ public class RobotContainer {
     private final Joystick bottomButtonBoard = new Joystick(Constants.OperatorConstants.kBottomButtonBoard);
 
     // Subsystems
-    private final SwerveDrivebase swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray);
+    private final SwerveDrivebase swerveDrivebase;
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
@@ -118,10 +118,14 @@ public class RobotContainer {
      */
     public RobotContainer() {
         List<PointOfInterest> pointsOfInterest = new ArrayList<>();
-        pointsOfInterest.add(0, new PointOfInterest("Amp", new Pose2d(new Translation2d(1.83, 7.65), new Rotation2d(90)), 5, 1));
-        pointsOfInterest.add(1, new PointOfInterest("Stage up", new Pose2d(new Translation2d(4, 5.38), new Rotation2d(119.39)), 1, 0.5));
-        pointsOfInterest.add(2, new PointOfInterest("Stage down", new Pose2d(new Translation2d(4.05, 2.75), new Rotation2d(-117.98)), 1, 0.5));
-        pointsOfInterest.add(4, new PointOfInterest("Stage middle", new Pose2d(new Translation2d(6.31, 4.06), new Rotation2d(0)), 1, 0.6));
+        pointsOfInterest.add(0, new PointOfInterest("TEST ZERO", new Pose2d(new Translation2d(0, 0), new Rotation2d(0)), 5, 0.05));
+        
+        pointsOfInterest.add(1, new PointOfInterest("Amp", new Pose2d(new Translation2d(1.83, 7.65), new Rotation2d(90)), 5, 0.1));
+        pointsOfInterest.add(2, new PointOfInterest("Stage up", new Pose2d(new Translation2d(4, 5.38), new Rotation2d(119.39)), 1, 0.1));
+        pointsOfInterest.add(3, new PointOfInterest("Stage down", new Pose2d(new Translation2d(4.05, 2.75), new Rotation2d(-117.98)), 1, 0.1));
+        pointsOfInterest.add(4, new PointOfInterest("Stage middle", new Pose2d(new Translation2d(6.31, 4.06), new Rotation2d(0)), 1, 0.1));
+        
+        swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray, pointsOfInterest);
         
         // Calling this sends any data put in a sendable builder or any other data to
         // the shuffleboard application.
@@ -139,7 +143,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
         NamedCommands.registerCommand("Intake", intakeSubsystem.groundIntake());
-        // NamedCommands.registerCommand("Test Command", ampScoringAuto());
 
         // Acesses any built autonomous paths from PathPlanner and puts them as options
         // in the auto builder
@@ -147,7 +150,6 @@ public class RobotContainer {
         SmartDashboard.putData(autoChooser);
         // Function that actually activates the different commands
         configureBindings();
-
     }
 
 

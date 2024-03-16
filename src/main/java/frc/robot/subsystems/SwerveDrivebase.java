@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 
+import java.util.List;
+
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -34,6 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.PointOfInterest;
 import frc.robot.enums.DriveOrientation;
 
 public class SwerveDrivebase extends SubsystemBase {
@@ -50,14 +53,17 @@ public class SwerveDrivebase extends SubsystemBase {
 
     boolean withinPOI = false;
 
+    List<PointOfInterest> pois;
+
     /**
      * constructs a new swerve drivebase comprised of 2 or more modules (typically
      * four)
      * 
      * @param modules an array of modules in a drivebase.
      */
-    public SwerveDrivebase(SwerveModule[] modules) {
+    public SwerveDrivebase(SwerveModule[] modules, List<PointOfInterest> pois) {
         this.modules = modules;
+        this.pois = pois;
         Translation2d[] translations = new Translation2d[modules.length];
 
         for (int i = 0; i < translations.length; i++) {
@@ -144,6 +150,18 @@ public class SwerveDrivebase extends SubsystemBase {
         }
 
         field.setRobotPose(poseEstimator.getEstimatedPosition());
+
+        
+        withinPOI = false;
+        for(PointOfInterest point : pois) {
+            if(point.withinDegreesTolerance(getPose2d()) && point.withinMetersTolerance(getPose2d())) {
+                withinPOI = true;
+            }
+        }
+
+        System.out.println(pois.get(0).withinDegreesTolerance(getPose2d()));
+        System.out.println(pois.get(0).withinMetersTolerance(getPose2d()));
+
     }
 
     /**
@@ -154,14 +172,10 @@ public class SwerveDrivebase extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("SwerveSubsystem");
         SmartDashboard.putData("gyro", gyro);
-        // builder.addStringProperty("Pose2d Odometry", () ->
-        // getPose2dOdometry().toString(), null);
-        // builder.addStringProperty("Pose2d pose estimator", () ->
-        // getPose2dPoseEstimator().toString(), null);
-        SmartDashboard.putNumber("Pose2d PE X", getPose2d().getX());
-        SmartDashboard.putNumber("Pose2d PE Y", getPose2d().getY());
-        SmartDashboard.putString("Orientation", getSelectedDriveMode().toString());
+        builder.addDoubleProperty("Pose2d PE X", () -> getPose2d().getX(), null);
+        builder.addDoubleProperty("Pose2d PE Y", () -> getPose2d().getY(), null);
         builder.addStringProperty("Orientation", () -> getSelectedDriveMode().toString(), null);
+        builder.addBooleanProperty("Within POI", () -> withinPOI, null);
     }
 
     /**
