@@ -53,7 +53,7 @@ public class SwerveDrivebase extends SubsystemBase {
 
     public final Field2d field = new Field2d();
 
-    boolean withinPOI = false;
+    boolean withinAnyPOI = false;
 
     List<PointOfInterest> pois;
 
@@ -149,12 +149,14 @@ public class SwerveDrivebase extends SubsystemBase {
         field.setRobotPose(poseEstimator.getEstimatedPosition());
 
         
-        withinPOI = false;
+        withinAnyPOI = false;
         for(PointOfInterest point : pois) {
-            if(point.withinDegreesTolerance(getPose2d()) && point.withinMetersTolerance(getPose2d())) {
-                withinPOI = true;
+            if(point.withinTolerance(getPose2d())) {
+                withinAnyPOI = true;
             }
         }
+
+        // getPose2d().nearest(pois);
 
         System.out.println(pois.get(0).withinDegreesTolerance(getPose2d()));
         System.out.println(pois.get(0).withinMetersTolerance(getPose2d()));
@@ -172,7 +174,7 @@ public class SwerveDrivebase extends SubsystemBase {
         builder.addDoubleProperty("Pose2d PE X", () -> getPose2d().getX(), null);
         builder.addDoubleProperty("Pose2d PE Y", () -> getPose2d().getY(), null);
         builder.addStringProperty("Orientation", () -> getSelectedDriveMode().toString(), null);
-        builder.addBooleanProperty("Within POI", () -> withinPOI, null);
+        builder.addBooleanProperty("Within POI", () -> withinAnyPOI, null);
     }
 
     /**

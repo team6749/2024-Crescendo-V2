@@ -5,27 +5,34 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 
 public class PointOfInterest extends Pose2d {
 
-    Pose2d endPoint;
+    private Pose2d endPoint;
     double metersTolerance;
     double degreesTolerance;
 
-    public PointOfInterest(String name, Pose2d point, double toleranceDegrees, double toleranceMeters){
-        endPoint = point;
+    public PointOfInterest(String name, Translation2d translation, Rotation2d rotation, double toleranceDegrees, double toleranceMeters) {
+        super(translation, rotation);
+        endPoint = new Pose2d(translation, rotation);
         this.metersTolerance = toleranceMeters;
         this.degreesTolerance = toleranceDegrees;
     }
 
-    public Boolean withinMetersTolerance(Pose2d currentPose){
-        Pose2d pose = endPoint.relativeTo(currentPose);
+    public boolean withinMetersTolerance(Pose2d otherPose){
+        Pose2d pose = endPoint.relativeTo(otherPose);
         return pose.getTranslation().getNorm() < metersTolerance;
     }
 
-    public boolean withinDegreesTolerance(Pose2d currentPose){
-        Pose2d pose = endPoint.relativeTo(currentPose);
+    public boolean withinDegreesTolerance(Pose2d otherPose){
+        Pose2d pose = endPoint.relativeTo(otherPose);
         return Math.abs(pose.getRotation().getDegrees()) < degreesTolerance;
+    }
+
+    public boolean withinTolerance(Pose2d otherPose){
+        return withinDegreesTolerance(otherPose) && withinMetersTolerance(otherPose);
     }
 
 }
