@@ -129,6 +129,7 @@ public class RobotContainer {
         // autonomous paths
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
+        NamedCommands.registerCommand("Shoot Trap", shootTrap());
         NamedCommands.registerCommand("Intake", intakeSubsystem.groundIntake());
         // NamedCommands.registerCommand("Test Command", ampScoringAuto());
 
@@ -170,7 +171,7 @@ public class RobotContainer {
         // dpad_down.whileTrue()
 
         //Button to shoot into the trap
-        b.onTrue(trapShooting());
+        b.onTrue(shootTrap());
 
         // Button to shoot into speaker
         x.onTrue(shootSpeaker());
@@ -265,7 +266,7 @@ public class RobotContainer {
                 }, swerveDrivebase);
     }
 
-    public Command trapShooting() {
+    public Command shootTrap() {
         return Commands.startEnd(
                 () -> {
                     intakeSubsystem.indexNote(8);
