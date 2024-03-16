@@ -124,16 +124,17 @@ public class RobotContainer {
     public RobotContainer() {
         List<PointOfInterest> pointsOfInterest = new ArrayList<>();
 
-        pointsOfInterest.add(0, new PointOfInterest("Blue Amp", new Translation2d(1.83, 7.65), new Rotation2d(-90), 5, 0.1));
-        pointsOfInterest.add(1, new PointOfInterest("Blue Stage up", new Translation2d(4, 5.38), new Rotation2d(119.39), 1, 0.1));
-        pointsOfInterest.add(2, new PointOfInterest("Blue Stage down", new Translation2d(4.05, 2.75), new Rotation2d(-117.98), 1, 0.1));
-        pointsOfInterest.add(3, new PointOfInterest("Blue Stage middle", new Translation2d(6.31, 4.06), new Rotation2d(0), 1, 0.1));
+        pointsOfInterest.add(0, new PointOfInterest("Blue Amp", new Translation2d(1.83, 7.75), Rotation2d.fromDegrees(-90), 5, 0.05));
+        // THIS WAS TESTED AS PRETTY CLOSE BUT IT WAS WITH A LOW BATTERY. we can use this as a reference for the other ones
+        pointsOfInterest.add(1, new PointOfInterest("Blue Stage up", new Translation2d(4.15, 5.26), Rotation2d.fromDegrees(119.5), 1, 0.1));
+        pointsOfInterest.add(2, new PointOfInterest("Blue Stage down", new Translation2d(4.05, 2.75), Rotation2d.fromDegrees(-117.98), 1, 0.1));
+        pointsOfInterest.add(3, new PointOfInterest("Blue Stage middle", new Translation2d(6.31, 4.06), Rotation2d.fromDegrees(0), 1, 0.1));
 
-        pointsOfInterest.add(4, new PointOfInterest("Red Amp", new Translation2d(14.65, 7.65), new Rotation2d(-90),  5, 0.1));
-        pointsOfInterest.add(5, new PointOfInterest("Red Stage up", new Translation2d(12.47, 5.21), new Rotation2d(58.74), 1, 0.1));
-        pointsOfInterest.add(6, new PointOfInterest("Red Stage down", new Translation2d(12.45, 2.95), new Rotation2d(-58.5), 1, 0.1));
-        pointsOfInterest.add(7, new PointOfInterest("Red Stage middle", new Translation2d(10.24, 3.99), new Rotation2d(180), 1, 0.1));
-                //pointsOfInterest.add(8, new PointOfInterest("TEST ZERO", new Pose2d(new Translation2d(0, 0), new Rotation2d(0)), 5, 0.05));
+        pointsOfInterest.add(4, new PointOfInterest("Red Amp", new Translation2d(14.65, 7.75), Rotation2d.fromDegrees(-90),  5, 0.05));
+        pointsOfInterest.add(5, new PointOfInterest("Red Stage up", new Translation2d(12.47, 5.21), Rotation2d.fromDegrees(58.74), 1, 0.1));
+        pointsOfInterest.add(6, new PointOfInterest("Red Stage down", new Translation2d(12.45, 2.95), Rotation2d.fromDegrees(-58.5), 1, 0.1));
+        pointsOfInterest.add(7, new PointOfInterest("Red Stage middle", new Translation2d(10.24, 3.99), Rotation2d.fromDegrees(180), 1, 0.1));
+                //pointsOfInterest.add(8, new PointOfInterest("TEST ZERO", new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0)), 5, 0.05));
         
         swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray, pointsOfInterest);
         

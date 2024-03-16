@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-
 import java.util.List;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -148,15 +147,27 @@ public class SwerveDrivebase extends SubsystemBase {
 
         field.setRobotPose(poseEstimator.getEstimatedPosition());
 
-        
         withinAnyPOI = false;
-        for(PointOfInterest point : pois) {
-            if(point.withinTolerance(getPose2d())) {
+        for (PointOfInterest point : pois) {
+            if (point.withinTolerance(getPose2d())) {
                 withinAnyPOI = true;
             }
         }
 
-        // getPose2d().nearest(pois);
+        // PointOfInterest nearest = null;
+        // for (PointOfInterest poi : pois) {
+        //     if (nearest == null) {
+        //         nearest = poi;
+        //     } else if (poi.getTranslation().getDistance(getPose2d().getTranslation()) < poi.getTranslation()
+        //             .getDistance(nearest.getTranslation())) {
+        //         nearest = poi;
+        //     }
+        // }
+        
+        // // we have a POI and it is less than 2m away
+        // if(nearest != null && nearest.getTranslation().getDistance(getPose2d().getTranslation()) < 2) {
+
+        // }
 
         System.out.println(pois.get(0).withinDegreesTolerance(getPose2d()));
         System.out.println(pois.get(0).withinMetersTolerance(getPose2d()));
@@ -331,4 +342,8 @@ public class SwerveDrivebase extends SubsystemBase {
             modules[i].setModuleNeutralMode(neutralModeValue);
         }
     }
+
+    // Command lol () {
+
+    // }
 }
