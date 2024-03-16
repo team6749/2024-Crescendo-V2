@@ -14,9 +14,15 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.ShooterSubsystem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +42,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+    
     // The robot's subsystems and commands are defined here...
 
     // Initializing any USB plugins for robot control, in our case: 1 xbox
@@ -47,7 +54,7 @@ public class RobotContainer {
     private final Joystick bottomButtonBoard = new Joystick(Constants.OperatorConstants.kBottomButtonBoard);
 
     // Subsystems
-    private final SwerveDrivebase swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray);
+    private final SwerveDrivebase swerveDrivebase;
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
@@ -110,10 +117,27 @@ public class RobotContainer {
 
     private final SendableChooser<Command> autoChooser;
 
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        List<PointOfInterest> pointsOfInterest = new ArrayList<>();
+
+        pointsOfInterest.add(0, new PointOfInterest("Blue Amp", new Translation2d(1.83, 7.75), Rotation2d.fromDegrees(-90), 5, 0.05));
+        // THIS WAS TESTED AS PRETTY CLOSE BUT IT WAS WITH A LOW BATTERY. we can use this as a reference for the other ones
+        pointsOfInterest.add(1, new PointOfInterest("Blue Stage up", new Translation2d(4.15, 5.26), Rotation2d.fromDegrees(119.5), 1, 0.1));
+        pointsOfInterest.add(2, new PointOfInterest("Blue Stage down", new Translation2d(4.05, 2.75), Rotation2d.fromDegrees(-117.98), 1, 0.1));
+        pointsOfInterest.add(3, new PointOfInterest("Blue Stage middle", new Translation2d(6.31, 4.06), Rotation2d.fromDegrees(0), 1, 0.1));
+
+        pointsOfInterest.add(4, new PointOfInterest("Red Amp", new Translation2d(14.65, 7.75), Rotation2d.fromDegrees(-90),  5, 0.05));
+        pointsOfInterest.add(5, new PointOfInterest("Red Stage up", new Translation2d(12.47, 5.21), Rotation2d.fromDegrees(58.74), 1, 0.1));
+        pointsOfInterest.add(6, new PointOfInterest("Red Stage down", new Translation2d(12.45, 2.95), Rotation2d.fromDegrees(-58.5), 1, 0.1));
+        pointsOfInterest.add(7, new PointOfInterest("Red Stage middle", new Translation2d(10.24, 3.99), Rotation2d.fromDegrees(180), 1, 0.1));
+                //pointsOfInterest.add(8, new PointOfInterest("TEST ZERO", new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0)), 5, 0.05));
+        
+        swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray, pointsOfInterest);
+        
         // Calling this sends any data put in a sendable builder or any other data to
         // the shuffleboard application.
         // Driver station should automatically open shuffleboard when opened, if it does
@@ -130,7 +154,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
         NamedCommands.registerCommand("Intake", intakeSubsystem.groundIntake());
-        // NamedCommands.registerCommand("Test Command", ampScoringAuto());
 
         // Acesses any built autonomous paths from PathPlanner and puts them as options
         // in the auto builder
@@ -138,8 +161,8 @@ public class RobotContainer {
         SmartDashboard.putData(autoChooser);
         // Function that actually activates the different commands
         configureBindings();
-
     }
+
 
     /**
      * Use this method to define your trigger->command mappings. Triggers can be
