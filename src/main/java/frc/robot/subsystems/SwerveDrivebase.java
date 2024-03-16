@@ -169,8 +169,6 @@ public class SwerveDrivebase extends SubsystemBase {
 
         // }
 
-        System.out.println(pois.get(0).withinDegreesTolerance(getPose2d()));
-        System.out.println(pois.get(0).withinMetersTolerance(getPose2d()));
 
     }
 
