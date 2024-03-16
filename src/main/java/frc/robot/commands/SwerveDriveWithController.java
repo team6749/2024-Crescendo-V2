@@ -69,7 +69,7 @@ public class SwerveDriveWithController extends Command {
                 break;
             case FieldOriented:
                 Rotation2d robotOffsetToAlliance = swerveDriveSubsystem.getRotation2d();
-                if(DriverStation.getAlliance().get() == Alliance.Red) {
+                if(DriverStation.getAlliance().get() == Alliance.Blue) {
                     robotOffsetToAlliance = robotOffsetToAlliance.plus(Rotation2d.fromDegrees(180));
                 }
                 // put field oriented drive here.
