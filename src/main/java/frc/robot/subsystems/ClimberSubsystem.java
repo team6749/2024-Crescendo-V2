@@ -129,7 +129,7 @@ public class ClimberSubsystem extends SubsystemBase {
     public Command raiseClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(-3);
+                    setTargetVoltage(-7);
                     start();
                 },
                 () -> {
@@ -140,7 +140,7 @@ public class ClimberSubsystem extends SubsystemBase {
     public Command lowerClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(3);
+                    setTargetVoltage(6);
                     start();
                 },
                 () -> {

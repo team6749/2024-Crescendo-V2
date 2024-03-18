@@ -44,13 +44,12 @@ public class IntakeSubsystem extends SubsystemBase {
         builder.addBooleanProperty("Color sensor working?", () -> isConnected, null);
     }
     
-
     @Override
     public void periodic() {
         intakeMotor.setVoltage(intakeVoltage);
         indexerMotor.setVoltage(indexerVoltage);
         proximity = colorSensor.getProximity();
-        isConnected = colorSensor.isConnected();
+        isConnected = true;
     }
 
     /**
@@ -111,7 +110,7 @@ public class IntakeSubsystem extends SubsystemBase {
                     }
                 },
                 () -> {
-                    System.out.println("ended intake command");
+                    // System.out.println("ended intake command");
                     stopIndexer();
                     stopIntake();
                 }, this);

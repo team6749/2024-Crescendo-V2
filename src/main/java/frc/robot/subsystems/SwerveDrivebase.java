@@ -59,6 +59,8 @@ public class SwerveDrivebase extends SubsystemBase {
 
     PointOfInterest nearest = null;
 
+    NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
+
     /**
      * constructs a new swerve drivebase comprised of 2 or more modules (typically
      * four)
@@ -112,7 +114,6 @@ public class SwerveDrivebase extends SubsystemBase {
                     // alliance
                     // This will flip the path being followed to the red side of the field.
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
                     var alliance = DriverStation.getAlliance();
                     if (alliance.isPresent()) {
                         return alliance.get() == DriverStation.Alliance.Red;
@@ -129,8 +130,6 @@ public class SwerveDrivebase extends SubsystemBase {
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
 
         try {
-            NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
-
             NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue");
 
             double[] botPoseArray = botPose.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 }); // Translation(x,y,z),
@@ -141,31 +140,31 @@ public class SwerveDrivebase extends SubsystemBase {
                     Rotation2d.fromDegrees(botPoseArray[5]));
             double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 
-            if (RobotState.isTeleop() && botPoseArray[0] != 0) {
+            if (botPoseArray[0] != 0) {
                 poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
             }
         } catch (Exception e) {
             System.out.println("THE LIMELIGHT CODE CRASHED");
         }
 
-        field.setRobotPose(poseEstimator.getEstimatedPosition());
+        // field.setRobotPose(poseEstimator.getEstimatedPosition());
 
-        withinAnyPOI = false;
-        for (PointOfInterest point : pois) {
-            if (point.withinTolerance(getPose2d())) {
-                withinAnyPOI = true;
-            }
-        }
+        // withinAnyPOI = false;
+        // for (PointOfInterest point : pois) {
+        //     if (point.withinTolerance(getPose2d())) {
+        //         withinAnyPOI = true;
+        //     }
+        // }
 
         
-        for (PointOfInterest poi : pois) {
-            if (nearest == null) {
-                nearest = poi;
-            } else if (poi.getTranslation().getDistance(getPose2d().getTranslation()) < nearest.getTranslation()
-                    .getDistance(getPose2d().getTranslation())) {
-                nearest = poi;
-            }
-        }
+        // for (PointOfInterest poi : pois) {
+        //     if (nearest == null) {
+        //         nearest = poi;
+        //     } else if (poi.getTranslation().getDistance(getPose2d().getTranslation()) < nearest.getTranslation()
+        //             .getDistance(getPose2d().getTranslation())) {
+        //         nearest = poi;
+        //     }
+        // }
 
     }
 
@@ -177,8 +176,6 @@ public class SwerveDrivebase extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("SwerveSubsystem");
         SmartDashboard.putData("gyro", gyro);
-        builder.addDoubleProperty("Pose2d PE X", () -> getPose2d().getX(), null);
-        builder.addDoubleProperty("Pose2d PE Y", () -> getPose2d().getY(), null);
         builder.addStringProperty("Orientation", () -> getSelectedDriveMode().toString(), null);
         builder.addBooleanProperty("Within POI", () -> withinAnyPOI, null);
         builder.addStringProperty("closest POI", () -> {
