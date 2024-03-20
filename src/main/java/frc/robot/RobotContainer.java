@@ -8,6 +8,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.Relay;
+import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -56,6 +58,7 @@ public class RobotContainer {
     private final SwerveDrivebase swerveDrivebase;
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+    private final LightsSubsystem lights = new LightsSubsystem();
 
     // Buttons For Driver Controller
     JoystickButton a = new JoystickButton(controller, 1);
@@ -212,11 +215,11 @@ public class RobotContainer {
         right_trigger.whileTrue(climberSubsystem.lowerClimber());
 
 
-        redFour.onTrue(shootSpeaker());
-        redFive.whileTrue(climberSubsystem.raiseClimber());
+        // redFour.onTrue(shootSpeaker());
+        // redFive.whileTrue(climberSubsystem.raiseClimber());
 
-        yellowFour.onTrue(shootAmp());
-        yellowFive.whileTrue(climberSubsystem.lowerClimber());
+        // yellowFour.onTrue(shootAmp());
+        // yellowFive.whileTrue(climberSubsystem.lowerClimber());
 
         //operator buttons
         // blueOne.whileTrue(swerveDrivebase.resetOdometryCommand());
@@ -238,6 +241,25 @@ public class RobotContainer {
         //greenTwo
         //greenThree
         //greenFour
+
+        redOne.onTrue(lights.setLightsCommand(Relay.Value.kOn, Relay.Value.kOff));
+        redTwo.onTrue(lights.setLightsCommand(Relay.Value.kOn, Relay.Value.kOn));
+        redThree.onTrue(lights.setLightsCommand(Relay.Value.kOn, Relay.Value.kReverse));
+        redFour.onTrue(lights.setLightsCommand(Relay.Value.kOn, Relay.Value.kForward));
+        yellowOne.onTrue(lights.setLightsCommand(Relay.Value.kOff, Relay.Value.kOff));
+        yellowTwo.onTrue(lights.setLightsCommand(Relay.Value.kOff, Relay.Value.kOn));
+        yellowThree.onTrue(lights.setLightsCommand(Relay.Value.kOff, Relay.Value.kReverse));
+        yellowFour.onTrue(lights.setLightsCommand(Relay.Value.kOff, Relay.Value.kForward));
+        blueOne.onTrue(lights.setLightsCommand(Relay.Value.kReverse, Relay.Value.kOff));
+        blueTwo.onTrue(lights.setLightsCommand(Relay.Value.kReverse, Relay.Value.kOn));
+        blueThree.onTrue(lights.setLightsCommand(Relay.Value.kReverse, Relay.Value.kReverse));
+        blueFour.onTrue(lights.setLightsCommand(Relay.Value.kReverse, Relay.Value.kForward));
+        greenOne.onTrue(lights.setLightsCommand(Relay.Value.kForward, Relay.Value.kOff));
+        greenTwo.onTrue(lights.setLightsCommand(Relay.Value.kForward, Relay.Value.kOn));
+        greenThree.onTrue(lights.setLightsCommand(Relay.Value.kForward, Relay.Value.kReverse));
+        greenFour.onTrue(lights.setLightsCommand(Relay.Value.kForward, Relay.Value.kForward));
+
+        
     }
 
     /**
@@ -258,11 +280,13 @@ public class RobotContainer {
                     System.out.println("started shoot command");
                     shooterSubsystem.shoot(9, 1, 1);
                     intakeSubsystem.indexNote(10);
+                    // lights.Cyan();
                 },
                 () -> {
                     System.out.println("ended shoot command");
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
+                    // lights.Green();
                 },
                 shooterSubsystem, intakeSubsystem).withTimeout(0.5);
     }
@@ -272,10 +296,12 @@ public class RobotContainer {
                 () -> {
                     shooterSubsystem.shoot(3, 0.3, 1);
                     intakeSubsystem.indexNote(8);
+                    // lights.Cyan();
                 },
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
+                    // lights.Green();
                 }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
 
@@ -296,10 +322,12 @@ public class RobotContainer {
                     intakeSubsystem.indexNote(8);
                     //shooterSubsystem.shoot(shooterSubsystem.getVoltage(), shooterSubsystem.getTopShooterMaxModifier(), shooterSubsystem.getBottomShooterMaxModifier());
                     shooterSubsystem.shoot(8, 1, 0.75);
+                    // lights.Cyan();
                 },
                 () -> {
                     intakeSubsystem.stopIndexer();
                     shooterSubsystem.shoot(0, 1, 1);
+                    // lights.Green();
                 }, intakeSubsystem, shooterSubsystem).withTimeout(2);
 
     }

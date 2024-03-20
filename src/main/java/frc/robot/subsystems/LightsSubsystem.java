@@ -19,8 +19,8 @@ public class LightsSubsystem extends SubsystemBase {
     public LightsSubsystem() {
     }
 
-    private static Relay r2 = new Relay(Constants.LightsConstants.lightsOne); // SPK3 +red -green
-    private static Relay r1 = new Relay(Constants.LightsConstants.lightsOne); // SPK2 +blue -common
+    private static Relay r1 = new Relay(Constants.ElectronicsPorts.lightsOne); // SPK2 +blue -common
+    private static Relay r2 = new Relay(Constants.ElectronicsPorts.lightsTwo); // SPK3 +red -green
 
     public DriverStation.Alliance getAlliance() { // TO TEST
         Optional<DriverStation.Alliance> ally = DriverStation.getAlliance();
@@ -32,61 +32,126 @@ public class LightsSubsystem extends SubsystemBase {
         return null;
     }
 
-    public void setAllianceColors() {
-        if (getAlliance() == Alliance.Red) {
-            Red();
-        }
-        if (getAlliance() == Alliance.Blue) {
-            Blue();
-        }
-    }
+    // public void setAllianceColors() {
+    //     if (getAlliance() == Alliance.Red) {
+    //         Red();
+    //     }
+    //     if (getAlliance() == Alliance.Blue) {
+    //         Blue();
+    //     }
+    // }
 
-    public void Off() {// works
-        r1.set(Relay.Value.kOn);
-        r2.set(Relay.Value.kOn);
-    }
-
-    public void White() { // works
-        r1.set(Relay.Value.kReverse);
+    public void Off(){
+        r1.set(Relay.Value.kOff);
         r2.set(Relay.Value.kOff);
     }
-
-    public void Red() {// works
-        r1.set(Relay.Value.kOn);
-        r2.set(Relay.Value.kReverse);
-    }
-
-    public void Blue() {// work
-        r1.set(Relay.Value.kReverse);
-        r2.set(Relay.Value.kOn);
-    }
-
-    public void Green() {// works
-        r1.set(Relay.Value.kOn);
+    public void Cyan(){
+        r1.set(Relay.Value.kForward);
         r2.set(Relay.Value.kForward);
     }
-
-    public void Yellow() {// works
-        r1.set(Relay.Value.kOn);
-        r2.set(Relay.Value.kOff);
-    }
-
-    public void Cyan() {// works
-        r1.set(Relay.Value.kReverse);
-        r2.set(Relay.Value.kForward);
-    }
-
-    public void Magenta() {// works
+    public void Blue(){
         r1.set(Relay.Value.kReverse);
         r2.set(Relay.Value.kReverse);
+    }
+    public void Test(Relay.Value val1, Relay.Value val2) {
+        r1.set(val1);
+        r2.set(val2);
     }
 
     @Override
     public void periodic() {}
 
-    public Command setLightsCommand() {
+    public Command setLightsCommand(Relay.Value value1, Relay.Value value2) {
         return Commands.run(
-        () -> Green(),
+        () -> Test(value1, value2),
         this);
     }
+
+    //RED/GREEN ON 2, BLUE/COMMON ON 3
+    //ports 2, 3
+    //off r1-on, r2-off
+    //red r1-on, r2-on
+    //off r1-on, r2-reverse
+    //magenta r1-on, r2-forward
+
+    //off r1-off, r2-off
+    //yellow r1-off, r2-on
+    //off r1-off, r2-reverse
+    //white r1-off, r2-forward
+
+    //off r1-reverse, r2-off
+    //yellow r1-reverse, r2-on
+    //off r1-reverse, r2-reverse
+    //white r1-reverse, r2-forward
+
+    //off r1-forward, r2-off
+    //red r1-forward, r2-on
+    //off r1-forward, r2-reverse
+    //magenta r1-forward, r2-forward
+
+
+    //ports 3, 2
+    //yellow r1-on, r2-off
+    //red r1-on, r2-on
+    //yellow r1-on, r2-reverse
+    //red r1-on, r2-forward
+
+    //off r1-off, r2-off
+    //off r1-off, r2-on
+    //off r1-off, r2-reverse
+    //off r1-off, r2-forward
+
+    //off r1-reverse, r2-off
+    //off r1-reverse, r2-on
+    //off r1-reverse, r2-reverse
+    //off r1-reverse, r2-forward
+
+    //white r1-forward, r2-off
+    //magenta r1-forward, r2-on
+    //white r1-forward, r2-reverse
+    //magenta r1-forward, r2-forward
+
+
+    //RED/GREEN ON 2, BLUE/COMMON ON 3 WIRES ON SPIKES FOR LIGHTS WERE FLIPPED
+    //ports 3, 2
+    //yellow r1-on, r2-off
+    //green r1-on, r2-on
+    //yellow r1-on, r2-reverse
+    //green r1-on, r2-forward
+
+    //off r1-off, r2-off
+    //off r1-off, r2-on
+    //off r1-off, r2-reverse
+    //off r1-off, r2-forward
+
+    //white r1-reverse, r2-off
+    //cyan r1-reverse, r2-on
+    //white r1-reverse, r2-reverse
+    //cyan r1-reverse, r2-forward
+
+    //off r1-forward, r2-off
+    //off r1-forward, r2-on
+    //off r1-forward, r2-reverse
+    //off r1-forward, r2-forward
+
+    //ports 2, 3
+    //off r1-on, r2-off
+    //green r1-on, r2-on
+    //cyan r1-on, r2-reverse
+    //off r1-on, r2-forward
+
+    //off r1-off, r2-off
+    //yellow r1-off, r2-on
+    //white r1-off, r2-reverse
+    //off r1-off, r2-forward
+
+    //off r1-reverse, r2-off
+    //yellow r1-reverse, r2-on
+    //white r1-reverse, r2-reverse
+    //off r1-reverse, r2-forward
+
+    //off r1-forward, r2-off
+    //green r1-forward, r2-on
+    //cyan r1-forward, r2-reverse
+    //off r1-forward, r2-forward
 }

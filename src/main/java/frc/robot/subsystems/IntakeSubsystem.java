@@ -23,6 +23,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
+    LightsSubsystem lights = new LightsSubsystem();
+
     double indexerVoltage = 0;
     double intakeVoltage = 0;
 

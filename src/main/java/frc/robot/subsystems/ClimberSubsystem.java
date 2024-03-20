@@ -25,6 +25,7 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean isClimberEnabled = false;
     double targetVoltage;
     Debouncer sensorlessHomerDebounce = new Debouncer(0.05, Debouncer.DebounceType.kRising);
+    LightsSubsystem lights = new LightsSubsystem();
     
 
     /** Creates a new ClimberSubsystem. */
@@ -131,9 +132,12 @@ public class ClimberSubsystem extends SubsystemBase {
                 () -> {
                     setTargetVoltage(-7);
                     start();
+                    // lights.Magenta();
+                    
                 },
                 () -> {
                     stop();
+                    // lights.Green();
                 }, this);
     }
 
@@ -142,9 +146,11 @@ public class ClimberSubsystem extends SubsystemBase {
                 () -> {
                     setTargetVoltage(6);
                     start();
+                    // lights.Magenta();
                 },
                 () -> {
                     stop();
+                    // lights.Green();
                 }, this);
     }
 
