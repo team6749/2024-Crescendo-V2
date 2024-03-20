@@ -33,6 +33,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
         indexerMotor.setNeutralMode(NeutralModeValue.Brake);
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
+
+
     }
 
 
@@ -49,7 +51,7 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.setVoltage(intakeVoltage);
         indexerMotor.setVoltage(indexerVoltage);
         proximity = colorSensor.getProximity();
-        isConnected = true;
+        isConnected = colorSensor.isConnected();
     }
 
     /**

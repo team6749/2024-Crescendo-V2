@@ -50,7 +50,7 @@ public class ClimberSubsystem extends SubsystemBase {
             climber.stopMotor();
             return;
         }
-        if (getClimberPosition() > 0.5 && targetVoltage < 0) {
+        if (getClimberPosition() > 0.4 && targetVoltage < 0) {
             climber.stopMotor();
             return;
         }

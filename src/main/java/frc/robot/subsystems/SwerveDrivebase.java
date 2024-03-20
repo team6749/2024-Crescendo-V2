@@ -29,9 +29,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -61,6 +59,7 @@ public class SwerveDrivebase extends SubsystemBase {
 
     NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
 
+    
     /**
      * constructs a new swerve drivebase comprised of 2 or more modules (typically
      * four)
@@ -130,6 +129,7 @@ public class SwerveDrivebase extends SubsystemBase {
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
 
         try {
+           
             NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue");
 
             double[] botPoseArray = botPose.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 }); // Translation(x,y,z),
@@ -147,24 +147,25 @@ public class SwerveDrivebase extends SubsystemBase {
             System.out.println("THE LIMELIGHT CODE CRASHED");
         }
 
-        // field.setRobotPose(poseEstimator.getEstimatedPosition());
+        field.setRobotPose(poseEstimator.getEstimatedPosition());
 
-        // withinAnyPOI = false;
-        // for (PointOfInterest point : pois) {
-        //     if (point.withinTolerance(getPose2d())) {
-        //         withinAnyPOI = true;
-        //     }
-        // }
+        withinAnyPOI = false;
+        for (PointOfInterest point : pois) {
+            if (point.withinTolerance(getPose2d())) {
+                withinAnyPOI = true;
+            }
+        }
 
         
-        // for (PointOfInterest poi : pois) {
-        //     if (nearest == null) {
-        //         nearest = poi;
-        //     } else if (poi.getTranslation().getDistance(getPose2d().getTranslation()) < nearest.getTranslation()
-        //             .getDistance(getPose2d().getTranslation())) {
-        //         nearest = poi;
-        //     }
-        // }
+        for (PointOfInterest poi : pois) {
+            if (nearest == null) {
+                nearest = poi;
+            } else if (poi.getTranslation().getDistance(getPose2d().getTranslation()) < nearest.getTranslation()
+                    .getDistance(getPose2d().getTranslation())) {
+                nearest = poi;
+            }
+        }
+
 
     }
 
@@ -245,15 +246,6 @@ public class SwerveDrivebase extends SubsystemBase {
      */
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(-gyro.getAngle());
-    }
-
-    /**
-     * 
-     * @return a Rotation3d of the robots current rotation
-     */
-    public Rotation3d getRotation3d() {
-        return new Rotation3d(); // TODO
-        // return Rotation2d.fromDegrees(-gyro.getAngle());
     }
 
     /**
