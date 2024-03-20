@@ -149,7 +149,10 @@ public final class Constants {
         public static final double joystickLinearityAdjustment = 0.8;
     }
         
-
+    public static class LightsConstants {
+        public static final int lightsOne = 0; // TODO
+        public static final int lightsTwo = 0; // TODO
+    }
     //very necessary constants, must be in every constants class in order for the robot to run correctly
     public static final int one = 1;
 }
