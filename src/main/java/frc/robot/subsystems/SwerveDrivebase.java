@@ -125,13 +125,17 @@ public class SwerveDrivebase extends SubsystemBase {
 
     @Override
     public void periodic() {
+        //TODO -- Take out Timer and Tracing
+        Timer periodicTimer = new Timer();
+        periodicTimer.start();
+        StringBuilder tracingMsg = new StringBuilder();
         // This method will be called once per scheduler run
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
-
+        tracingMsg.append("poseEstimator: ").append(periodicTimer.get()).append("\n");
         try {
            
             NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue");
-
+            tracingMsg.append("limelightNetworkTable: ").append(periodicTimer.get()).append("\n");
             double[] botPoseArray = botPose.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 }); // Translation(x,y,z),
                                                                                                   // Rotation(roll,
                                                                                                   // pitch,
@@ -142,20 +146,23 @@ public class SwerveDrivebase extends SubsystemBase {
 
             if (botPoseArray[0] != 0) {
                 poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
+                tracingMsg.append("poseEstimator Add Vision: ").append(periodicTimer.get()).append("\n");
             }
+            tracingMsg.append("limelight Done: ").append(periodicTimer.get()).append("\n");
         } catch (Exception e) {
             System.out.println("THE LIMELIGHT CODE CRASHED");
         }
 
         field.setRobotPose(poseEstimator.getEstimatedPosition());
-
+        tracingMsg.append("Field Set Robot Pose: ").append(periodicTimer.get()).append("\n");
         withinAnyPOI = false;
         for (PointOfInterest point : pois) {
             if (point.withinTolerance(getPose2d())) {
                 withinAnyPOI = true;
+                break;
             }
         }
-
+        tracingMsg.append("Points Of Interest Tolerance Done: ").append(periodicTimer.get()).append("\n");
         
         for (PointOfInterest poi : pois) {
             if (nearest == null) {
@@ -165,8 +172,11 @@ public class SwerveDrivebase extends SubsystemBase {
                 nearest = poi;
             }
         }
+        tracingMsg.append("Nearest Calculated: ").append(periodicTimer.get()).append("\n");
 
-
+        if (periodicTimer.get() > .02d) {
+            System.out.println(tracingMsg);
+        }
     }
 
     /**

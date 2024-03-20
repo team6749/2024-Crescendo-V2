@@ -10,6 +10,7 @@ import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -48,10 +49,22 @@ public class IntakeSubsystem extends SubsystemBase {
     
     @Override
     public void periodic() {
+        //TODO -- Take out Timer and Tracing
+        Timer periodicTimer = new Timer();
+        periodicTimer.start();
+        StringBuilder tracingMsg = new StringBuilder();
         intakeMotor.setVoltage(intakeVoltage);
+        tracingMsg.append("IntakeMotor: ").append(periodicTimer.get()).append("\n");
         indexerMotor.setVoltage(indexerVoltage);
+        tracingMsg.append("IndexerMotor: ").append(periodicTimer.get()).append("\n");
         proximity = colorSensor.getProximity();
+        tracingMsg.append("ColorSensor-Proximity: ").append(periodicTimer.get()).append("\n");
         isConnected = colorSensor.isConnected();
+        tracingMsg.append("ColorSensor-IsConnected: ").append(periodicTimer.get()).append("\n");
+        periodicTimer.stop();
+        if (periodicTimer.get() > .02d) {
+            System.out.println(tracingMsg);
+        }
     }
 
     /**
