@@ -26,12 +26,15 @@ public class IntakeSubsystem extends SubsystemBase {
     double indexerVoltage = 0;
     double intakeVoltage = 0;
 
+    boolean isConnected = false;
     double proximity = 0;
 
     /** Creates a new IntakeSubsystem. */
     public IntakeSubsystem() {
         indexerMotor.setNeutralMode(NeutralModeValue.Brake);
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
+
+
     }
 
 
@@ -40,15 +43,15 @@ public class IntakeSubsystem extends SubsystemBase {
         super.initSendable(builder);
         builder.addBooleanProperty("note dectected", () -> getNoteDetected(), null);
         builder.addDoubleProperty("proximity", () -> proximity, null);
-        builder.addBooleanProperty("Color sensor working?", () -> colorSensor.isConnected(), null);
+        builder.addBooleanProperty("Color sensor working?", () -> isConnected, null);
     }
     
-
     @Override
     public void periodic() {
         intakeMotor.setVoltage(intakeVoltage);
         indexerMotor.setVoltage(indexerVoltage);
         proximity = colorSensor.getProximity();
+        isConnected = colorSensor.isConnected();
     }
 
     /**
@@ -109,7 +112,7 @@ public class IntakeSubsystem extends SubsystemBase {
                     }
                 },
                 () -> {
-                    System.out.println("ended intake command");
+                    // System.out.println("ended intake command");
                     stopIndexer();
                     stopIntake();
                 }, this);
