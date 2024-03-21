@@ -20,7 +20,6 @@ import java.util.List;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -134,7 +133,7 @@ public class RobotContainer {
         pointsOfInterest.add(5, new PointOfInterest("Red Stage up", new Translation2d(12.47, 5.21), Rotation2d.fromDegrees(58.74), 1, 0.1));
         pointsOfInterest.add(6, new PointOfInterest("Red Stage down", new Translation2d(12.45, 2.95), Rotation2d.fromDegrees(-58.5), 1, 0.1));
         pointsOfInterest.add(7, new PointOfInterest("Red Stage middle", new Translation2d(10.24, 3.99), Rotation2d.fromDegrees(180), 1, 0.1));
-                //pointsOfInterest.add(8, new PointOfInterest("TEST ZERO", new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0)), 5, 0.05));
+        pointsOfInterest.add(8, new PointOfInterest("TEST ZERO", new Translation2d(0, 0), Rotation2d.fromDegrees(0), 5, 0.05));
         
         swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray, pointsOfInterest);
         
@@ -153,6 +152,7 @@ public class RobotContainer {
         // autonomous paths
         NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
+        NamedCommands.registerCommand("Shoot Trap", shootTrap());
         NamedCommands.registerCommand("Intake", intakeSubsystem.groundIntake());
 
         // Acesses any built autonomous paths from PathPlanner and puts them as options
@@ -193,13 +193,15 @@ public class RobotContainer {
         // dpad_down.whileTrue()
 
         //Button to shoot into the trap
-        b.onTrue(trapShooting());
+        b.onTrue(shootTrap());
 
         // Button to shoot into speaker
         x.onTrue(shootSpeaker());
 
         // Button to shoot into the amp
         y.onTrue(shootAmp());
+
+        a.whileTrue(swerveDrivebase.badJankAlignWithPoint());
 
         leftBumper.onTrue(swerveDrivebase.driveModeCommand());
 
@@ -217,9 +219,9 @@ public class RobotContainer {
         yellowFive.whileTrue(climberSubsystem.lowerClimber());
 
         //operator buttons
-        blueOne.whileTrue(swerveDrivebase.resetOdometryCommand());
-        blueTwo.whileTrue(driveForward());
-        greenFive.onTrue(swerveDrivebase.driveModeCommand());
+        // blueOne.whileTrue(swerveDrivebase.resetOdometryCommand());
+        // blueTwo.whileTrue(driveForward());
+        // greenFive.onTrue(swerveDrivebase.driveModeCommand());
 
 
         //unused buttons
@@ -288,7 +290,7 @@ public class RobotContainer {
                 }, swerveDrivebase);
     }
 
-    public Command trapShooting() {
+    public Command shootTrap() {
         return Commands.startEnd(
                 () -> {
                     intakeSubsystem.indexNote(8);

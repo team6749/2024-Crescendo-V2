@@ -29,12 +29,11 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.PointOfInterest;
@@ -56,6 +55,11 @@ public class SwerveDrivebase extends SubsystemBase {
 
     List<PointOfInterest> pois;
 
+    PointOfInterest nearest = null;
+
+    NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
+
+    
     /**
      * constructs a new swerve drivebase comprised of 2 or more modules (typically
      * four)
@@ -109,7 +113,6 @@ public class SwerveDrivebase extends SubsystemBase {
                     // alliance
                     // This will flip the path being followed to the red side of the field.
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
                     var alliance = DriverStation.getAlliance();
                     if (alliance.isPresent()) {
                         return alliance.get() == DriverStation.Alliance.Red;
@@ -122,14 +125,16 @@ public class SwerveDrivebase extends SubsystemBase {
 
     @Override
     public void periodic() {
+        for(SwerveModule module : modules) {
+            // Call periodic on all modules
+            module.periodic();
+        }
+
         // This method will be called once per scheduler run
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
 
         try {
-            NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
-
             NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue");
-
             double[] botPoseArray = botPose.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 }); // Translation(x,y,z),
                                                                                                   // Rotation(roll,
                                                                                                   // pitch,
@@ -138,7 +143,7 @@ public class SwerveDrivebase extends SubsystemBase {
                     Rotation2d.fromDegrees(botPoseArray[5]));
             double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 
-            if (RobotState.isTeleop() && botPoseArray[0] != 0) {
+            if (botPoseArray[0] != 0) {
                 poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
             }
         } catch (Exception e) {
@@ -154,20 +159,14 @@ public class SwerveDrivebase extends SubsystemBase {
             }
         }
 
-        // PointOfInterest nearest = null;
-        // for (PointOfInterest poi : pois) {
-        //     if (nearest == null) {
-        //         nearest = poi;
-        //     } else if (poi.getTranslation().getDistance(getPose2d().getTranslation()) < poi.getTranslation()
-        //             .getDistance(nearest.getTranslation())) {
-        //         nearest = poi;
-        //     }
-        // }
-        
-        // // we have a POI and it is less than 2m away
-        // if(nearest != null && nearest.getTranslation().getDistance(getPose2d().getTranslation()) < 2) {
-
-        // }
+        for (PointOfInterest poi : pois) {
+            if (nearest == null) {
+                nearest = poi;
+            } else if (poi.getTranslation().getDistance(getPose2d().getTranslation()) < nearest.getTranslation()
+                    .getDistance(getPose2d().getTranslation())) {
+                nearest = poi;
+            }
+        }
 
 
     }
@@ -180,10 +179,15 @@ public class SwerveDrivebase extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("SwerveSubsystem");
         SmartDashboard.putData("gyro", gyro);
-        builder.addDoubleProperty("Pose2d PE X", () -> getPose2d().getX(), null);
-        builder.addDoubleProperty("Pose2d PE Y", () -> getPose2d().getY(), null);
         builder.addStringProperty("Orientation", () -> getSelectedDriveMode().toString(), null);
         builder.addBooleanProperty("Within POI", () -> withinAnyPOI, null);
+        builder.addStringProperty("closest POI", () -> {
+            if(nearest == null) {
+                return "null";
+            } else {
+                return nearest.name;
+            }
+        }, null);
     }
 
     /**
@@ -216,7 +220,7 @@ public class SwerveDrivebase extends SubsystemBase {
     public SwerveModulePosition[] getCurrentModulePositions() {
         SwerveModulePosition[] modulePositions = new SwerveModulePosition[modules.length];
         for (int i = 0; i < modules.length; i++) {
-            modulePositions[i] = modules[i].getSwerveModulePosition();
+            modulePositions[i] = modules[i].getModulePosition();
         }
         return modulePositions;
     }
@@ -247,15 +251,6 @@ public class SwerveDrivebase extends SubsystemBase {
     }
 
     /**
-     * 
-     * @return a Rotation3d of the robots current rotation
-     */
-    public Rotation3d getRotation3d() {
-        return new Rotation3d(); // TODO
-        // return Rotation2d.fromDegrees(-gyro.getAngle());
-    }
-
-    /**
      * converts the SwerveModuleStates of each module to
      * 
      * @return the current ChassisSpeeds of each module
@@ -264,7 +259,7 @@ public class SwerveDrivebase extends SubsystemBase {
         SwerveModuleState[] currentModuleStates = new SwerveModuleState[this.modules.length];
         // gets current chassis state for each module
         for (int i = 0; i < this.modules.length; i++) {
-            currentModuleStates[i] = modules[i].getSwerveModuleState();
+            currentModuleStates[i] = modules[i].getModuleState();
         }
         return kinematics.toChassisSpeeds(currentModuleStates);
     }
@@ -341,7 +336,16 @@ public class SwerveDrivebase extends SubsystemBase {
         }
     }
 
-    // Command lol () {
+    public Command badJankAlignWithPoint () {
+        return Commands.runEnd(() -> {
+            double p = 5;
+            Pose2d pose = nearest.relativeTo(getPose2d());
+            ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(pose.getX() * p, pose.getY() * p,
+                        pose.getRotation().getRadians() * 2.5, getPose2d().getRotation());
+            setSubsystemChassisSpeeds(speeds);
+        }, () -> {
+            setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
+        }, this);
+    }
 
-    // }
 }

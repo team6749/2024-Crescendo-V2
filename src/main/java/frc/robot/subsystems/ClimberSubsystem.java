@@ -50,7 +50,7 @@ public class ClimberSubsystem extends SubsystemBase {
             climber.stopMotor();
             return;
         }
-        if (getClimberPosition() > 0.5 && targetVoltage < 0) {
+        if (getClimberPosition() > 0.4 && targetVoltage < 0) {
             climber.stopMotor();
             return;
         }
@@ -129,7 +129,7 @@ public class ClimberSubsystem extends SubsystemBase {
     public Command raiseClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(-3);
+                    setTargetVoltage(-7);
                     start();
                 },
                 () -> {
@@ -140,7 +140,7 @@ public class ClimberSubsystem extends SubsystemBase {
     public Command lowerClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(3);
+                    setTargetVoltage(6);
                     start();
                 },
                 () -> {

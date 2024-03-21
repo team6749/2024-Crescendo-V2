@@ -13,9 +13,11 @@ public class PointOfInterest extends Pose2d {
     private Pose2d endPoint;
     double metersTolerance;
     double degreesTolerance;
+    public String name;
 
     public PointOfInterest(String name, Translation2d translation, Rotation2d rotation, double toleranceDegrees, double toleranceMeters) {
         super(translation, rotation);
+        this.name = name;
         endPoint = new Pose2d(translation, rotation);
         this.metersTolerance = toleranceMeters;
         this.degreesTolerance = toleranceDegrees;
