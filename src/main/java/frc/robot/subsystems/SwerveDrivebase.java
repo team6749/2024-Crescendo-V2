@@ -125,13 +125,16 @@ public class SwerveDrivebase extends SubsystemBase {
 
     @Override
     public void periodic() {
+        for(SwerveModule module : modules) {
+            // Call periodic on all modules
+            module.periodic();
+        }
+
         // This method will be called once per scheduler run
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
 
         try {
-           
             NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue");
-
             double[] botPoseArray = botPose.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 }); // Translation(x,y,z),
                                                                                                   // Rotation(roll,
                                                                                                   // pitch,
@@ -156,7 +159,6 @@ public class SwerveDrivebase extends SubsystemBase {
             }
         }
 
-        
         for (PointOfInterest poi : pois) {
             if (nearest == null) {
                 nearest = poi;
@@ -218,7 +220,7 @@ public class SwerveDrivebase extends SubsystemBase {
     public SwerveModulePosition[] getCurrentModulePositions() {
         SwerveModulePosition[] modulePositions = new SwerveModulePosition[modules.length];
         for (int i = 0; i < modules.length; i++) {
-            modulePositions[i] = modules[i].getSwerveModulePosition();
+            modulePositions[i] = modules[i].getModulePosition();
         }
         return modulePositions;
     }
@@ -257,7 +259,7 @@ public class SwerveDrivebase extends SubsystemBase {
         SwerveModuleState[] currentModuleStates = new SwerveModuleState[this.modules.length];
         // gets current chassis state for each module
         for (int i = 0; i < this.modules.length; i++) {
-            currentModuleStates[i] = modules[i].getSwerveModuleState();
+            currentModuleStates[i] = modules[i].getModuleState();
         }
         return kinematics.toChassisSpeeds(currentModuleStates);
     }
