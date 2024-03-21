@@ -156,7 +156,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S2 to 6"
+                  "pathName": "S2 to 6 (No Note Avoidance)"
                 }
               },
               {
@@ -175,7 +175,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "6 to S2"
+                  "pathName": "6 to S2 (No Note Avoidance)"
                 }
               },
               {
