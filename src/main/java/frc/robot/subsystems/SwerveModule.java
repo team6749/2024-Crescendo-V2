@@ -53,8 +53,8 @@ public class SwerveModule implements Sendable {
         builder.addDoubleProperty("position", this::getModulePositionM, null);
         builder.addDoubleProperty("rotation", () -> getModuleRotation().getDegrees(), null);
         builder.addDoubleProperty("Max Speed", this::getMaxSpeed, this::setMaxSpeed);
-        builder.addDoubleProperty("Target Velocity", () -> m_targetstate.speedMetersPerSecond, null);
-        builder.addDoubleProperty("Target Rotation", () -> m_targetstate.angle.getDegrees(), null);
+        builder.addDoubleProperty("Target Velocity", () -> m_targetstate.speedMetersPerSecond, (newValue) -> {m_targetstate.speedMetersPerSecond = newValue; });
+        builder.addDoubleProperty("Target Rotation", () -> m_targetstate.angle.getDegrees(), (newValue) -> {m_targetstate.angle = Rotation2d.fromDegrees(newValue); });
 
         SmartDashboard.putData("swerve " + name + " velocity pid", velocityPIDController);
         SmartDashboard.putData("swerve " + name + " angle pid", anglePIDController);
