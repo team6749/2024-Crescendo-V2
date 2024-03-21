@@ -2,15 +2,34 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.9851996105160677,
-      "y": 6.716942551119766
+      "x": 0.7196689386562821,
+      "y": 4.396007789678676
     },
-    "rotation": 0
+    "rotation": -61.23235066115623
   },
   "command": {
     "type": "sequential",
     "data": {
-      "commands": []
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Speaker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "0 Speaker Leave Bottom"
+          }
+        }
+      ]
     }
   },
   "folder": null,
