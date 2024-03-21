@@ -53,6 +53,8 @@ public class SwerveModule implements Sendable {
         builder.addDoubleProperty("position", this::getModulePositionM, null);
         builder.addDoubleProperty("rotation", () -> getModuleRotation().getDegrees(), null);
         builder.addDoubleProperty("Max Speed", this::getMaxSpeed, this::setMaxSpeed);
+        builder.addDoubleProperty("Target Velocity", () -> m_targetstate.speedMetersPerSecond, null);
+        builder.addDoubleProperty("Target Rotation", () -> m_targetstate.angle.getDegrees(), null);
 
         SmartDashboard.putData("swerve " + name + " velocity pid", velocityPIDController);
         SmartDashboard.putData("swerve " + name + " angle pid", anglePIDController);
@@ -70,7 +72,6 @@ public class SwerveModule implements Sendable {
                 * (Math.PI * Constants.SwerveConstants.swerveWheelDiameterMeters);
         m_rotation = encoder.getAbsolutePosition().getValueAsDouble() * 360;
 
-        SmartDashboard.putNumber(name + " Desired Chassis States", m_targetstate.speedMetersPerSecond);
 
         // Optimize the reference state to avoid spinning further than 90 degrees
         SwerveModuleState state = SwerveModuleState.optimize(m_targetstate,
