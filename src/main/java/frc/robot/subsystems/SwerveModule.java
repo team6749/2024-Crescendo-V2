@@ -71,11 +71,6 @@ public class SwerveModule implements Sendable {
         m_rotation = encoder.getAbsolutePosition().getValueAsDouble() * 360;
 
         SmartDashboard.putNumber(name + " Desired Chassis States", m_targetstate.speedMetersPerSecond);
-        // prevents wheels from resetting back to straight orientation
-        if (Math.abs(m_targetstate.speedMetersPerSecond) < 0.01) {
-            stop();
-            return;
-        }
 
         // Optimize the reference state to avoid spinning further than 90 degrees
         SwerveModuleState state = SwerveModuleState.optimize(m_targetstate,
