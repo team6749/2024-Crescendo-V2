@@ -45,8 +45,8 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -0.9967319624075434,
-    "velocity": 0
+    "rotation": 0.0,
+    "velocity": 1.0
   },
   "useDefaultConstraints": true
 }
