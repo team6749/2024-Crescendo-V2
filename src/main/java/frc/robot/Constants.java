@@ -78,8 +78,9 @@ public final class Constants {
         public static final int climberMotor = 20;
         public static final int climberSwitch = 3;
 
-        public static final int lightsOne = 2; 
-        public static final int lightsTwo = 3;
+        public static final int green = 2;
+        public static final int red = 0; 
+        public static final int blue = 1;
 
         //Also would put any pneumatic things here (we do not have on our 2024 robot, but put here for example)
         //There are examples of pneumatics code being put to use in the 2022 and 2023 mainseason robots

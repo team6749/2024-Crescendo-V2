@@ -8,7 +8,6 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj.Relay;
 import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 
@@ -120,6 +119,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
 
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -187,6 +187,7 @@ public class RobotContainer {
         // the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
+        // lights.setDefaultCommand(lights.rainbowLights());
 
         //unused controller inputs
         // a.whileTrue()
@@ -242,22 +243,18 @@ public class RobotContainer {
         //greenThree
         //greenFour
 
-        redOne.onTrue(lights.setLightsCommand(Relay.Value.kOn, Relay.Value.kOff));
-        redTwo.onTrue(lights.setLightsCommand(Relay.Value.kOn, Relay.Value.kOn));
-        redThree.onTrue(lights.setLightsCommand(Relay.Value.kOn, Relay.Value.kReverse));
-        redFour.onTrue(lights.setLightsCommand(Relay.Value.kOn, Relay.Value.kForward));
-        yellowOne.onTrue(lights.setLightsCommand(Relay.Value.kOff, Relay.Value.kOff));
-        yellowTwo.onTrue(lights.setLightsCommand(Relay.Value.kOff, Relay.Value.kOn));
-        yellowThree.onTrue(lights.setLightsCommand(Relay.Value.kOff, Relay.Value.kReverse));
-        yellowFour.onTrue(lights.setLightsCommand(Relay.Value.kOff, Relay.Value.kForward));
-        blueOne.onTrue(lights.setLightsCommand(Relay.Value.kReverse, Relay.Value.kOff));
-        blueTwo.onTrue(lights.setLightsCommand(Relay.Value.kReverse, Relay.Value.kOn));
-        blueThree.onTrue(lights.setLightsCommand(Relay.Value.kReverse, Relay.Value.kReverse));
-        blueFour.onTrue(lights.setLightsCommand(Relay.Value.kReverse, Relay.Value.kForward));
-        greenOne.onTrue(lights.setLightsCommand(Relay.Value.kForward, Relay.Value.kOff));
-        greenTwo.onTrue(lights.setLightsCommand(Relay.Value.kForward, Relay.Value.kOn));
-        greenThree.onTrue(lights.setLightsCommand(Relay.Value.kForward, Relay.Value.kReverse));
-        greenFour.onTrue(lights.setLightsCommand(Relay.Value.kForward, Relay.Value.kForward));
+        redOne.onTrue(lights.setLightsCommand(1));
+        redTwo.onTrue(lights.setLightsCommand(2));
+        redThree.onTrue(lights.setLightsCommand(3));
+        redFour.onTrue(lights.setLightsCommand(4));
+        yellowOne.onTrue(lights.setLightsCommand(5));
+        yellowTwo.onTrue(lights.setLightsCommand(6));
+        yellowThree.onTrue(lights.setLightsCommand(7));
+        yellowFour.onTrue(lights.setLightsCommand(8));
+
+        redFive.onTrue(lights.rainbowLights());
+
+    
 
         
     }

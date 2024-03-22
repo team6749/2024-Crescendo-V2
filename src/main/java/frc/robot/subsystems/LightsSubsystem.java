@@ -6,8 +6,10 @@ package frc.robot.subsystems;
 
 import java.util.Optional;
 
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -19,8 +21,10 @@ public class LightsSubsystem extends SubsystemBase {
     public LightsSubsystem() {
     }
 
-    private static Relay r1 = new Relay(Constants.ElectronicsPorts.lightsOne); // SPK2 +blue -common
-    private static Relay r2 = new Relay(Constants.ElectronicsPorts.lightsTwo); // SPK3 +red -green
+
+    private static Relay green = new Relay(Constants.ElectronicsPorts.green);
+    private static Relay red = new Relay(Constants.ElectronicsPorts.red);
+    private static Relay blue = new Relay(Constants.ElectronicsPorts.blue);
 
     public DriverStation.Alliance getAlliance() { // TO TEST
         Optional<DriverStation.Alliance> ally = DriverStation.getAlliance();
@@ -41,117 +45,108 @@ public class LightsSubsystem extends SubsystemBase {
     //     }
     // }
 
-    public void Off(){
-        r1.set(Relay.Value.kOff);
-        r2.set(Relay.Value.kOff);
+    
+    public void off(){
+        System.out.println("off");
+        green.set(Relay.Value.kForward);
+        blue.set(Relay.Value.kForward);
+        red.set(Relay.Value.kForward);
     }
-    public void Cyan(){
-        r1.set(Relay.Value.kForward);
-        r2.set(Relay.Value.kForward);
+    public void cyan(){
+        System.out.println("cyan");
+        green.set(Value.kOff);
+        blue.set(Value.kOff);
+        red.set(Value.kForward);
     }
-    public void Blue(){
-        r1.set(Relay.Value.kReverse);
-        r2.set(Relay.Value.kReverse);
+    public void green(){
+        System.out.println("green");
+        green.set(Relay.Value.kOff);
+        blue.set(Relay.Value.kForward);
+        red.set(Relay.Value.kForward);
     }
-    public void Test(Relay.Value val1, Relay.Value val2) {
-        r1.set(val1);
-        r2.set(val2);
+    public void red(){
+        System.out.println("red");
+        green.set(Relay.Value.kForward);
+        blue.set(Relay.Value.kForward);
+        red.set(Relay.Value.kOff);
+    }
+    public void blue(){
+        System.out.println("blue");
+        green.set(Value.kForward);
+        blue.set(Value.kOff);
+        red.set(Value.kForward);
+    }
+    public void white(){
+        System.out.println("white");
+        green.set(Value.kOff);
+        blue.set(Value.kOff);
+        red.set(Value.kOff);
+    }
+    public void yellow(){
+        System.out.println("yellow");
+        green.set(Value.kOff);
+        blue.set(Value.kForward);
+        red.set(Value.kOff);
+    }
+    public void magenta(){
+        System.out.println("magenta");
+        green.set(Value.kForward);
+        blue.set(Value.kOff);
+        red.set(Value.kOff);
     }
 
     @Override
     public void periodic() {}
 
-    public Command setLightsCommand(Relay.Value value1, Relay.Value value2) {
-        return Commands.run(
-        () -> Test(value1, value2),
+    public Command setLightsCommand(int no) {
+        return Commands.runOnce(
+        () -> {
+        
+        switch (no) {
+            case (1): 
+                green();
+                break;
+            case (2): 
+                red();
+                break;
+            case (3):
+                blue();
+                break;
+            case (4):
+                magenta();
+                break;
+            case (5):
+                yellow();
+                break;
+            case (6):
+                cyan();
+                break;
+            case (7):
+                white();
+                break;
+            default: 
+                off();
+                break;
+        }}
+        ,
         this);
     }
-
-    //RED/GREEN ON 2, BLUE/COMMON ON 3
-    //ports 2, 3
-    //off r1-on, r2-off
-    //red r1-on, r2-on
-    //off r1-on, r2-reverse
-    //magenta r1-on, r2-forward
-
-    //off r1-off, r2-off
-    //yellow r1-off, r2-on
-    //off r1-off, r2-reverse
-    //white r1-off, r2-forward
-
-    //off r1-reverse, r2-off
-    //yellow r1-reverse, r2-on
-    //off r1-reverse, r2-reverse
-    //white r1-reverse, r2-forward
-
-    //off r1-forward, r2-off
-    //red r1-forward, r2-on
-    //off r1-forward, r2-reverse
-    //magenta r1-forward, r2-forward
-
-
-    //ports 3, 2
-    //yellow r1-on, r2-off
-    //red r1-on, r2-on
-    //yellow r1-on, r2-reverse
-    //red r1-on, r2-forward
-
-    //off r1-off, r2-off
-    //off r1-off, r2-on
-    //off r1-off, r2-reverse
-    //off r1-off, r2-forward
-
-    //off r1-reverse, r2-off
-    //off r1-reverse, r2-on
-    //off r1-reverse, r2-reverse
-    //off r1-reverse, r2-forward
-
-    //white r1-forward, r2-off
-    //magenta r1-forward, r2-on
-    //white r1-forward, r2-reverse
-    //magenta r1-forward, r2-forward
-
-
-    //RED/GREEN ON 2, BLUE/COMMON ON 3 WIRES ON SPIKES FOR LIGHTS WERE FLIPPED
-    //ports 3, 2
-    //yellow r1-on, r2-off
-    //green r1-on, r2-on
-    //yellow r1-on, r2-reverse
-    //green r1-on, r2-forward
-
-    //off r1-off, r2-off
-    //off r1-off, r2-on
-    //off r1-off, r2-reverse
-    //off r1-off, r2-forward
-
-    //white r1-reverse, r2-off
-    //cyan r1-reverse, r2-on
-    //white r1-reverse, r2-reverse
-    //cyan r1-reverse, r2-forward
-
-    //off r1-forward, r2-off
-    //off r1-forward, r2-on
-    //off r1-forward, r2-reverse
-    //off r1-forward, r2-forward
-
-    //ports 2, 3
-    //off r1-on, r2-off
-    //green r1-on, r2-on
-    //cyan r1-on, r2-reverse
-    //off r1-on, r2-forward
-
-    //off r1-off, r2-off
-    //yellow r1-off, r2-on
-    //white r1-off, r2-reverse
-    //off r1-off, r2-forward
-
-    //off r1-reverse, r2-off
-    //yellow r1-reverse, r2-on
-    //white r1-reverse, r2-reverse
-    //off r1-reverse, r2-forward
-
-    //off r1-forward, r2-off
-    //green r1-forward, r2-on
-    //cyan r1-forward, r2-reverse
-    //off r1-forward, r2-forward
+    public Command rainbowLights(){
+        return Commands.repeatingSequence(
+            setLightsCommand(1),
+            Commands.waitSeconds(0.2),
+            setLightsCommand(2),
+            Commands.waitSeconds(0.2),
+            setLightsCommand(3),
+            Commands.waitSeconds(0.2),
+            setLightsCommand(4),
+            Commands.waitSeconds(0.2),
+            setLightsCommand(5),
+            Commands.waitSeconds(0.2),
+            setLightsCommand(6),
+            Commands.waitSeconds(0.2),
+            setLightsCommand(7),
+            Commands.waitSeconds(0.2)
+        );
+    }
 }
