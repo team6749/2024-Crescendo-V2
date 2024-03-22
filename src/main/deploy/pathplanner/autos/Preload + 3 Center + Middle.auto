@@ -173,15 +173,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "6 to S2 (No Note Avoidance)"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "6 to S2 (No Note Avoidance)"
                 }
               }
             ]
