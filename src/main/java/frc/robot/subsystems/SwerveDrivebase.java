@@ -338,12 +338,13 @@ public class SwerveDrivebase extends SubsystemBase {
         }
     }
 
+
     public Command badJankAlignWithPoint () {
         return Commands.runEnd(() -> {
             double maxLinearSpeed = 1.5;
             Rotation2d maxRotationalSpeed = Rotation2d.fromDegrees(120);
             Pose2d error = nearest.relativeTo(getPose2d());
-            System.out.println(error);
+            // This math sometimes overrruns and does 360 noscopes
             Rotation2d rotError = error.getRotation().times(5);
             if(Math.abs(rotError.getRadians()) > maxRotationalSpeed.getRadians()) {
                 rotError = rotError.times(maxRotationalSpeed.getRadians()/rotError.getRadians());
