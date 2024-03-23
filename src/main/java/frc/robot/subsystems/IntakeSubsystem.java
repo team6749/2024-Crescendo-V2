@@ -104,8 +104,8 @@ public class IntakeSubsystem extends SubsystemBase {
         return Commands.runEnd(
                 () -> {
                     if (getNoteDetected() == false) {
-                        intake(-1);
-                        indexNote(6);
+                        intake(-2);
+                        indexNote(7);
                     } else {
                         stopIndexer();
                         stopIntake();
