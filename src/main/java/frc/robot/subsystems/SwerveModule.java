@@ -25,8 +25,8 @@ public class SwerveModule implements Sendable {
     private final TalonFX angleMotor;
     private final CANcoder encoder;
     public Translation2d location;
-    public final PIDController velocityPIDController = new PIDController(2, 0, 0);
-    public final PIDController anglePIDController = new PIDController(0.15, 0, 0);
+    public final PIDController velocityPIDController = new PIDController(1.5, 0, 0);
+    public final PIDController anglePIDController = new PIDController(0.1, 0, 0);
     public double maxSpeed;
 
     private double m_rotation = 0;
