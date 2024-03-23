@@ -102,6 +102,8 @@ public final class Constants {
         public static double swerveGearRatio = 8.14d;
         public static double distFromCenterXMeters = .2525d;
         public static double distFromCenterYMeters = .2525d; // 68.5/2 - 9 in actual (close enuf)
+        
+        public static double turnMotorMaxOutputVolts = 6;
 
         // same as 2024 v1 constants
         public static SwerveModule flModule = new SwerveModule(
@@ -143,7 +145,7 @@ public final class Constants {
         public static final double deadZoneRange = 0.15;
         public static final double deadZoneRotation = 0.10;
 
-        public static final double maxLinearSpeedms = 4.5;
+        public static final double maxLinearSpeedms = 4.0;
         public static final double maxRotationalSpeedDegrees = 360;
 
         public static final double joystickLinearityAdjustment = 0.8;

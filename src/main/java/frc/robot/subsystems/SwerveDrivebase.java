@@ -144,6 +144,8 @@ public class SwerveDrivebase extends SubsystemBase {
             double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 
             if (botPoseArray[0] != 0) {
+                // trust vision less, maybe
+                // poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(), 4, 4, 8));
                 poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
             }
         } catch (Exception e) {
