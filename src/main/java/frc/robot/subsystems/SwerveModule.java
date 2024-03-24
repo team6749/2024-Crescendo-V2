@@ -25,7 +25,7 @@ public class SwerveModule implements Sendable {
     private final TalonFX angleMotor;
     private final CANcoder encoder;
     public Translation2d location;
-    public final PIDController velocityPIDController = new PIDController(0.0, 0, 0);
+    public final PIDController velocityPIDController = new PIDController(1.5, 0, 0);
     public final PIDController anglePIDController = new PIDController(0.1, 0, 0);
     public double maxSpeed;
 
@@ -86,7 +86,7 @@ public class SwerveModule implements Sendable {
 
         final double driveFeedforward = (state.speedMetersPerSecond * 2.8);
 
-        angleMotor.setVoltage(turnOutput);
+        angleMotor.setVoltage(Math.min(turnOutput, Constants.SwerveConstants.turnMotorMaxOutputVolts));
         driveMotor.setVoltage((driveOutput + driveFeedforward) );
     }
 
