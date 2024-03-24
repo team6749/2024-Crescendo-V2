@@ -18,6 +18,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
+@SuppressWarnings("unused")
 public class SwerveModule implements Sendable {
     /** Creates a new SwerveModule. */
     public String name;
@@ -53,8 +54,12 @@ public class SwerveModule implements Sendable {
         builder.addDoubleProperty("position", this::getModulePositionM, null);
         builder.addDoubleProperty("rotation", () -> getModuleRotation().getDegrees(), null);
         builder.addDoubleProperty("Max Speed", this::getMaxSpeed, this::setMaxSpeed);
-        builder.addDoubleProperty("Target Velocity", () -> m_targetstate.speedMetersPerSecond, (newValue) -> {m_targetstate.speedMetersPerSecond = newValue; });
-        builder.addDoubleProperty("Target Rotation", () -> m_targetstate.angle.getDegrees(), (newValue) -> {m_targetstate.angle = Rotation2d.fromDegrees(newValue); });
+        builder.addDoubleProperty("Target Velocity", () -> m_targetstate.speedMetersPerSecond, (newValue) -> {
+            m_targetstate.speedMetersPerSecond = newValue;
+        });
+        builder.addDoubleProperty("Target Rotation", () -> m_targetstate.angle.getDegrees(), (newValue) -> {
+            m_targetstate.angle = Rotation2d.fromDegrees(newValue);
+        });
 
         SmartDashboard.putData("swerve " + name + " velocity pid", velocityPIDController);
         SmartDashboard.putData("swerve " + name + " angle pid", anglePIDController);
@@ -65,13 +70,12 @@ public class SwerveModule implements Sendable {
         return name;
     }
 
-    public void periodic () {
+    public void periodic() {
         m_position = driveMotor.getPosition().getValueAsDouble() / (Constants.SwerveConstants.swerveGearRatio)
                 * (Math.PI * Constants.SwerveConstants.swerveWheelDiameterMeters);
         m_velocity = driveMotor.getVelocity().getValueAsDouble() / (Constants.SwerveConstants.swerveGearRatio)
                 * (Math.PI * Constants.SwerveConstants.swerveWheelDiameterMeters);
         m_rotation = encoder.getAbsolutePosition().getValueAsDouble() * 360;
-
 
         // Optimize the reference state to avoid spinning further than 90 degrees
         SwerveModuleState state = SwerveModuleState.optimize(m_targetstate,
@@ -82,12 +86,13 @@ public class SwerveModule implements Sendable {
                 state.speedMetersPerSecond);
 
         // Calculate the turning motor output from the turning PID controller.
-        final double turnOutput = anglePIDController.calculate(getModuleRotation().getDegrees(), state.angle.getDegrees());
+        final double turnOutput = anglePIDController.calculate(getModuleRotation().getDegrees(),
+                state.angle.getDegrees());
 
         final double driveFeedforward = (state.speedMetersPerSecond * 2.8);
 
         angleMotor.setVoltage(Math.min(turnOutput, Constants.SwerveConstants.turnMotorMaxOutputVolts));
-        driveMotor.setVoltage((driveOutput + driveFeedforward) );
+        driveMotor.setVoltage((driveOutput + driveFeedforward));
     }
 
     /**
@@ -170,6 +175,5 @@ public class SwerveModule implements Sendable {
     public void setMaxSpeed(double maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
-
 
 }
