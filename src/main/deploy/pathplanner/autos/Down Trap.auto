@@ -2,31 +2,31 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7439815016453057,
-      "y": 4.429417570995958
+      "x": 1.4,
+      "y": 4.1
     },
-    "rotation": -61.23235066115623
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot Speaker"
+            "pathName": "Start to Stage Down"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.5
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "S3 to 8"
+            "name": "Shoot Trap"
           }
         }
       ]

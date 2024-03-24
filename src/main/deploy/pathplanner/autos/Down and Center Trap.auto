@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start to Stage Right"
+            "pathName": "Start to Stage Down"
           }
         },
         {
@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Stage Right to 7"
+                  "pathName": "Stage Down to 7"
                 }
               },
               {
@@ -49,10 +49,22 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "7 to CenterStage"
+                  "pathName": "7 to 6"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "6 to Center Stage"
           }
         },
         {

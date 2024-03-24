@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.27,
-        "y": 4.1
+        "x": 8.22,
+        "y": 4.12
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.200584225900682,
-        "y": 3.8747809152872454
+        "x": 7.150584225900683,
+        "y": 3.894780915287246
       },
       "isLocked": false,
       "linkedName": null
@@ -52,7 +52,7 @@
   "folder": "Speaker - Mid Notes",
   "previewStartingState": {
     "rotation": 0,
-    "velocity": 1.0
+    "velocity": 0.0
   },
   "useDefaultConstraints": false
 }
