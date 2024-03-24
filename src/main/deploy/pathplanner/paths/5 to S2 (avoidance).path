@@ -65,7 +65,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Speaker - Mid Notes",
   "previewStartingState": {
     "rotation": -10.0,
     "velocity": 0

@@ -2,7 +2,13 @@
   "robotWidth": 0.84,
   "robotLength": 0.84,
   "holonomicMode": true,
-  "pathFolders": [],
+  "pathFolders": [
+    "Amp Autos",
+    "Close Notes",
+    "Midline Crisis",
+    "Speaker - Mid Notes",
+    "Trap Autos"
+  ],
   "autoFolders": [],
   "defaultMaxVel": 3.5,
   "defaultMaxAccel": 3.5,
