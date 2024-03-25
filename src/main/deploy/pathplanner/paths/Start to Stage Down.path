@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4,
-        "y": 4.1
+        "x": 1.284885213512597,
+        "y": 1.4002599126038364
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1259980525803326,
-        "y": 3.019182083739046
+        "x": 3.8954456473159684,
+        "y": 1.8897399939419681
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 2.99
       },
       "prevControl": {
-        "x": 3.1900000000000004,
-        "y": 2.99
+        "x": 4.180975694763212,
+        "y": 2.9400826684800445
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,9 +30,9 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 0.6,
       "rotationDegrees": -120.0,
-      "rotateFast": false
+      "rotateFast": true
     }
   ],
   "constraintZones": [],
@@ -51,7 +51,7 @@
   "reversed": false,
   "folder": "Trap Autos",
   "previewStartingState": {
-    "rotation": -179.13428585499597,
+    "rotation": 60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
