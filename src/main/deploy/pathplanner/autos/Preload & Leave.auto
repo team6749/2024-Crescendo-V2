@@ -24,9 +24,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "S3 to 8"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S3 to 8"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         }
       ]

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.224830338938572,
-        "y": 4.15
+        "x": 8.27,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.224830338938572,
-        "y": 4.15
+        "x": 7.27,
+        "y": 4.1
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 6"
     },
     {
       "anchor": {
-        "x": 6.13,
-        "y": 4.15
+        "x": 6.15,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 7.13,
-        "y": 4.15
+        "x": 6.550000000000001,
+        "y": 4.1
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Trap Center"
     }
   ],
   "rotationTargets": [

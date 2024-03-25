@@ -12,20 +12,20 @@
         "y": 6.588319163185913
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 1"
     },
     {
       "anchor": {
         "x": 1.35,
-        "y": 5.53
+        "y": 5.55
       },
       "prevControl": {
         "x": 1.8085992763319252,
-        "y": 5.916893659482596
+        "y": 5.936893659482595
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S2 Speaker Position"
     }
   ],
   "rotationTargets": [],
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Close Notes",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 45.0,
     "velocity": 1.0
   },
   "useDefaultConstraints": true

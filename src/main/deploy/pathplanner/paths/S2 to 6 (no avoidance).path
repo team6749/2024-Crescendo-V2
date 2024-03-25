@@ -4,28 +4,28 @@
     {
       "anchor": {
         "x": 1.35,
-        "y": 5.53
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
         "x": 3.304005801714326,
-        "y": 4.9951809762190145
+        "y": 5.015180976219014
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S2 Speaker Position"
     },
     {
       "anchor": {
-        "x": 8.22,
-        "y": 4.12
+        "x": 8.27,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 6.806682688403033,
-        "y": 4.170091196844553
+        "x": 6.771141125177494,
+        "y": 3.9802278413235745
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 6"
     }
   ],
   "rotationTargets": [

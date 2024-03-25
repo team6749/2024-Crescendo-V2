@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.222730138713745,
-        "y": 7.4896437578814625
+        "x": 8.27,
+        "y": 7.459615419502132
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.291884615631238,
-        "y": 7.4896437578814625
+        "x": 7.339154476917493,
+        "y": 7.459615419502132
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 4"
     },
     {
       "anchor": {
@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S1 Speaker Position"
     }
   ],
   "rotationTargets": [

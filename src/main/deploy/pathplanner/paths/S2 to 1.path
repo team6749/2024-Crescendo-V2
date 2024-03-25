@@ -4,31 +4,37 @@
     {
       "anchor": {
         "x": 1.35,
-        "y": 5.53
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4928388343224601,
-        "y": 6.862550215827963
+        "x": 2.2976531565646123,
+        "y": 6.4976531565646125
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S2 Speaker Position"
     },
     {
       "anchor": {
-        "x": 2.8908854665041654,
-        "y": 7.01112876582629
+        "x": 2.876982378299978,
+        "y": 7.00898267657884
       },
       "prevControl": {
-        "x": 1.603989320101315,
-        "y": 7.096184876024102
+        "x": 1.9650239819055786,
+        "y": 6.09702428018444
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6,
+      "rotationDegrees": 45.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,7 +45,7 @@
   },
   "goalEndState": {
     "velocity": 1.0,
-    "rotation": 0,
+    "rotation": 45.0,
     "rotateFast": false
   },
   "reversed": false,

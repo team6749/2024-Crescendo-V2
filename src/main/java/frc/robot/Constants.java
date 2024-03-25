@@ -47,12 +47,17 @@ public final class Constants {
     // could affect things like
     // our driving or vision
     public static class FieldConstants {
-        public static Translation2d targetPosition2d = new Translation2d(0.35, 5.55); // in terms of x and y on the
-                                                                                      // field
-        public static Translation3d targetPosition3d = new Translation3d(targetPosition2d.getX(),
-                targetPosition2d.getY(), 2.1082); // height of speaker opening meters
-        public static Pose3d targetPosition3dWithAngle = new Pose3d(targetPosition3d,
-                new Rotation3d(0.0, Units.degreesToRadians(-45), 0.0));
+        // taken from onshape AND confirmed in 2024 manual
+        public static double fieldWidthInternalMeters = 8.211;
+        public static double halfFieldWidthInternalMeters = 4.1055;
+        public static double fieldLengthInternalMeters = 16.541052;
+        public static double halfFieldLengthInternalMeters = 8.270526;
+        public static double fieldWidthInternalInches = 323.277;
+        public static double fieldLengthInternalInches = 651.222500;
+
+        public static double pathplannerPixelsPerMeter = 89.72;
+        // for current field image for pp in root folder
+        // (pixel width of image / field width internal in meters) = pixels per meter
     }
 
     /**
@@ -142,12 +147,6 @@ public final class Constants {
                 Constants.ElectronicsPorts.backLeftAngle,
                 new Translation2d(-distFromCenterXMeters, distFromCenterYMeters));
         public static SwerveModule[] swerveModuleArray = { flModule, frModule, brModule, blModule };
-
-    }
-
-    public static class NoteDetectionConstants {
-        public static double screenWidthPixels;
-        public static double screenHeightPixels;
 
     }
 

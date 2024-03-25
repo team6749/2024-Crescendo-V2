@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.65,
-        "y": 4.15
+        "x": 2.64,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.046494644595912,
-        "y": 4.819883154819864
+        "x": 2.036494644595912,
+        "y": 4.769883154819864
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 3"
     },
     {
       "anchor": {
         "x": 1.35,
-        "y": 5.53
+        "y": 5.55
       },
       "prevControl": {
         "x": 2.096494644595912,
-        "y": 4.730379746835443
+        "y": 4.750379746835443
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S2 Speaker Position"
     }
   ],
   "rotationTargets": [],

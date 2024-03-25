@@ -12,20 +12,20 @@
         "y": 1.0227848101227832
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S3 Speaker Position"
     },
     {
       "anchor": {
-        "x": 8.22,
-        "y": 0.77
+        "x": 8.27,
+        "y": 0.7496593044919032
       },
       "prevControl": {
-        "x": 7.159844206426489,
-        "y": 0.47299902629016566
+        "x": 7.168843691264727,
+        "y": 0.553867271956649
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 8"
     }
   ],
   "rotationTargets": [],

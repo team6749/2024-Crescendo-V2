@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.8749962228422365,
+        "x": 2.89,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8749962228422365,
+        "x": 1.8900000000000001,
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 2"
     },
     {
       "anchor": {
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S2 Speaker Position"
     }
   ],
   "rotationTargets": [],

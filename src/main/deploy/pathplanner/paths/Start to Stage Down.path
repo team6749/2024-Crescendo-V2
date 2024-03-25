@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 4.23422131147541,
-        "y": 2.9938682219419928
+        "x": 4.19,
+        "y": 2.99
       },
       "prevControl": {
-        "x": 3.2342213114754097,
-        "y": 2.9938682219419928
+        "x": 3.1900000000000004,
+        "y": 2.99
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Trap Down"
     }
   ],
   "rotationTargets": [

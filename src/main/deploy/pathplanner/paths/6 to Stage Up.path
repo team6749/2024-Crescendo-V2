@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.22,
-        "y": 4.12
+        "x": 8.27,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.712145765787206,
-        "y": 4.983598410425459
+        "x": 7.762145765787205,
+        "y": 4.963598410425458
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 6"
     },
     {
       "anchor": {
@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 4.174,
+        "x": 4.17,
         "y": 5.24
       },
       "prevControl": {
-        "x": 3.3385473117684086,
+        "x": 3.334547311768408,
         "y": 5.724370306349757
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Trap Up"
     }
   ],
   "rotationTargets": [
@@ -67,7 +67,7 @@
   "reversed": false,
   "folder": "Trap Autos",
   "previewStartingState": {
-    "rotation": -179.13428585499597,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

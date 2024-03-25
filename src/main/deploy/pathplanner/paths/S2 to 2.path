@@ -12,20 +12,20 @@
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S2 Speaker Position"
     },
     {
       "anchor": {
-        "x": 2.88,
+        "x": 2.89,
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.88,
+        "x": 1.8900000000000001,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 2"
     }
   ],
   "rotationTargets": [],

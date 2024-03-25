@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7284778050297884,
-        "y": 6.67517683109546
+        "x": 0.7753211512129142,
+        "y": 6.663465994549679
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8154514086775544,
-        "y": 5.87740596249844
+        "x": 3.86229475486068,
+        "y": 5.865695125952659
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S1 Speaker Position"
     },
     {
       "anchor": {
@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 8.22,
-        "y": 5.788808322824717
+        "x": 8.27,
+        "y": 5.78
       },
       "prevControl": {
-        "x": 7.442473838128846,
-        "y": 6.095021653539538
+        "x": 7.492473838128845,
+        "y": 6.086213330714822
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 5"
     }
   ],
   "rotationTargets": [
