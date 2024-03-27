@@ -5,9 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.LightsCommand;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -56,6 +58,7 @@ public class RobotContainer {
     private final SwerveDrivebase swerveDrivebase;
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+    private final LightsSubsystem lights = new LightsSubsystem();
 
     // Buttons For Driver Controller
     JoystickButton a = new JoystickButton(controller, 1);
@@ -115,6 +118,7 @@ public class RobotContainer {
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
     private final SendableChooser<Command> autoChooser;
+
 
 
     /**
@@ -184,6 +188,8 @@ public class RobotContainer {
         // the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
+        lights.setDefaultCommand(new LightsCommand(lights, climberSubsystem, shooterSubsystem, intakeSubsystem));
+        // lights.setDefaultCommand(lights.rainbowLights());
 
         //unused controller inputs
         // a.whileTrue()
@@ -212,11 +218,11 @@ public class RobotContainer {
         right_trigger.whileTrue(climberSubsystem.lowerClimber());
 
 
-        redFour.onTrue(shootSpeaker());
-        redFive.whileTrue(climberSubsystem.raiseClimber());
+        // redFour.onTrue(shootSpeaker());
+        // redFive.whileTrue(climberSubsystem.raiseClimber());
 
-        yellowFour.onTrue(shootAmp());
-        yellowFive.whileTrue(climberSubsystem.lowerClimber());
+        // yellowFour.onTrue(shootAmp());
+        // yellowFive.whileTrue(climberSubsystem.lowerClimber());
 
         //operator buttons
         // blueOne.whileTrue(swerveDrivebase.resetOdometryCommand());
@@ -238,6 +244,12 @@ public class RobotContainer {
         //greenTwo
         //greenThree
         //greenFour
+
+        redFive.onTrue(lights.rainbowLights());
+
+    
+
+        
     }
 
     /**
@@ -258,24 +270,29 @@ public class RobotContainer {
                     System.out.println("started shoot command");
                     shooterSubsystem.shoot(9, 1, 1);
                     intakeSubsystem.indexNote(10);
+                    shooterSubsystem.setShooting(true);
                 },
                 () -> {
                     System.out.println("ended shoot command");
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
+                    shooterSubsystem.setShooting(false);
                 },
                 shooterSubsystem, intakeSubsystem).withTimeout(0.5);
     }
+    
 
     public Command shootAmp() {
         return Commands.startEnd(
                 () -> {
                     shooterSubsystem.shoot(3, 0.3, 1);
                     intakeSubsystem.indexNote(8);
+                    shooterSubsystem.setShooting(true);
                 },
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
+                    shooterSubsystem.setShooting(false);
                 }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
 
@@ -295,12 +312,16 @@ public class RobotContainer {
                 () -> {
                     intakeSubsystem.indexNote(8);
                     shooterSubsystem.shoot(8, 1, 0.75);
+                    shooterSubsystem.setShooting(true);
+                
                 },
                 () -> {
                     intakeSubsystem.stopIndexer();
                     shooterSubsystem.shoot(0, 1, 1);
+                    shooterSubsystem.setShooting(false);
                 }, intakeSubsystem, shooterSubsystem).withTimeout(1);
 
     }
+
 
 }
