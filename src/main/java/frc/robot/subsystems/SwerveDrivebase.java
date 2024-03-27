@@ -27,6 +27,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -47,7 +48,8 @@ public class SwerveDrivebase extends SubsystemBase {
     public SwerveDrivePoseEstimator poseEstimator;
     public DriveOrientation selectedOrientation;
 
-    public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    // public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    public ADIS16470_IMU gyro = new ADIS16470_IMU();
 
     public final Field2d field = new Field2d();
 
