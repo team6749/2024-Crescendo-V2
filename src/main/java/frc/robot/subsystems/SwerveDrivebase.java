@@ -202,6 +202,7 @@ public class SwerveDrivebase extends SubsystemBase {
      * @param chassisSpeeds the desired chassis speeds to set each module to
      */
     public void setSubsystemChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        System.out.println(chassisSpeeds.toString());
         setSubsystemModuleStates(kinematics.toSwerveModuleStates(chassisSpeeds));
     }
 
@@ -364,14 +365,4 @@ public class SwerveDrivebase extends SubsystemBase {
             setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
         }, this);
     }
-    public Command rotate180Command() {
-        Pose2d initalPose = this.getPose2d();
-        Pose2d finalPose = initalPose.rotateBy(Rotation2d.fromDegrees(180));
-
-        return Commands.runEnd(
-            () -> this.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, Math.PI * 2)),  // should be 360 deg / s
-            () -> this.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0)),
-            this
-        ).onlyWhile(() -> this.getPose2d() == finalPose);
-   }
 }
