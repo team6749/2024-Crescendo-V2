@@ -187,6 +187,7 @@ public class RobotContainer {
         // the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
+        lights.setDefaultCommand(lightsCommand());
         // lights.setDefaultCommand(lights.rainbowLights());
 
         //unused controller inputs
@@ -243,14 +244,6 @@ public class RobotContainer {
         //greenThree
         //greenFour
 
-        redOne.onTrue(lights.setLightsCommand(1));
-        redTwo.onTrue(lights.setLightsCommand(2));
-        redThree.onTrue(lights.setLightsCommand(3));
-        redFour.onTrue(lights.setLightsCommand(4));
-        yellowOne.onTrue(lights.setLightsCommand(5));
-        yellowTwo.onTrue(lights.setLightsCommand(6));
-        yellowThree.onTrue(lights.setLightsCommand(7));
-        yellowFour.onTrue(lights.setLightsCommand(8));
 
         redFive.onTrue(lights.rainbowLights());
 
@@ -276,14 +269,14 @@ public class RobotContainer {
                 () -> {
                     System.out.println("started shoot command");
                     shooterSubsystem.shoot(9, 1, 1);
-                    intakeSubsystem.indexNote(10);
-                    // lights.Cyan();
+                    intakeSubsystem.indexNote(1);
+                    shooterSubsystem.setShooting(true);
                 },
                 () -> {
                     System.out.println("ended shoot command");
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
-                    // lights.Green();
+                    shooterSubsystem.setShooting(false);
                 },
                 shooterSubsystem, intakeSubsystem).withTimeout(0.5);
     }
@@ -293,12 +286,12 @@ public class RobotContainer {
                 () -> {
                     shooterSubsystem.shoot(3, 0.3, 1);
                     intakeSubsystem.indexNote(8);
-                    // lights.Cyan();
+                    shooterSubsystem.setShooting(true);
                 },
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
-                    // lights.Green();
+                    shooterSubsystem.setShooting(false);
                 }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
 
@@ -318,13 +311,32 @@ public class RobotContainer {
                 () -> {
                     intakeSubsystem.indexNote(8);
                     shooterSubsystem.shoot(8, 1, 0.75);
+                    shooterSubsystem.setShooting(true);
                     // lights.Cyan();
                 },
                 () -> {
                     intakeSubsystem.stopIndexer();
                     shooterSubsystem.shoot(0, 1, 1);
+                    shooterSubsystem.setShooting(false);
                 }, intakeSubsystem, shooterSubsystem).withTimeout(1);
 
+    }
+
+    public Command lightsCommand(){
+        return Commands.run(
+            ()->
+                {
+        if(climberSubsystem.getClimberEnabled()){
+            lights.blueCommand();
+        }else if(intakeSubsystem.getNoteDetected()){
+            lights.redCommand();
+        }else if(shooterSubsystem.isShooting()){
+            lights.magentaCommand();
+        }else{
+            lights.greenCommand();
+        } },
+        
+        intakeSubsystem, shooterSubsystem, lights, climberSubsystem);
     }
 
 }

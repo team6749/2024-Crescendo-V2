@@ -103,6 +103,10 @@ public class ClimberSubsystem extends SubsystemBase {
         climber.stopMotor();
     }
 
+    public boolean getClimberEnabled(){
+        return isClimberEnabled;
+    }
+
     /**
      * function to get the sensors position with a conversion factor to make the units in meters
      * @return climbers height in meters

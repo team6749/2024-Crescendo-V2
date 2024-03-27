@@ -20,6 +20,15 @@ public class ShooterSubsystem extends SubsystemBase {
     private double topShooterMaxModifier = 1;
     private double bottomShooterMaxModifier = 1;
     double voltage = 0;
+    boolean isShooting = false;
+
+    public boolean isShooting() {
+        return isShooting;
+    }
+
+    public void setShooting(boolean isShooting) {
+        this.isShooting = isShooting;
+    }
 
     public ShooterSubsystem() {
         // Initializes motors with their respective ports from the ElectronicsPorts

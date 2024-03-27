@@ -46,107 +46,100 @@ public class LightsSubsystem extends SubsystemBase {
     // }
 
     
-    public void off(){
-        System.out.println("off");
-        green.set(Relay.Value.kForward);
-        blue.set(Relay.Value.kForward);
-        red.set(Relay.Value.kForward);
-    }
-    public void cyan(){
-        System.out.println("cyan");
-        green.set(Value.kOff);
-        blue.set(Value.kOff);
-        red.set(Value.kForward);
-    }
-    public void green(){
-        System.out.println("green");
-        green.set(Relay.Value.kOff);
-        blue.set(Relay.Value.kForward);
-        red.set(Relay.Value.kForward);
-    }
-    public void red(){
-        System.out.println("red");
-        green.set(Relay.Value.kForward);
-        blue.set(Relay.Value.kForward);
-        red.set(Relay.Value.kOff);
-    }
-    public void blue(){
-        System.out.println("blue");
-        green.set(Value.kForward);
-        blue.set(Value.kOff);
-        red.set(Value.kForward);
-    }
-    public void white(){
-        System.out.println("white");
-        green.set(Value.kOff);
-        blue.set(Value.kOff);
-        red.set(Value.kOff);
-    }
-    public void yellow(){
-        System.out.println("yellow");
-        green.set(Value.kOff);
-        blue.set(Value.kForward);
-        red.set(Value.kOff);
-    }
-    public void magenta(){
-        System.out.println("magenta");
-        green.set(Value.kForward);
-        blue.set(Value.kOff);
-        red.set(Value.kOff);
-    }
 
     @Override
     public void periodic() {}
 
-    public Command setLightsCommand(int no) {
-        return Commands.runOnce(
-        () -> {
-        
-        switch (no) {
-            case (1): 
-                green();
-                break;
-            case (2): 
-                red();
-                break;
-            case (3):
-                blue();
-                break;
-            case (4):
-                magenta();
-                break;
-            case (5):
-                yellow();
-                break;
-            case (6):
-                cyan();
-                break;
-            case (7):
-                white();
-                break;
-            default: 
-                off();
-                break;
-        }}
-        ,
-        this);
-    }
     public Command rainbowLights(){
         return Commands.repeatingSequence(
-            setLightsCommand(1),
+            greenCommand(),
             Commands.waitSeconds(0.2),
-            setLightsCommand(2),
+            cyanCommand(),
             Commands.waitSeconds(0.2),
-            setLightsCommand(3),
+            redCommand(),
             Commands.waitSeconds(0.2),
-            setLightsCommand(4),
+            blueCommand(),
             Commands.waitSeconds(0.2),
-            setLightsCommand(5),
+            whiteCommand(),
             Commands.waitSeconds(0.2),
-            setLightsCommand(6),
+            yellowCommand(),
             Commands.waitSeconds(0.2),
-            setLightsCommand(7),
+            magentaCommand(),
             Commands.waitSeconds(0.2)
         );
+    }
+
+
+    public Command greenCommand(){
+        return Commands.run(        
+    ()-> {
+        green.set(Relay.Value.kOff);
+        blue.set(Relay.Value.kForward);
+        red.set(Relay.Value.kForward);
+    },
+         this);
+    }
+    public Command cyanCommand(){
+        return Commands.run(        
+    ()-> {
+        green.set(Value.kOff);
+        blue.set(Value.kOff);
+        red.set(Value.kForward);
+    },
+         this);
+    }
+    public Command redCommand(){
+        return Commands.run(        
+    ()-> {
+        green.set(Relay.Value.kForward);
+        blue.set(Relay.Value.kForward);
+        red.set(Relay.Value.kOff);
+    },
+         this);
+    }
+    public Command blueCommand(){
+        return Commands.run(        
+    ()-> {
+        green.set(Value.kForward);
+        blue.set(Value.kOff);
+        red.set(Value.kForward);
+    },
+         this);
+    }
+    public Command whiteCommand(){
+        return Commands.run(        
+    ()-> {
+        green.set(Value.kOff);
+        blue.set(Value.kOff);
+        red.set(Value.kOff);
+    },
+         this);
+    }
+    public Command yellowCommand(){
+        return Commands.run(        
+    ()-> {
+        green.set(Value.kOff);
+        blue.set(Value.kForward);
+        red.set(Value.kOff);
+    },
+         this);
+    }
+    public Command magentaCommand(){
+        return Commands.run(        
+    ()-> {
+        green.set(Value.kForward);
+        blue.set(Value.kOff);
+        red.set(Value.kOff);
+    },
+         this);
+    }
+    public Command offCommand(){
+        return Commands.run(        
+    ()-> {
+        green.set(Relay.Value.kForward);
+        blue.set(Relay.Value.kForward);
+        red.set(Relay.Value.kForward);
+    },
+         this);
     }
 }
