@@ -187,7 +187,7 @@ public class RobotContainer {
         // the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
-        lights.setDefaultCommand(lightsCommand());
+        lights.setDefaultCommand(lights.greenCommand());
         // lights.setDefaultCommand(lights.rainbowLights());
 
         //unused controller inputs
@@ -244,7 +244,6 @@ public class RobotContainer {
         //greenThree
         //greenFour
 
-
         redFive.onTrue(lights.rainbowLights());
 
     
@@ -269,14 +268,14 @@ public class RobotContainer {
                 () -> {
                     System.out.println("started shoot command");
                     shooterSubsystem.shoot(9, 1, 1);
-                    intakeSubsystem.indexNote(1);
-                    shooterSubsystem.setShooting(true);
+                    intakeSubsystem.indexNote(10);
+                    lights.yellowCommand();
                 },
                 () -> {
                     System.out.println("ended shoot command");
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
-                    shooterSubsystem.setShooting(false);
+                    lights.greenCommand();
                 },
                 shooterSubsystem, intakeSubsystem).withTimeout(0.5);
     }
@@ -322,21 +321,22 @@ public class RobotContainer {
 
     }
 
-    public Command lightsCommand(){
-        return Commands.run(
-            ()->
-                {
-        if(climberSubsystem.getClimberEnabled()){
-            lights.blueCommand();
-        }else if(intakeSubsystem.getNoteDetected()){
-            lights.redCommand();
-        }else if(shooterSubsystem.isShooting()){
-            lights.magentaCommand();
-        }else{
-            lights.greenCommand();
-        } },
+    // public Command lightsCommand(){
+    //     return Commands.run(
+    //     ()-> 
+    //     {
+    //     if(climberSubsystem.getClimberEnabled()){
+    //         lights.blueCommand();
+    //     }
+    //     // if(intakeSubsystem.getNoteDetected()){
+    //     //     lights.redCommand();
+    //     // }
+    //     // if(shooterSubsystem.isShooting()){
+    //     //     lights.magentaCommand();
+    //     else{
+    //         lights.greenCommand();
+    //     } }, lights);
         
-        intakeSubsystem, shooterSubsystem, lights, climberSubsystem);
-    }
+    // }
 
 }

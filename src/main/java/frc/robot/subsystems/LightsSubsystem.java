@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class LightsSubsystem extends SubsystemBase {
+    Alliance teamColor;
     /** Creates a new LightsSubsystem. */
     public LightsSubsystem() {
     }
@@ -26,24 +27,15 @@ public class LightsSubsystem extends SubsystemBase {
     private static Relay red = new Relay(Constants.ElectronicsPorts.red);
     private static Relay blue = new Relay(Constants.ElectronicsPorts.blue);
 
-    public DriverStation.Alliance getAlliance() { // TO TEST
+    public void getRobotAlliance() { // TO TEST
         Optional<DriverStation.Alliance> ally = DriverStation.getAlliance();
         if (ally.isPresent()) {
             if (ally.get() == Alliance.Red || ally.get() == Alliance.Blue) {
-                return ally.get();
+                teamColor = ally.get();
             }
         }
-        return null;
     }
 
-    // public void setAllianceColors() {
-    //     if (getAlliance() == Alliance.Red) {
-    //         Red();
-    //     }
-    //     if (getAlliance() == Alliance.Blue) {
-    //         Blue();
-    //     }
-    // }
 
     
 
@@ -70,8 +62,20 @@ public class LightsSubsystem extends SubsystemBase {
     }
 
 
+    public Command defaultColorCommand(){
+        return Commands.runOnce(
+    ()-> {
+        if(teamColor == DriverStation.Alliance.Blue){
+            blueCommand();
+        }else{
+            redCommand();
+        }
+    }, 
+    this);
+    }
+    
     public Command greenCommand(){
-        return Commands.run(        
+        return Commands.runOnce(        
     ()-> {
         green.set(Relay.Value.kOff);
         blue.set(Relay.Value.kForward);
@@ -80,7 +84,7 @@ public class LightsSubsystem extends SubsystemBase {
          this);
     }
     public Command cyanCommand(){
-        return Commands.run(        
+        return Commands.runOnce(        
     ()-> {
         green.set(Value.kOff);
         blue.set(Value.kOff);
@@ -89,7 +93,7 @@ public class LightsSubsystem extends SubsystemBase {
          this);
     }
     public Command redCommand(){
-        return Commands.run(        
+        return Commands.runOnce(        
     ()-> {
         green.set(Relay.Value.kForward);
         blue.set(Relay.Value.kForward);
@@ -98,7 +102,7 @@ public class LightsSubsystem extends SubsystemBase {
          this);
     }
     public Command blueCommand(){
-        return Commands.run(        
+        return Commands.runOnce(        
     ()-> {
         green.set(Value.kForward);
         blue.set(Value.kOff);
@@ -107,7 +111,7 @@ public class LightsSubsystem extends SubsystemBase {
          this);
     }
     public Command whiteCommand(){
-        return Commands.run(        
+        return Commands.runOnce(        
     ()-> {
         green.set(Value.kOff);
         blue.set(Value.kOff);
@@ -116,7 +120,7 @@ public class LightsSubsystem extends SubsystemBase {
          this);
     }
     public Command yellowCommand(){
-        return Commands.run(        
+        return Commands.runOnce(        
     ()-> {
         green.set(Value.kOff);
         blue.set(Value.kForward);
@@ -125,7 +129,7 @@ public class LightsSubsystem extends SubsystemBase {
          this);
     }
     public Command magentaCommand(){
-        return Commands.run(        
+        return Commands.runOnce(        
     ()-> {
         green.set(Value.kForward);
         blue.set(Value.kOff);
@@ -134,7 +138,7 @@ public class LightsSubsystem extends SubsystemBase {
          this);
     }
     public Command offCommand(){
-        return Commands.run(        
+        return Commands.runOnce(        
     ()-> {
         green.set(Relay.Value.kForward);
         blue.set(Relay.Value.kForward);
