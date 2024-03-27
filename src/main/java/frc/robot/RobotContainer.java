@@ -215,6 +215,7 @@ public class RobotContainer {
         redFour.onTrue(shootSpeaker());
         redFive.whileTrue(climberSubsystem.raiseClimber());
 
+        yellowThree.whileTrue(swerveDrivebase.rotate180Command());
         yellowFour.onTrue(shootAmp());
         yellowFive.whileTrue(climberSubsystem.lowerClimber());
 
