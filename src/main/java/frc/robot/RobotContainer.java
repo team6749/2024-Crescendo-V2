@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.LightsCommand;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -187,7 +188,7 @@ public class RobotContainer {
         // the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
-        lights.setDefaultCommand(lights.greenCommand());
+        lights.setDefaultCommand(new LightsCommand(lights, climberSubsystem, shooterSubsystem, intakeSubsystem));
         // lights.setDefaultCommand(lights.rainbowLights());
 
         //unused controller inputs
@@ -269,16 +270,17 @@ public class RobotContainer {
                     System.out.println("started shoot command");
                     shooterSubsystem.shoot(9, 1, 1);
                     intakeSubsystem.indexNote(10);
-                    lights.yellowCommand();
+                    shooterSubsystem.setShooting(true);
                 },
                 () -> {
                     System.out.println("ended shoot command");
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
-                    lights.greenCommand();
+                    shooterSubsystem.setShooting(false);
                 },
                 shooterSubsystem, intakeSubsystem).withTimeout(0.5);
     }
+    
 
     public Command shootAmp() {
         return Commands.startEnd(
@@ -311,7 +313,7 @@ public class RobotContainer {
                     intakeSubsystem.indexNote(8);
                     shooterSubsystem.shoot(8, 1, 0.75);
                     shooterSubsystem.setShooting(true);
-                    // lights.Cyan();
+                
                 },
                 () -> {
                     intakeSubsystem.stopIndexer();
@@ -321,22 +323,5 @@ public class RobotContainer {
 
     }
 
-    // public Command lightsCommand(){
-    //     return Commands.run(
-    //     ()-> 
-    //     {
-    //     if(climberSubsystem.getClimberEnabled()){
-    //         lights.blueCommand();
-    //     }
-    //     // if(intakeSubsystem.getNoteDetected()){
-    //     //     lights.redCommand();
-    //     // }
-    //     // if(shooterSubsystem.isShooting()){
-    //     //     lights.magentaCommand();
-    //     else{
-    //         lights.greenCommand();
-    //     } }, lights);
-        
-    // }
 
 }

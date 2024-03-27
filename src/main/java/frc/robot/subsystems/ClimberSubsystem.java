@@ -25,8 +25,12 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean isClimberEnabled = false;
     double targetVoltage;
     Debouncer sensorlessHomerDebounce = new Debouncer(0.05, Debouncer.DebounceType.kRising);
-    LightsSubsystem lights = new LightsSubsystem();
+    boolean currentlyClimbing = false;
     
+
+    public boolean isCurrentlyClimbing() {
+        return currentlyClimbing;
+    }
 
     /** Creates a new ClimberSubsystem. */
     public ClimberSubsystem() {
@@ -134,27 +138,27 @@ public class ClimberSubsystem extends SubsystemBase {
     public Command raiseClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(-7);
+                    setTargetVoltage(-5);
                     start();
-                    // lights.Magenta();
+                    currentlyClimbing = true;
                     
                 },
                 () -> {
                     stop();
-                    // lights.Green();
+                    currentlyClimbing = false;
                 }, this);
     }
 
     public Command lowerClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(6);
+                    setTargetVoltage(4);
                     start();
-                    // lights.Magenta();
+                    currentlyClimbing = true;
                 },
                 () -> {
                     stop();
-                    // lights.Green();
+                    currentlyClimbing = false;
                 }, this);
     }
 
