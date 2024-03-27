@@ -125,13 +125,16 @@ public class SwerveDrivebase extends SubsystemBase {
 
     @Override
     public void periodic() {
+        for(SwerveModule module : modules) {
+            // Call periodic on all modules
+            module.periodic();
+        }
+
         // This method will be called once per scheduler run
         poseEstimator.update(getRotation2d(), getCurrentModulePositions());
 
         try {
-           
             NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue");
-
             double[] botPoseArray = botPose.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 }); // Translation(x,y,z),
                                                                                                   // Rotation(roll,
                                                                                                   // pitch,
@@ -141,6 +144,8 @@ public class SwerveDrivebase extends SubsystemBase {
             double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 
             if (botPoseArray[0] != 0) {
+                // trust vision less, maybe
+                // poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(), 4, 4, 8));
                 poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
             }
         } catch (Exception e) {
@@ -156,7 +161,6 @@ public class SwerveDrivebase extends SubsystemBase {
             }
         }
 
-        
         for (PointOfInterest poi : pois) {
             if (nearest == null) {
                 nearest = poi;
@@ -218,7 +222,7 @@ public class SwerveDrivebase extends SubsystemBase {
     public SwerveModulePosition[] getCurrentModulePositions() {
         SwerveModulePosition[] modulePositions = new SwerveModulePosition[modules.length];
         for (int i = 0; i < modules.length; i++) {
-            modulePositions[i] = modules[i].getSwerveModulePosition();
+            modulePositions[i] = modules[i].getModulePosition();
         }
         return modulePositions;
     }
@@ -257,7 +261,7 @@ public class SwerveDrivebase extends SubsystemBase {
         SwerveModuleState[] currentModuleStates = new SwerveModuleState[this.modules.length];
         // gets current chassis state for each module
         for (int i = 0; i < this.modules.length; i++) {
-            currentModuleStates[i] = modules[i].getSwerveModuleState();
+            currentModuleStates[i] = modules[i].getModuleState();
         }
         return kinematics.toChassisSpeeds(currentModuleStates);
     }
@@ -334,12 +338,25 @@ public class SwerveDrivebase extends SubsystemBase {
         }
     }
 
+
     public Command badJankAlignWithPoint () {
         return Commands.runEnd(() -> {
-            double p = 5;
-            Pose2d pose = nearest.relativeTo(getPose2d());
-            ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(pose.getX() * p, pose.getY() * p,
-                        pose.getRotation().getRadians() * 2.5, getPose2d().getRotation());
+            double maxLinearSpeed = 1.5;
+            Rotation2d maxRotationalSpeed = Rotation2d.fromDegrees(120);
+            Pose2d error = nearest.relativeTo(getPose2d());
+            // This math sometimes overrruns and does 360 noscopes
+            Rotation2d rotError = error.getRotation().times(5);
+            if(Math.abs(rotError.getRadians()) > maxRotationalSpeed.getRadians()) {
+                rotError = rotError.times(maxRotationalSpeed.getRadians()/rotError.getRadians());
+            }
+            Translation2d posError = error.getTranslation().times(4);
+            if(posError.getNorm() > maxLinearSpeed) {
+                // limit max speed
+                posError = posError.times(maxLinearSpeed/posError.getNorm());
+            }
+            ChassisSpeeds speeds = new ChassisSpeeds(posError.getX(), posError.getY(),
+                        rotError.getRadians());
+            
             setSubsystemChassisSpeeds(speeds);
         }, () -> {
             setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));

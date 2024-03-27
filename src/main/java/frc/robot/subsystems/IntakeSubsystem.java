@@ -52,8 +52,12 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
         intakeMotor.setVoltage(intakeVoltage);
         indexerMotor.setVoltage(indexerVoltage);
-        proximity = colorSensor.getProximity();
         isConnected = colorSensor.isConnected();
+        if(isConnected) {
+            proximity = colorSensor.getProximity();
+        } else {
+            proximity = 0;
+        }
     }
 
     /**
@@ -106,8 +110,8 @@ public class IntakeSubsystem extends SubsystemBase {
         return Commands.runEnd(
                 () -> {
                     if (getNoteDetected() == false) {
-                        intake(-1);
-                        indexNote(6);
+                        intake(-2);
+                        indexNote(7);
                     } else {
                         stopIndexer();
                         stopIntake();
