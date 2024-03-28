@@ -71,6 +71,8 @@ public class SwerveDrivebase extends SubsystemBase {
     public SwerveDrivebase(SwerveModule[] modules, List<PointOfInterest> pois) {
         this.modules = modules;
         this.pois = pois;
+        gyro.calibrate();
+        
         Translation2d[] translations = new Translation2d[modules.length];
 
         for (int i = 0; i < translations.length; i++) {
@@ -251,7 +253,7 @@ public class SwerveDrivebase extends SubsystemBase {
      * @return a Rotation2d of the robots current rotation
      */
     public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(-gyro.getAngle());
+        return Rotation2d.fromDegrees(gyro.getAngle());
     }
 
     /**
@@ -346,11 +348,11 @@ public class SwerveDrivebase extends SubsystemBase {
             Rotation2d maxRotationalSpeed = Rotation2d.fromDegrees(120);
             Pose2d error = nearest.relativeTo(getPose2d());
             // This math sometimes overrruns and does 360 noscopes
-            Rotation2d rotError = error.getRotation().times(5);
+            Rotation2d rotError = error.getRotation().times(2.5);
             if (Math.abs(rotError.getRadians()) > maxRotationalSpeed.getRadians()) {
                 rotError = rotError.times(maxRotationalSpeed.getRadians() / rotError.getRadians());
             }
-            Translation2d posError = error.getTranslation().times(4);
+            Translation2d posError = error.getTranslation().times(2);
             if (posError.getNorm() > maxLinearSpeed) {
                 // limit max speed
                 posError = posError.times(maxLinearSpeed / posError.getNorm());

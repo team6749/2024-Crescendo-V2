@@ -118,7 +118,7 @@ public final class Constants {
         public static double distFromCenterXMeters = .2525d;
         public static double distFromCenterYMeters = .2525d; // 68.5/2 - 9 in actual (close enuf)
 
-        public static double turnMotorMaxOutputVolts = 6;
+        public static double turnMotorMaxOutputVolts = 7;
 
         // same as 2024 v1 constants
         public static SwerveModule flModule = new SwerveModule(
