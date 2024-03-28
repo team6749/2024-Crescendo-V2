@@ -202,7 +202,6 @@ public class SwerveDrivebase extends SubsystemBase {
      * @param chassisSpeeds the desired chassis speeds to set each module to
      */
     public void setSubsystemChassisSpeeds(ChassisSpeeds chassisSpeeds) {
-        System.out.println(chassisSpeeds.toString());
         setSubsystemModuleStates(kinematics.toSwerveModuleStates(chassisSpeeds));
     }
 
