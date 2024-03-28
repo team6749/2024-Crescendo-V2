@@ -3,71 +3,71 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.23267654476671,
-        "y": 4.127758511979824
+        "x": 0.7753211512129142,
+        "y": 6.663465994549679
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.947465321563684,
-        "y": 4.185356242118538
+        "x": 1.669763844063516,
+        "y": 7.179872724041667
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S1 Speaker Position"
     },
     {
       "anchor": {
-        "x": 2.8914564943253467,
-        "y": 4.8737389659520804
+        "x": 2.881510088272384,
+        "y": 7.718411097099622
       },
       "prevControl": {
-        "x": 4.548298773427113,
-        "y": 4.806076154647364
+        "x": 1.881510088272384,
+        "y": 7.718411097099622
       },
       "nextControl": {
-        "x": 1.981497203294607,
-        "y": 4.9109002604099725
+        "x": 3.8815100882723854,
+        "y": 7.718411097099622
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.53
+        "x": 8.27,
+        "y": 7.459615419502132
       },
       "prevControl": {
-        "x": 1.5298524698227265,
-        "y": 5.508398435450261
+        "x": 7.332116477787562,
+        "y": 7.459615419502132
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 4"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 0.0,
+      "waypointRelativePos": 0.55,
+      "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.9710219310791949,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Speaker - Mid Notes",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 62.10272896905239,
     "velocity": 0
   },
   "useDefaultConstraints": false

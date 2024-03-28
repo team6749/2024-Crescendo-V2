@@ -10,6 +10,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+@SuppressWarnings("unused")
 public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ShooterSubsystem. */
     // Initializes motor variables to be declared later
@@ -52,7 +53,9 @@ public class ShooterSubsystem extends SubsystemBase {
     }
     
     /**
-     * gets the desired voltage amount for rapid testing, used for getter on a sendable builder
+     * gets the desired voltage amount for rapid testing, used for getter on a
+     * sendable builder
+     * 
      * @return the desired voltage for both motors
      */
     public double getVoltage(){
@@ -84,7 +87,9 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     /**
-     * passes through the desired modifier amount for rapid testing, used for setter on a sendable builder
+     * passes through the desired modifier amount for rapid testing, used for setter
+     * on a sendable builder
+     * 
      * @param topShooterMaxModifier the desired modifier for the top shooter
      */
     public void setTopShooterMaxModifier(double topShooterMaxModifier) {
@@ -92,15 +97,19 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     /**
-     * gets the desired modifier amount for rapid testing, used for getter on a sendable builder
-     * @return the desired modifier for the bottom shooter 
+     * gets the desired modifier amount for rapid testing, used for getter on a
+     * sendable builder
+     * 
+     * @return the desired modifier for the bottom shooter
      */
     public double getBottomShooterMaxModifier() {
         return bottomShooterMaxModifier;
     }
 
     /**
-     * passes through the desired modifier amount for rapid testing, used for setter on a sendable builder
+     * passes through the desired modifier amount for rapid testing, used for setter
+     * on a sendable builder
+     * 
      * @param bottomShooterMaxModifier the desired modifier for the bottom shooter
      */
     public void setBottomShooterMaxModifier(double bottomShooterMaxModifier) {
@@ -110,9 +119,11 @@ public class ShooterSubsystem extends SubsystemBase {
     /**
      * sets both shooter motors to a certain amount of voltage as specified by user
      * 
-     * @param voltage the target voltage for the motor
-     * @param topModifier the % amount of input voltage to apply to the top shooter
-     * @param bottomModifier the % amount of input voltage to apply to the bottom shooter
+     * @param voltage        the target voltage for the motor
+     * @param topModifier    the % amount of input voltage to apply to the top
+     *                       shooter
+     * @param bottomModifier the % amount of input voltage to apply to the bottom
+     *                       shooter
      */
     public void shoot(double voltage, double topModifier, double bottomModifier) {
         this.voltage = voltage;

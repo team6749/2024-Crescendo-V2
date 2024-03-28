@@ -3,72 +3,72 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.53
+        "x": 8.27,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6382093316519548,
-        "y": 5.659505044136192
+        "x": 7.762145765787205,
+        "y": 4.963598410425458
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 6"
     },
     {
       "anchor": {
-        "x": 2.931242118537201,
-        "y": 6.315967843631778
+        "x": 6.2,
+        "y": 6.2
       },
       "prevControl": {
-        "x": 2.0659047919293827,
-        "y": 6.306021437578815
+        "x": 7.43800234661321,
+        "y": 5.550556146038972
       },
       "nextControl": {
-        "x": 3.7299421219199376,
-        "y": 6.325148303440775
+        "x": 4.82390982793389,
+        "y": 6.921883368952713
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.242622950819673,
-        "y": 5.818647540983607
+        "x": 4.17,
+        "y": 5.24
       },
       "prevControl": {
-        "x": 6.556977361697874,
-        "y": 6.149826688041152
+        "x": 3.334547311768408,
+        "y": 5.724370306349757
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Trap Up"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.1,
-      "rotationDegrees": 0,
+      "waypointRelativePos": 1.5,
+      "rotationDegrees": 120.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.5,
     "maxAcceleration": 4.5,
-    "maxAngularVelocity": 540.0,
+    "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": -10.0,
+    "velocity": 0,
+    "rotation": 120.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Trap Autos",
   "previewStartingState": {
     "rotation": 0.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

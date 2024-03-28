@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3725738150477713,
-        "y": 5.562647359246215
+        "x": 0.4806231742996613,
+        "y": 7.304640082772767
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3337957445086508,
-        "y": 4.025712666806667
+        "x": 0.7743112231025404,
+        "y": 7.312798084128402
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.688556300183608,
-        "y": 1.5195091928612576
+        "x": 1.84,
+        "y": 7.85
       },
       "prevControl": {
-        "x": 3.8219543957957764,
-        "y": 1.7068825775937597
+        "x": 1.7091012840099804,
+        "y": 7.245349691849261
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Amp"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -89.99999999996066,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Amp Autos",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -90.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

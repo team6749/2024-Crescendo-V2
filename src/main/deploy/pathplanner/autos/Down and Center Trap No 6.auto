@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
-      "y": 4.1
+      "x": 1.284885213512597,
+      "y": 1.4002599126038364
     },
-    "rotation": 180.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start to Stage Right"
+            "pathName": "Start to Stage Down"
           }
         },
         {
@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Stage Right to 7"
+                  "pathName": "Stage Down to 7"
                 }
               },
               {
@@ -49,22 +49,10 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "7 to 6"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
+                  "pathName": "7 to Center Stage"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "6 to Center Stage"
           }
         },
         {

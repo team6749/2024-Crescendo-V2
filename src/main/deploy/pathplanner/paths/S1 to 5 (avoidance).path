@@ -3,50 +3,55 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7284778050297884,
-        "y": 6.67517683109546
+        "x": 0.7753211512129142,
+        "y": 6.663465994549679
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6229204978803904,
-        "y": 7.191583560587448
+        "x": 3.86229475486068,
+        "y": 5.865695125952659
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S1 Speaker Position"
     },
     {
       "anchor": {
-        "x": 2.881510088272384,
-        "y": 7.718411097099622
+        "x": 5.922103213242455,
+        "y": 6.313729308666017
       },
       "prevControl": {
-        "x": 1.881510088272384,
-        "y": 7.718411097099622
+        "x": 4.313792559899118,
+        "y": 6.514895964691047
       },
       "nextControl": {
-        "x": 3.8815100882723854,
-        "y": 7.718411097099622
+        "x": 6.90673209967208,
+        "y": 6.190572442113561
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.252569356872636,
-        "y": 7.4796973518284995
+        "x": 8.27,
+        "y": 5.78
       },
       "prevControl": {
-        "x": 7.314685834660198,
-        "y": 7.4796973518284995
+        "x": 7.492473838128845,
+        "y": 6.086213330714822
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 5"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.55,
+      "waypointRelativePos": 0.15,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.35,
       "rotationDegrees": 0,
       "rotateFast": false
     }
@@ -61,13 +66,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -20.279960217125016,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Speaker - Mid Notes",
   "previewStartingState": {
-    "rotation": 62.10272896905239,
+    "rotation": 61.14714028158695,
     "velocity": 0
   },
   "useDefaultConstraints": false

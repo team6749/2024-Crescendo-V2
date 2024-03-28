@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.subsystems.SwerveDrivebase;
 
+@SuppressWarnings("unused")
 public class SwerveDriveWithController extends Command {
     /** Creates a new SwerveDriveController. */
     private SwerveDrivebase swerveDriveSubsystem;
@@ -57,7 +58,6 @@ public class SwerveDriveWithController extends Command {
         double thetaSpeedRad = joystickResponseCurve(thetaJoystickInput)
                 * Math.toRadians(JoystickConstants.maxRotationalSpeedDegrees);
 
-
         xSpeedms = xVelocitySlew.calculate(xSpeedms);
         ySpeedms = yVelocitySlew.calculate(ySpeedms);
         thetaSpeedRad = thetaSlew.calculate(thetaSpeedRad);
@@ -69,7 +69,7 @@ public class SwerveDriveWithController extends Command {
                 break;
             case FieldOriented:
                 Rotation2d robotOffsetToAlliance = swerveDriveSubsystem.getRotation2d();
-                if(DriverStation.getAlliance().get() == Alliance.Blue) {
+                if (DriverStation.getAlliance().get() == Alliance.Blue) {
                     robotOffsetToAlliance = robotOffsetToAlliance.plus(Rotation2d.fromDegrees(180));
                 }
                 // put field oriented drive here.
