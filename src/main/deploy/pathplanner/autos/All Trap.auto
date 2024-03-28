@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7284778050297884,
-      "y": 6.67517683109546
+      "x": 1.284885213512597,
+      "y": 1.4002599126038364
     },
     "rotation": 60.0
   },
@@ -12,53 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot Speaker"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S1 to 4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "4 to S1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
+            "pathName": "Start to Stage Down"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot Speaker"
+            "name": "Shoot Trap"
           }
         },
         {
@@ -68,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1 to 5"
+                  "pathName": "Stage Down to 7"
                 }
               },
               {
@@ -87,13 +49,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "5 to S1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
+                  "pathName": "7 to Center Stage"
                 }
               }
             ]
@@ -102,7 +58,38 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot Speaker"
+            "name": "Shoot Trap"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center Stage to 6"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "6 to Stage Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Trap"
           }
         }
       ]

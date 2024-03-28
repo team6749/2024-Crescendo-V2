@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+@SuppressWarnings("unused")
 public class IntakeSubsystem extends SubsystemBase {
     // Defining electronics with their associated device ID's in Constants
     TalonFX indexerMotor = new TalonFX(Constants.ElectronicsPorts.indexerFalcon);
@@ -34,9 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
         indexerMotor.setNeutralMode(NeutralModeValue.Brake);
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
 
-
     }
-
 
     @Override
     public void initSendable(SendableBuilder builder) {
@@ -45,13 +44,13 @@ public class IntakeSubsystem extends SubsystemBase {
         builder.addDoubleProperty("proximity", () -> proximity, null);
         builder.addBooleanProperty("Color sensor working?", () -> isConnected, null);
     }
-    
+
     @Override
     public void periodic() {
         intakeMotor.setVoltage(intakeVoltage);
         indexerMotor.setVoltage(indexerVoltage);
         isConnected = colorSensor.isConnected();
-        if(isConnected) {
+        if (isConnected) {
             proximity = colorSensor.getProximity();
         } else {
             proximity = 0;
@@ -102,7 +101,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     /**
      * runs the intake and indexer to pick up notes and feed them into the robot
-     * @return stops intaking if not is detected and then sets indexer and intake power to 0 volts
+     * 
+     * @return stops intaking if not is detected and then sets indexer and intake
+     *         power to 0 volts
      */
     public Command groundIntake() {
         return Commands.runEnd(
@@ -121,8 +122,5 @@ public class IntakeSubsystem extends SubsystemBase {
                     stopIntake();
                 }, this);
     }
-
-
-
 
 }

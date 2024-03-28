@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -25,7 +24,6 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean isClimberEnabled = false;
     double targetVoltage;
     Debouncer sensorlessHomerDebounce = new Debouncer(0.05, Debouncer.DebounceType.kRising);
-    
 
     /** Creates a new ClimberSubsystem. */
     public ClimberSubsystem() {
@@ -73,14 +71,17 @@ public class ClimberSubsystem extends SubsystemBase {
 
     /**
      * function to test and see if the climber motor starts stalling
+     * 
      * @return a boolean value, true if motor is stalling
      */
     public Boolean getBottomLimitSwitch() {
-        return (sensorlessHomerDebounce.calculate(climber.getMotorVoltage().getValueAsDouble() > 0) && getClimberVelocity() > -0.004);
+        return (sensorlessHomerDebounce.calculate(climber.getMotorVoltage().getValueAsDouble() > 0)
+                && getClimberVelocity() > -0.004);
     }
 
     /**
      * sets climber target voltage
+     * 
      * @param voltage amount of volts to apply to motor
      */
     public void setTargetVoltage(double voltage) {
@@ -103,27 +104,32 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     /**
-     * function to get the sensors position with a conversion factor to make the units in meters
+     * function to get the sensors position with a conversion factor to make the
+     * units in meters
+     * 
      * @return climbers height in meters
      */
     public double getClimberPosition() {
-        return -(climber.getPosition().getValueAsDouble() * Constants.conversionConstants.climberConversion);
+        return -(climber.getPosition().getValueAsDouble() * Constants.ConversionConstants.climberConversion);
     }
 
     /**
      * set the value that the encoder on the motor will read
+     * 
      * @param newPosition the desired value the motor should read
      */
     private void setClimberPosition(double newPosition) {
-        climber.setPosition(-(newPosition / Constants.conversionConstants.climberConversion));
+        climber.setPosition(-(newPosition / Constants.ConversionConstants.climberConversion));
     }
 
     /**
-     * get the measurement of the motors encoder, with a conversion factor to make the units meters per second
+     * get the measurement of the motors encoder, with a conversion factor to make
+     * the units meters per second
+     * 
      * @return the current velocity of the climber in meters per second
      */
     public double getClimberVelocity() {
-        return -(climber.getVelocity().getValueAsDouble() * Constants.conversionConstants.climberConversion);
+        return -(climber.getVelocity().getValueAsDouble() * Constants.ConversionConstants.climberConversion);
     }
 
     public Command raiseClimber() {

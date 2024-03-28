@@ -2,11 +2,17 @@
   "robotWidth": 0.84,
   "robotLength": 0.84,
   "holonomicMode": true,
-  "pathFolders": [],
+  "pathFolders": [
+    "Amp Autos",
+    "Close Notes",
+    "Midline Crisis",
+    "Speaker - Mid Notes",
+    "Trap Autos"
+  ],
   "autoFolders": [],
   "defaultMaxVel": 3.5,
-  "defaultMaxAccel": 3.5,
-  "defaultMaxAngVel": 540.0,
+  "defaultMaxAccel": 4.5,
+  "defaultMaxAngVel": 360.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5
 }

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.194435687263556,
-        "y": 2.983921815889029
+        "x": 4.19,
+        "y": 2.99
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.647892357175923,
-        "y": 2.0373395374080174
+        "x": 4.643456669912368,
+        "y": 2.043417721518989
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Trap Down"
     },
     {
       "anchor": {
@@ -32,15 +32,15 @@
     },
     {
       "anchor": {
-        "x": 6.6,
+        "x": 6.9,
         "y": 2.41
       },
       "prevControl": {
-        "x": 6.3444106914223575,
+        "x": 6.640000000000001,
         "y": 2.41
       },
       "nextControl": {
-        "x": 7.4285865211219315,
+        "x": 7.728586521121932,
         "y": 2.41
       },
       "isLocked": false,
@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 8.222730138713745,
-        "y": 2.4468158890290046
+        "x": 8.27,
+        "y": 2.41
       },
       "prevControl": {
-        "x": 7.222730138713748,
-        "y": 2.4468158890290046
+        "x": 7.270000000000003,
+        "y": 2.41
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 7"
     }
   ],
   "rotationTargets": [
@@ -71,17 +71,17 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.5,
-    "maxAcceleration": 3.5,
-    "maxAngularVelocity": 540.0,
+    "maxAcceleration": 4.5,
+    "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.5,
     "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Trap Autos",
   "previewStartingState": {
     "rotation": -120.0,
     "velocity": 0

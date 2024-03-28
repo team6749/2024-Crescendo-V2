@@ -40,6 +40,7 @@ import frc.robot.Constants;
 import frc.robot.PointOfInterest;
 import frc.robot.enums.DriveOrientation;
 
+@SuppressWarnings("unused")
 public class SwerveDrivebase extends SubsystemBase {
     /** Creates a new SwerveDrivebase. */
     public SwerveModule[] modules;
@@ -61,7 +62,6 @@ public class SwerveDrivebase extends SubsystemBase {
 
     NetworkTable limelightNetworkTable = NetworkTableInstance.getDefault().getTable("limelight"); // https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
 
-    
     /**
      * constructs a new swerve drivebase comprised of 2 or more modules (typically
      * four)
@@ -71,6 +71,8 @@ public class SwerveDrivebase extends SubsystemBase {
     public SwerveDrivebase(SwerveModule[] modules, List<PointOfInterest> pois) {
         this.modules = modules;
         this.pois = pois;
+        gyro.calibrate();
+        
         Translation2d[] translations = new Translation2d[modules.length];
 
         for (int i = 0; i < translations.length; i++) {
@@ -127,7 +129,7 @@ public class SwerveDrivebase extends SubsystemBase {
 
     @Override
     public void periodic() {
-        for(SwerveModule module : modules) {
+        for (SwerveModule module : modules) {
             // Call periodic on all modules
             module.periodic();
         }
@@ -147,7 +149,8 @@ public class SwerveDrivebase extends SubsystemBase {
 
             if (botPoseArray[0] != 0) {
                 // trust vision less, maybe
-                // poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(), 4, 4, 8));
+                // poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(),
+                // 4, 4, 8));
                 poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
             }
         } catch (Exception e) {
@@ -172,7 +175,6 @@ public class SwerveDrivebase extends SubsystemBase {
             }
         }
 
-
     }
 
     /**
@@ -186,7 +188,7 @@ public class SwerveDrivebase extends SubsystemBase {
         builder.addStringProperty("Orientation", () -> getSelectedDriveMode().toString(), null);
         builder.addBooleanProperty("Within POI", () -> withinAnyPOI, null);
         builder.addStringProperty("closest POI", () -> {
-            if(nearest == null) {
+            if (nearest == null) {
                 return "null";
             } else {
                 return nearest.name;
@@ -251,7 +253,7 @@ public class SwerveDrivebase extends SubsystemBase {
      * @return a Rotation2d of the robots current rotation
      */
     public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(-gyro.getAngle());
+        return Rotation2d.fromDegrees(gyro.getAngle());
     }
 
     /**
@@ -340,25 +342,24 @@ public class SwerveDrivebase extends SubsystemBase {
         }
     }
 
-
-    public Command badJankAlignWithPoint () {
+    public Command badJankAlignWithPoint() {
         return Commands.runEnd(() -> {
             double maxLinearSpeed = 1.5;
             Rotation2d maxRotationalSpeed = Rotation2d.fromDegrees(120);
             Pose2d error = nearest.relativeTo(getPose2d());
             // This math sometimes overrruns and does 360 noscopes
-            Rotation2d rotError = error.getRotation().times(5);
-            if(Math.abs(rotError.getRadians()) > maxRotationalSpeed.getRadians()) {
-                rotError = rotError.times(maxRotationalSpeed.getRadians()/rotError.getRadians());
+            Rotation2d rotError = error.getRotation().times(2.5);
+            if (Math.abs(rotError.getRadians()) > maxRotationalSpeed.getRadians()) {
+                rotError = rotError.times(maxRotationalSpeed.getRadians() / rotError.getRadians());
             }
-            Translation2d posError = error.getTranslation().times(4);
-            if(posError.getNorm() > maxLinearSpeed) {
+            Translation2d posError = error.getTranslation().times(2);
+            if (posError.getNorm() > maxLinearSpeed) {
                 // limit max speed
-                posError = posError.times(maxLinearSpeed/posError.getNorm());
+                posError = posError.times(maxLinearSpeed / posError.getNorm());
             }
             ChassisSpeeds speeds = new ChassisSpeeds(posError.getX(), posError.getY(),
-                        rotError.getRadians());
-            
+                    rotError.getRadians());
+
             setSubsystemChassisSpeeds(speeds);
         }, () -> {
             setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));

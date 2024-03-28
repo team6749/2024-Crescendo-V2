@@ -2,25 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
-      "y": 4.1
+      "x": 0.7439815016453057,
+      "y": 4.429417570995958
     },
-    "rotation": 180.0
+    "rotation": -61.23235066115623
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Start to Stage Right"
+            "name": "Shoot Speaker"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "Shoot Trap"
+            "waitTime": 1.0
           }
         },
         {
@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Stage Right to 7"
+                  "pathName": "S3 to 8"
                 }
               },
               {
@@ -40,25 +40,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "7 to CenterStage"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Trap"
           }
         }
       ]

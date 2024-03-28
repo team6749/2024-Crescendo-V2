@@ -3,51 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.53
+        "x": 8.27,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6797347463546466,
-        "y": 5.0287266244388835
+        "x": 7.200584225900682,
+        "y": 3.8747809152872454
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 6"
     },
     {
       "anchor": {
-        "x": 2.883252190847129,
-        "y": 4.858227848101266
+        "x": 1.35,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 2.311741189800583,
-        "y": 4.858227848101266
-      },
-      "nextControl": {
-        "x": 4.125989567213169,
-        "y": 4.858227848101266
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 8.252569356872636,
-        "y": 4.137704918032787
-      },
-      "prevControl": {
-        "x": 6.808147078178159,
-        "y": 4.137704918032787
+        "x": 1.3490749756572555,
+        "y": 5.5469717624148
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S2 Speaker Position"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 0,
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0.0,
       "rotateFast": false
     }
   ],
@@ -60,15 +44,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": 0.9710219310791949,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Speaker - Mid Notes",
   "previewStartingState": {
     "rotation": 0,
-    "velocity": 0
+    "velocity": 0.0
   },
   "useDefaultConstraints": false
 }

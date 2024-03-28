@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.55
+        "x": 1.84,
+        "y": 7.85
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3499999999999996,
-        "y": 5.55
+        "x": 1.8798199447526165,
+        "y": 7.747626153703527
       },
       "isLocked": false,
-      "linkedName": "S2 Speaker Position"
+      "linkedName": "Amp"
     },
     {
       "anchor": {
-        "x": 2.89,
-        "y": 5.55
+        "x": 5.85,
+        "y": 7.7
       },
       "prevControl": {
-        "x": 1.8900000000000001,
-        "y": 5.55
+        "x": 4.845253437526135,
+        "y": 7.808811163870793
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Note 2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.75,
+    "maxVelocity": 3.5,
     "maxAcceleration": 4.5,
-    "maxAngularVelocity": 540.0,
+    "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 0,
+    "velocity": 0,
+    "rotation": -89.90527479003715,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Close Notes",
+  "folder": "Amp Autos",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -89.91969997325505,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

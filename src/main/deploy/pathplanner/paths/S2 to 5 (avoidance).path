@@ -3,72 +3,72 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.87,
-        "y": 7.67
+        "x": 1.35,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6174242120821267,
-        "y": 7.67
+        "x": 1.6418865270040208,
+        "y": 5.6811573686589165
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "S2 Speaker Position"
     },
     {
       "anchor": {
-        "x": 6.60068159688413,
-        "y": 6.903797468354431
+        "x": 2.931242118537201,
+        "y": 6.315967843631778
       },
       "prevControl": {
-        "x": 6.135254271351595,
-        "y": 7.1147911892625135
+        "x": 2.0659047919293827,
+        "y": 6.306021437578815
       },
       "nextControl": {
-        "x": 7.338266796494646,
-        "y": 6.569425511197664
+        "x": 3.7299421219199376,
+        "y": 6.325148303440775
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.456280428432328,
-        "y": 0.7769230769230777
+        "x": 8.27,
+        "y": 5.78
       },
       "prevControl": {
-        "x": 7.357935735150926,
-        "y": 0.747419668938657
+        "x": 6.4297853649708605,
+        "y": 6.525596246850924
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Note 5"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.95,
-      "rotationDegrees": 0.0,
+      "waypointRelativePos": 1.1,
+      "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -89.99999999996066,
+    "velocity": 0.0,
+    "rotation": -10.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Speaker - Mid Notes",
   "previewStartingState": {
-    "rotation": -90.0,
+    "rotation": 0.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

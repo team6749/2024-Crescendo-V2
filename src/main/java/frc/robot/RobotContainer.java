@@ -40,8 +40,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+@SuppressWarnings("unused")
 public class RobotContainer {
-    
+
     // The robot's subsystems and commands are defined here...
 
     // Initializing any USB plugins for robot control, in our case: 1 xbox
@@ -102,7 +103,6 @@ public class RobotContainer {
     JoystickButton greenFour = new JoystickButton(bottomButtonBoard, 9);
     JoystickButton greenFive = new JoystickButton(bottomButtonBoard, 10);
 
-
     // final PositionalSubsystem intakeSegment = new PositionalSubsystem(
     // 8,
     // 0,
@@ -116,27 +116,14 @@ public class RobotContainer {
 
     private final SendableChooser<Command> autoChooser;
 
-
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        List<PointOfInterest> pointsOfInterest = new ArrayList<>();
 
-        pointsOfInterest.add(0, new PointOfInterest("Blue Amp", new Translation2d(1.84, 7.85), Rotation2d.fromDegrees(-90), 5, 0.05));
-        // THIS WAS TESTED AS PRETTY CLOSE BUT IT WAS WITH A LOW BATTERY. we can use this as a reference for the other ones
-        pointsOfInterest.add(1, new PointOfInterest("Blue Stage up", new Translation2d(4.17, 5.24), Rotation2d.fromDegrees(120), 1, 0.1));
-        pointsOfInterest.add(2, new PointOfInterest("Blue Stage down", new Translation2d(4.19, 2.99), Rotation2d.fromDegrees(-120), 1, 0.1));
-        pointsOfInterest.add(3, new PointOfInterest("Blue Stage middle", new Translation2d(6.15, 4.10), Rotation2d.fromDegrees(0), 1, 0.1));
+        swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray,
+                Constants.POIConstants.pointsOfInterest);
 
-        pointsOfInterest.add(4, new PointOfInterest("Red Amp", new Translation2d(14.65, 7.85), Rotation2d.fromDegrees(-90),  5, 0.05));
-        pointsOfInterest.add(5, new PointOfInterest("Red Stage up", new Translation2d(12.27, 5.29), Rotation2d.fromDegrees(60), 1, 0.1));
-        pointsOfInterest.add(6, new PointOfInterest("Red Stage down", new Translation2d(12.27, 2.99), Rotation2d.fromDegrees(-60), 1, 0.1));
-        pointsOfInterest.add(7, new PointOfInterest("Red Stage middle", new Translation2d(10.33, 4.10), Rotation2d.fromDegrees(180), 1, 0.1));
-        pointsOfInterest.add(8, new PointOfInterest("TEST ZERO", new Translation2d(0, 0), Rotation2d.fromDegrees(0), 5, 0.05));
-        
-        swerveDrivebase = new SwerveDrivebase(Constants.SwerveConstants.swerveModuleArray, pointsOfInterest);
-        
         // Calling this sends any data put in a sendable builder or any other data to
         // the shuffleboard application.
         // Driver station should automatically open shuffleboard when opened, if it does
@@ -163,7 +150,6 @@ public class RobotContainer {
         configureBindings();
     }
 
-
     /**
      * Use this method to define your trigger->command mappings. Triggers can be
      * created via the
@@ -185,14 +171,14 @@ public class RobotContainer {
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
 
-        //unused controller inputs
+        // unused controller inputs
         // a.whileTrue()
         // dpad_left.whileTrue()
         // dpad_right.whileTrue()
         // dpad_up.whileTrue()
         // dpad_down.whileTrue()
 
-        //Button to shoot into the trap
+        // Button to shoot into the trap
         b.onTrue(shootTrap());
 
         // Button to shoot into speaker
@@ -211,33 +197,31 @@ public class RobotContainer {
         left_trigger.whileTrue(climberSubsystem.raiseClimber());
         right_trigger.whileTrue(climberSubsystem.lowerClimber());
 
-
         redFour.onTrue(shootSpeaker());
         redFive.whileTrue(climberSubsystem.raiseClimber());
 
         yellowFour.onTrue(shootAmp());
         yellowFive.whileTrue(climberSubsystem.lowerClimber());
 
-        //operator buttons
+        // operator buttons
         // blueOne.whileTrue(swerveDrivebase.resetOdometryCommand());
         // blueTwo.whileTrue(driveForward());
         // greenFive.onTrue(swerveDrivebase.driveModeCommand());
 
-
-        //unused buttons
-        //redOne
-        //redTwo
-        //redThree
-        //yellowOne
-        //yellowTwo
-        //yellowThree
-        //blueThree
-        //blueFour
-        //blueFive
-        //greenOne
-        //greenTwo
-        //greenThree
-        //greenFour
+        // unused buttons
+        // redOne
+        // redTwo
+        // redThree
+        // yellowOne
+        // yellowTwo
+        // yellowThree
+        // blueThree
+        // blueFour
+        // blueFive
+        // greenOne
+        // greenTwo
+        // greenThree
+        // greenFour
     }
 
     /**
@@ -264,7 +248,7 @@ public class RobotContainer {
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
                 },
-                shooterSubsystem, intakeSubsystem).withTimeout(0.5);
+                shooterSubsystem, intakeSubsystem).withTimeout(0.38);
     }
 
     public Command shootAmp() {
@@ -278,7 +262,6 @@ public class RobotContainer {
                     intakeSubsystem.stopIndexer();
                 }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
-
 
     public Command driveForward() {
         return Commands.runEnd(
