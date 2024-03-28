@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.26056475170068,
-        "y": 1.0227848101227832
+        "x": 3.9893075465550956,
+        "y": 0.1384113824205238
       },
       "isLocked": false,
       "linkedName": "S3 Speaker Position"
@@ -17,21 +17,21 @@
     {
       "anchor": {
         "x": 8.27,
-        "y": 0.7496593044919032
+        "y": 2.41
       },
       "prevControl": {
-        "x": 7.249756572541384,
-        "y": 0.6982473222979565
+        "x": 7.169876985004972,
+        "y": 2.009587968510619
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Note 8"
+      "linkedName": "Note 7"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 0.8,
-      "rotationDegrees": 0,
+      "rotationDegrees": 20.0,
       "rotateFast": false
     }
   ],
@@ -44,8 +44,8 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.5,
-    "rotation": 0.0,
+    "velocity": 0,
+    "rotation": 20.0,
     "rotateFast": false
   },
   "reversed": false,

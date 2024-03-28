@@ -7,9 +7,16 @@
     "Close Notes",
     "Midline Crisis",
     "Speaker - Mid Notes",
+    "Trap Paths"
+  ],
+  "autoFolders": [
+    "2 Note Autos",
+    "3 Note Autos",
+    "4 Note Autos",
+    "5 Note Autos",
+    "1 Note Autos",
     "Trap Autos"
   ],
-  "autoFolders": [],
   "defaultMaxVel": 3.5,
   "defaultMaxAccel": 4.5,
   "defaultMaxAngVel": 360.0,
