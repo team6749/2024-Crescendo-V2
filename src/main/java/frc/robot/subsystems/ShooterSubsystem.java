@@ -22,28 +22,21 @@ public class ShooterSubsystem extends SubsystemBase {
     double voltage = 0;
     boolean isShooting = false;
 
-    public boolean isShooting() {
-        return isShooting;
-    }
-
-    public void setShooting(boolean isShooting) {
-        this.isShooting = isShooting;
-    }
-
+    
     public ShooterSubsystem() {
         // Initializes motors with their respective ports from the ElectronicsPorts
         // sub-class in constants
         topShooterMotor = new TalonFX(Constants.ElectronicsPorts.topShooterMotorPort);
         bottomShooterMotor = new TalonFX(Constants.ElectronicsPorts.bottomShooterMotorPort);
     }
-
+    
     @Override
     public void periodic() {
         topShooterMotor.setVoltage(voltage * topShooterMaxModifier);
         bottomShooterMotor.setVoltage(voltage * bottomShooterMaxModifier);
-
+        
     }
-
+    
     @Override
     public void initSendable(SendableBuilder builder) {
         // Initializes a sendable builder which puts data to shuffleboard and allows
@@ -51,29 +44,37 @@ public class ShooterSubsystem extends SubsystemBase {
         // shuffleboard without having to re-deploy the code
         builder.setSmartDashboardType("Shooter Subsystem");
         builder.addDoubleProperty("Top Shooter limiter", this::getTopShooterMaxModifier,
-                this::setTopShooterMaxModifier);
+        this::setTopShooterMaxModifier);
         builder.addDoubleProperty("Bottom shooter limiter", this::getBottomShooterMaxModifier,
-                this::setBottomShooterMaxModifier);
+        this::setBottomShooterMaxModifier);
         builder.addDoubleProperty("Shooter voltage", this::getVoltage, this::setVotlage);
-
+        
     }
-
+    
     /**
      * gets the desired voltage amount for rapid testing, used for getter on a sendable builder
      * @return the desired voltage for both motors
      */
-   public double getVoltage(){
-    return voltage;
-   }
+    public double getVoltage(){
+        return voltage;
+    }
+    
+    /**
+     * passes through the desired voltage amount for rapid testing, used for setter on a sendable builder
+     * @param voltage
+     */
+    public void setVotlage(double voltage){
+        this.voltage = voltage;
+    }
+    
+    public boolean isShooting() {
+        return isShooting;
+    }
 
-   /**
-    * passes through the desired voltage amount for rapid testing, used for setter on a sendable builder
-    * @param voltage
-    */
-   public void setVotlage(double voltage){
-    this.voltage = voltage;
-   }
-
+    public void setShooting(boolean isShooting) {
+        this.isShooting = isShooting;
+    }
+    
    /**
     * gets the desired modifier amount for rapid testing, used for getter on a sendable builder
     * @return the desired modifier for the top shooter

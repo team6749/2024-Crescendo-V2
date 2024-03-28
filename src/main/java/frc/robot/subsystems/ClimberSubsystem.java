@@ -26,7 +26,15 @@ public class ClimberSubsystem extends SubsystemBase {
     double targetVoltage;
     Debouncer sensorlessHomerDebounce = new Debouncer(0.05, Debouncer.DebounceType.kRising);
     boolean currentlyClimbing = false;
-    
+    boolean amplify;
+
+    public boolean isAmplify() {
+        return amplify;
+    }
+
+    public void setAmplify(boolean amplify) {
+        this.amplify = amplify;
+    }
 
     public boolean isCurrentlyClimbing() {
         return currentlyClimbing;

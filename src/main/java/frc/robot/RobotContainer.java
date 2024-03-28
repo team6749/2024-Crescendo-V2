@@ -246,6 +246,34 @@ public class RobotContainer {
         //greenFour
 
         redFive.onTrue(lights.rainbowLights());
+        
+        blueFive.onTrue(Commands.runEnd(
+            () -> climberSubsystem.setAmplify(true), () -> climberSubsystem.setAmplify(false), climberSubsystem).withTimeout(2));
+
+        yellowFive.onTrue(Commands.startEnd(
+            ()-> {
+                lights.yellow();
+                lights.setCoopertition(true);
+            }, 
+            () -> {
+                lights.setCoopertition(false);
+                lights.defaultColorCommand();
+            },
+            lights
+            ).withTimeout(5)); // coopertition signal
+
+        // blueFive.whileTrue(Commands.runEnd(
+        //     ()-> {
+        //         lights.amplificationLights();
+        //         lights.setAmplify(true);
+        //         System.out.println("amplify started");
+
+        //     },
+        //     ()-> {
+        //         lights.defaultColorCommand();
+        //         lights.setAmplify(false);
+        //         System.out.println("amplify stopped");
+        //     }, lights)); //amplification signal
 
     
 
