@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.RotateSwerveOnPoint;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -200,6 +201,7 @@ public class RobotContainer {
         redFour.onTrue(shootSpeaker());
         redFive.whileTrue(climberSubsystem.raiseClimber());
 
+        yellowThree.whileTrue(new RotateSwerveOnPoint(swerveDrivebase));
         yellowFour.onTrue(shootAmp());
         yellowFive.whileTrue(climberSubsystem.lowerClimber());
 
