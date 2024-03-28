@@ -29,7 +29,7 @@ import frc.robot.subsystems.SwerveModule;
  */
 
 // Initializes the constants class
-@SuppressWarnings("unsued")
+@SuppressWarnings("unused")
 public final class Constants {
     /**
      * Sub-class of Constants holding ID's of controllers (not motor controllers)
