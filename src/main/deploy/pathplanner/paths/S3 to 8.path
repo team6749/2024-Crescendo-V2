@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.26056475170068,
-        "y": 1.0227848101227832
+        "x": 5.511832753180837,
+        "y": 0.9392200949964001
       },
       "isLocked": false,
       "linkedName": "S3 Speaker Position"
@@ -20,8 +20,8 @@
         "y": 0.7496593044919032
       },
       "prevControl": {
-        "x": 7.249756572541384,
-        "y": 0.6982473222979565
+        "x": 5.897378945369928,
+        "y": 0.7496593044919032
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,15 +32,15 @@
     {
       "waypointRelativePos": 0.8,
       "rotationDegrees": 0,
-      "rotateFast": false
+      "rotateFast": true
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 4.5,
-    "maxAngularVelocity": 360.0,
+    "maxVelocity": 3.6,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
@@ -49,10 +49,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Midline Crisis",
+  "folder": "Speaker - Mid Notes",
   "previewStartingState": {
     "rotation": -60.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

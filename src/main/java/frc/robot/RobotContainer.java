@@ -12,6 +12,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -238,19 +239,23 @@ public class RobotContainer {
         return autoChooser.getSelected();
     }
 
+    Timer speakerTimer = new Timer();
+
     public Command shootSpeaker() {
         return Commands.startEnd(
                 () -> {
+                    speakerTimer.reset();
+                    speakerTimer.start();
                     System.out.println("started shoot command");
                     shooterSubsystem.shoot(9, 1, 1);
                     intakeSubsystem.indexNote(10);
                 },
                 () -> {
-                    System.out.println("ended shoot command");
+                    System.out.println("ended shoot command" + speakerTimer.get());
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
                 },
-                shooterSubsystem, intakeSubsystem).withTimeout(0.38);
+                shooterSubsystem, intakeSubsystem).until(() -> shooterSubsystem.noteHasLeft).withTimeout(0.4);
     }
 
     public Command shootAmp() {
