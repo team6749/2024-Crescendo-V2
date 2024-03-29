@@ -250,7 +250,7 @@ public class RobotContainer {
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
                 },
-                shooterSubsystem, intakeSubsystem).withTimeout(0.38);
+                shooterSubsystem, intakeSubsystem).until(() -> shooterSubsystem.noteHasLeft).withTimeout(0.38);
     }
 
     public Command shootAmp() {

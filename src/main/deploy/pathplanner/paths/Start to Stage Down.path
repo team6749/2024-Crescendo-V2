@@ -40,7 +40,7 @@
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 4.5,
-    "maxAngularVelocity": 360.0,
+    "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
@@ -51,7 +51,7 @@
   "reversed": false,
   "folder": "Trap Paths",
   "previewStartingState": {
-    "rotation": 60.0,
+    "rotation": -120.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

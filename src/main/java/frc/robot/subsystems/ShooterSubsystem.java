@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -22,6 +23,13 @@ public class ShooterSubsystem extends SubsystemBase {
     private double bottomShooterMaxModifier = 1;
     double voltage = 0;
 
+    double shooterVelocityMs = 0;
+
+    double peakVelocity = 0;
+
+    
+    public boolean noteHasLeft = false;
+
     public ShooterSubsystem() {
         // Initializes motors with their respective ports from the ElectronicsPorts
         // sub-class in constants
@@ -33,7 +41,22 @@ public class ShooterSubsystem extends SubsystemBase {
     public void periodic() {
         topShooterMotor.setVoltage(voltage * topShooterMaxModifier);
         bottomShooterMotor.setVoltage(voltage * bottomShooterMaxModifier);
+        shooterVelocityMs = ((bottomShooterMotor.getVelocity().getValueAsDouble() + topShooterMotor.getVelocity().getValueAsDouble()) / 2) * 0.0762 * Math.PI;
+        System.out.println(shooterVelocityMs);
 
+        
+        if(voltage != 0) {
+            // If we are trying to move the shooter
+            if(shooterVelocityMs > peakVelocity) {
+                peakVelocity = shooterVelocityMs;
+            }
+            if(shooterVelocityMs < peakVelocity * 0.9) {
+                noteHasLeft = true;
+            }
+        } else {
+            peakVelocity = 0;
+            noteHasLeft = false;
+        }
     }
 
     @Override
@@ -47,6 +70,7 @@ public class ShooterSubsystem extends SubsystemBase {
         builder.addDoubleProperty("Bottom shooter limiter", this::getBottomShooterMaxModifier,
                 this::setBottomShooterMaxModifier);
         builder.addDoubleProperty("Shooter voltage", this::getVoltage, this::setVotlage);
+        builder.addDoubleProperty("Velocity", () -> shooterVelocityMs, null);
 
     }
 

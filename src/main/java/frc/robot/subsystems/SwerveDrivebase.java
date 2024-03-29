@@ -12,6 +12,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -149,8 +151,8 @@ public class SwerveDrivebase extends SubsystemBase {
 
             if (botPoseArray[0] != 0) {
                 // trust vision less, maybe
-                // poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(),
-                // 4, 4, 8));
+                poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(),
+                10, 10, 20));
                 poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
             }
         } catch (Exception e) {
