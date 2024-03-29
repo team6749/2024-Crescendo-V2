@@ -42,8 +42,6 @@ public class ShooterSubsystem extends SubsystemBase {
         topShooterMotor.setVoltage(voltage * topShooterMaxModifier);
         bottomShooterMotor.setVoltage(voltage * bottomShooterMaxModifier);
         shooterVelocityMs = ((bottomShooterMotor.getVelocity().getValueAsDouble() + topShooterMotor.getVelocity().getValueAsDouble()) / 2) * 0.0762 * Math.PI;
-        System.out.println(shooterVelocityMs);
-
         
         if(voltage != 0) {
             // If we are trying to move the shooter

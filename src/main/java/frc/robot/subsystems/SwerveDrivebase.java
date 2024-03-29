@@ -149,7 +149,10 @@ public class SwerveDrivebase extends SubsystemBase {
                     Rotation2d.fromDegrees(botPoseArray[5]));
             double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
 
-            if (botPoseArray[0] != 0) {
+            ChassisSpeeds speeds = getSubsystemChassisSpeeds();
+            Translation2d zoom = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond);
+
+            if (botPoseArray[0] != 0 && zoom.getNorm() < 2.5) {
                 // trust vision less, maybe
                 poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(),
                 10, 10, 20));
