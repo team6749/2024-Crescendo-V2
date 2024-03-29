@@ -8,50 +8,45 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.86229475486068,
-        "y": 5.865695125952659
+        "x": 1.669763844063516,
+        "y": 7.179872724041667
       },
       "isLocked": false,
       "linkedName": "S1 Speaker Position"
     },
     {
       "anchor": {
-        "x": 5.922103213242455,
-        "y": 6.313729308666017
+        "x": 2.881510088272384,
+        "y": 7.718411097099622
       },
       "prevControl": {
-        "x": 4.313792559899118,
-        "y": 6.514895964691047
+        "x": 1.881510088272384,
+        "y": 7.718411097099622
       },
       "nextControl": {
-        "x": 6.90673209967208,
-        "y": 6.190572442113561
+        "x": 3.8815100882723854,
+        "y": 7.718411097099622
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.27,
-        "y": 5.78
+        "x": 8.270173874275525,
+        "y": 7.444555068760932
       },
       "prevControl": {
-        "x": 7.492473838128845,
-        "y": 6.086213330714822
+        "x": 7.332290352063087,
+        "y": 7.444555068760932
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Note 5"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.15,
-      "rotationDegrees": 0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.55,
       "rotationDegrees": 0,
       "rotateFast": false
     }
@@ -66,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -20.279960217125016,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Speaker - Mid Notes",
   "previewStartingState": {
-    "rotation": 61.14714028158695,
+    "rotation": 62.10272896905239,
     "velocity": 0
   },
   "useDefaultConstraints": false

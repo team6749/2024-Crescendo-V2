@@ -2,25 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.284885213512597,
-      "y": 1.4002599126038364
+      "x": 0.7439815016453057,
+      "y": 4.429417570995958
     },
-    "rotation": -120.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "Start to Stage Down"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Shoot Trap"
+            "name": "Shoot Speaker"
           }
         },
         {
@@ -30,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Stage Down to 7"
+                  "pathName": "S3 to 7"
                 }
               },
               {
@@ -49,7 +43,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "7 to Center Stage"
+                  "pathName": "7 to S3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Speaker"
                 }
               }
             ]
@@ -58,12 +58,12 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot Trap"
+            "name": "Shoot Speaker"
           }
         }
       ]
     }
   },
-  "folder": "Trap Autos",
+  "folder": "2 Note Autos",
   "choreoAuto": false
 }
