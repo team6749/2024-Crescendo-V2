@@ -7,12 +7,8 @@ package frc.robot;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.util.Units;
 import frc.robot.subsystems.SwerveModule;
 
 /**
@@ -91,10 +87,12 @@ public final class Constants {
         public static final int climberMotor = 20;
         public static final int climberSwitch = 3;
 
-        // Also would put any pneumatic things here (we do not have on our 2024 robot,
-        // but put here for example)
-        // There are examples of pneumatics code being put to use in the 2022 and 2023
-        // mainseason robots
+        public static final int green = 2;
+        public static final int red = 0; 
+        public static final int blue = 1;
+
+        //Also would put any pneumatic things here (we do not have on our 2024 robot, but put here for example)
+        //There are examples of pneumatics code being put to use in the 2022 and 2023 mainseason robots
         // public static final int[] doubleSolenoid1 = {0,1};
         // public static final int[] doubleSolenoid2 = {2,3};
         // public static final int solenoid = 4;

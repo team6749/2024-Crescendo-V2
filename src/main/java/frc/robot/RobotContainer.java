@@ -5,10 +5,12 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.LightsCommand;
 import frc.robot.commands.RotateSwerveOnPoint;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LightsSubsystem;
 import frc.robot.subsystems.SwerveDrivebase;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -59,6 +61,7 @@ public class RobotContainer {
     private final SwerveDrivebase swerveDrivebase;
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+    private final LightsSubsystem lights = new LightsSubsystem();
 
     // Buttons For Driver Controller
     JoystickButton a = new JoystickButton(controller, 1);
@@ -172,6 +175,8 @@ public class RobotContainer {
         // the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
+        lights.setDefaultCommand(new LightsCommand(lights, climberSubsystem, shooterSubsystem, intakeSubsystem));
+        // lights.setDefaultCommand(lights.rainbowLights());
 
         // unused controller inputs
         // a.whileTrue()
@@ -211,20 +216,55 @@ public class RobotContainer {
         // blueTwo.whileTrue(driveForward());
         // greenFive.onTrue(swerveDrivebase.driveModeCommand());
 
-        // unused buttons
-        // redOne
-        // redTwo
-        // redThree
-        // yellowOne
-        // yellowTwo
-        // yellowThree
-        // blueThree
-        // blueFour
-        // blueFive
-        // greenOne
-        // greenTwo
-        // greenThree
-        // greenFour
+
+        //unused buttons
+        //redOne
+        //redTwo
+        //redThree
+        //yellowOne
+        //yellowTwo
+        //yellowThree
+        //blueThree
+        //blueFour
+        //blueFive
+        //greenOne
+        //greenTwo
+        //greenThree
+        //greenFour
+
+        redFive.onTrue(lights.rainbowLights());
+        
+        blueFive.onTrue(Commands.runEnd(
+            () -> climberSubsystem.setAmplify(true), () -> climberSubsystem.setAmplify(false), climberSubsystem).withTimeout(2));
+
+        yellowFive.onTrue(Commands.startEnd(
+            ()-> {
+                lights.yellow();
+                lights.setCoopertition(true);
+            }, 
+            () -> {
+                lights.setCoopertition(false);
+                lights.defaultColorCommand();
+            },
+            lights
+            ).withTimeout(5)); // coopertition signal
+
+        // blueFive.whileTrue(Commands.runEnd(
+        //     ()-> {
+        //         lights.amplificationLights();
+        //         lights.setAmplify(true);
+        //         System.out.println("amplify started");
+
+        //     },
+        //     ()-> {
+        //         lights.defaultColorCommand();
+        //         lights.setAmplify(false);
+        //         System.out.println("amplify stopped");
+        //     }, lights)); //amplification signal
+
+    
+
+        
     }
 
     /**
@@ -249,24 +289,29 @@ public class RobotContainer {
                     System.out.println("started shoot command");
                     shooterSubsystem.shoot(9, 1, 1);
                     intakeSubsystem.indexNote(10);
+                    shooterSubsystem.setShooting(true);
                 },
                 () -> {
                     System.out.println("ended shoot command" + speakerTimer.get());
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
+                    shooterSubsystem.setShooting(false);
                 },
                 shooterSubsystem, intakeSubsystem).until(() -> shooterSubsystem.noteHasLeft).withTimeout(0.4);
     }
+    
 
     public Command shootAmp() {
         return Commands.startEnd(
                 () -> {
                     shooterSubsystem.shoot(3, 0.3, 1);
                     intakeSubsystem.indexNote(8);
+                    shooterSubsystem.setShooting(true);
                 },
                 () -> {
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
+                    shooterSubsystem.setShooting(false);
                 }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
 
@@ -285,12 +330,16 @@ public class RobotContainer {
                 () -> {
                     intakeSubsystem.indexNote(8);
                     shooterSubsystem.shoot(8, 1, 0.75);
+                    shooterSubsystem.setShooting(true);
+                
                 },
                 () -> {
                     intakeSubsystem.stopIndexer();
                     shooterSubsystem.shoot(0, 1, 1);
+                    shooterSubsystem.setShooting(false);
                 }, intakeSubsystem, shooterSubsystem).withTimeout(1);
 
     }
+
 
 }

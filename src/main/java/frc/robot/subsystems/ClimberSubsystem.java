@@ -24,6 +24,20 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean isClimberEnabled = false;
     double targetVoltage;
     Debouncer sensorlessHomerDebounce = new Debouncer(0.05, Debouncer.DebounceType.kRising);
+    boolean currentlyClimbing = false;
+    boolean amplify;
+
+    public boolean isAmplify() {
+        return amplify;
+    }
+
+    public void setAmplify(boolean amplify) {
+        this.amplify = amplify;
+    }
+
+    public boolean isCurrentlyClimbing() {
+        return currentlyClimbing;
+    }
 
     /** Creates a new ClimberSubsystem. */
     public ClimberSubsystem() {
@@ -103,6 +117,10 @@ public class ClimberSubsystem extends SubsystemBase {
         climber.stopMotor();
     }
 
+    public boolean getClimberEnabled(){
+        return isClimberEnabled;
+    }
+
     /**
      * function to get the sensors position with a conversion factor to make the
      * units in meters
@@ -135,22 +153,27 @@ public class ClimberSubsystem extends SubsystemBase {
     public Command raiseClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(-7);
+                    setTargetVoltage(-5);
                     start();
+                    currentlyClimbing = true;
+                    
                 },
                 () -> {
                     stop();
+                    currentlyClimbing = false;
                 }, this);
     }
 
     public Command lowerClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(6);
+                    setTargetVoltage(4);
                     start();
+                    currentlyClimbing = true;
                 },
                 () -> {
                     stop();
+                    currentlyClimbing = false;
                 }, this);
     }
 

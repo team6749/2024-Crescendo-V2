@@ -22,12 +22,9 @@ public class ShooterSubsystem extends SubsystemBase {
     private double topShooterMaxModifier = 1;
     private double bottomShooterMaxModifier = 1;
     double voltage = 0;
-
+    boolean isShooting = false;
     double shooterVelocityMs = 0;
-
     double peakVelocity = 0;
-
-    
     public boolean noteHasLeft = false;
 
     public ShooterSubsystem() {
@@ -36,11 +33,12 @@ public class ShooterSubsystem extends SubsystemBase {
         topShooterMotor = new TalonFX(Constants.ElectronicsPorts.topShooterMotorPort);
         bottomShooterMotor = new TalonFX(Constants.ElectronicsPorts.bottomShooterMotorPort);
     }
-
+    
     @Override
     public void periodic() {
         topShooterMotor.setVoltage(voltage * topShooterMaxModifier);
         bottomShooterMotor.setVoltage(voltage * bottomShooterMaxModifier);
+
         shooterVelocityMs = ((bottomShooterMotor.getVelocity().getValueAsDouble() + topShooterMotor.getVelocity().getValueAsDouble()) / 2) * 0.0762 * Math.PI;
         
         if(voltage != 0) {
@@ -57,7 +55,7 @@ public class ShooterSubsystem extends SubsystemBase {
             noteHasLeft = false;
         }
     }
-
+    
     @Override
     public void initSendable(SendableBuilder builder) {
         // Initializes a sendable builder which puts data to shuffleboard and allows
@@ -65,40 +63,43 @@ public class ShooterSubsystem extends SubsystemBase {
         // shuffleboard without having to re-deploy the code
         builder.setSmartDashboardType("Shooter Subsystem");
         builder.addDoubleProperty("Top Shooter limiter", this::getTopShooterMaxModifier,
-                this::setTopShooterMaxModifier);
+        this::setTopShooterMaxModifier);
         builder.addDoubleProperty("Bottom shooter limiter", this::getBottomShooterMaxModifier,
-                this::setBottomShooterMaxModifier);
+        this::setBottomShooterMaxModifier);
         builder.addDoubleProperty("Shooter voltage", this::getVoltage, this::setVotlage);
         builder.addDoubleProperty("Velocity", () -> shooterVelocityMs, null);
-
     }
-
+    
     /**
      * gets the desired voltage amount for rapid testing, used for getter on a
      * sendable builder
      * 
      * @return the desired voltage for both motors
      */
-    public double getVoltage() {
+    public double getVoltage(){
         return voltage;
     }
-
+    
     /**
-     * passes through the desired voltage amount for rapid testing, used for setter
-     * on a sendable builder
-     * 
+     * passes through the desired voltage amount for rapid testing, used for setter on a sendable builder
      * @param voltage
      */
-    public void setVotlage(double voltage) {
+    public void setVotlage(double voltage){
         this.voltage = voltage;
     }
+    
+    public boolean isShooting() {
+        return isShooting;
+    }
 
-    /**
-     * gets the desired modifier amount for rapid testing, used for getter on a
-     * sendable builder
-     * 
-     * @return the desired modifier for the top shooter
-     */
+    public void setShooting(boolean isShooting) {
+        this.isShooting = isShooting;
+    }
+    
+   /**
+    * gets the desired modifier amount for rapid testing, used for getter on a sendable builder
+    * @return the desired modifier for the top shooter
+    */
     public double getTopShooterMaxModifier() {
         return topShooterMaxModifier;
     }
