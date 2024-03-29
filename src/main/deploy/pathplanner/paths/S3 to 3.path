@@ -3,35 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.27,
-        "y": 2.42
+        "x": 0.7439815016453057,
+        "y": 4.429417570995958
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.280504568801053,
-        "y": 3.266269529881348
+        "x": 1.8043850097739988,
+        "y": 3.984270508247883
       },
       "isLocked": false,
-      "linkedName": "Note 7"
+      "linkedName": "S3 Speaker Position"
     },
     {
       "anchor": {
-        "x": 8.27,
-        "y": 4.1
+        "x": 2.7,
+        "y": 4.12
       },
       "prevControl": {
-        "x": 8.249778870890703,
-        "y": 3.2766002243985284
+        "x": 1.9618605879609017,
+        "y": 4.12
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Note 6"
+      "linkedName": "Note 3"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6,
-      "rotationDegrees": 90.0,
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0,
       "rotateFast": true
     }
   ],
@@ -44,15 +44,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.5,
-    "rotation": -10.0,
+    "velocity": 0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Midline Crisis",
+  "folder": "Close Notes",
   "previewStartingState": {
-    "rotation": -10.0,
-    "velocity": 0.0
+    "rotation": -60.0,
+    "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.864021006232976,
-        "y": 0.8063547934666493
+        "x": 6.836627413491547,
+        "y": 1.3445677149422144
       },
       "isLocked": false,
       "linkedName": "Note 7"
@@ -20,8 +20,8 @@
         "y": 4.429417570995958
       },
       "prevControl": {
-        "x": 2.1009808292465464,
-        "y": 1.7400288075722776
+        "x": 2.9116760691381747,
+        "y": 1.6411635344147613
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 3.6,
+    "maxAcceleration": 5.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -48,5 +48,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

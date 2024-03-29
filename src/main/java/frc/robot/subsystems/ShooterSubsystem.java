@@ -48,8 +48,9 @@ public class ShooterSubsystem extends SubsystemBase {
             if(shooterVelocityMs > peakVelocity) {
                 peakVelocity = shooterVelocityMs;
             }
-            if(shooterVelocityMs < peakVelocity * 0.9) {
+            if(shooterVelocityMs < peakVelocity * 0.9 && noteHasLeft == false) {
                 noteHasLeft = true;
+                System.out.println("note left shooter");
             }
         } else {
             peakVelocity = 0;
