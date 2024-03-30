@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.19,
-        "y": 2.99
+        "x": 4.15,
+        "y": 2.98
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.643456669912368,
-        "y": 2.043417721518989
+        "x": 4.603456669912368,
+        "y": 2.0334177215189886
       },
       "isLocked": false,
       "linkedName": "Trap Down"
@@ -64,14 +64,14 @@
     {
       "waypointRelativePos": 2.4000000000000004,
       "rotationDegrees": 0.0,
-      "rotateFast": false
+      "rotateFast": true
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 5.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -86,5 +86,5 @@
     "rotation": -120.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

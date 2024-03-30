@@ -150,11 +150,12 @@ public class SwerveDrivebase extends SubsystemBase {
 
             ChassisSpeeds speeds = getSubsystemChassisSpeeds();
             Translation2d zoom = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond);
+            Rotation2d zoomrot = new Rotation2d(speeds.omegaRadiansPerSecond);
 
-            if (botPoseArray[0] != 0 && zoom.getNorm() < 2.5) {
+            if (botPoseArray[0] != 0 && zoom.getNorm() < 1.5 && Math.abs(zoomrot.getDegrees()) < 20) {
                 // trust vision less, maybe
                 poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(),
-                10, 10, 20));
+                8, 8, 16));
                 poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
             }
         } catch (Exception e) {
@@ -352,11 +353,11 @@ public class SwerveDrivebase extends SubsystemBase {
             Rotation2d maxRotationalSpeed = Rotation2d.fromDegrees(120);
             Pose2d error = nearest.relativeTo(getPose2d());
             // This math sometimes overrruns and does 360 noscopes
-            Rotation2d rotError = error.getRotation().times(2.5);
+            Rotation2d rotError = error.getRotation().times(3);
             if (Math.abs(rotError.getRadians()) > maxRotationalSpeed.getRadians()) {
                 rotError = rotError.times(maxRotationalSpeed.getRadians() / rotError.getRadians());
             }
-            Translation2d posError = error.getTranslation().times(2);
+            Translation2d posError = error.getTranslation().times(3);
             if (posError.getNorm() > maxLinearSpeed) {
                 // limit max speed
                 posError = posError.times(maxLinearSpeed / posError.getNorm());

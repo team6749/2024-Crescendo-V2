@@ -3,49 +3,55 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.15,
-        "y": 4.1
+        "x": 1.284885213512597,
+        "y": 1.4002599126038364
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.15,
-        "y": 4.1
+        "x": 3.0698605061901993,
+        "y": 1.2951350783634574
       },
       "isLocked": false,
-      "linkedName": "Trap Center"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.27,
-        "y": 4.1
+        "x": 3.2873641071367343,
+        "y": 1.927872826571556
       },
       "prevControl": {
-        "x": 7.27,
-        "y": 4.1
+        "x": 3.2783398018999463,
+        "y": 1.8779554950516002
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Note 6"
+      "linkedName": "Tag View Point"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6,
+      "rotationDegrees": -120.0,
+      "rotateFast": true
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -120.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Trap Paths",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -120.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

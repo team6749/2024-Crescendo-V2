@@ -14,13 +14,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start to Stage Down"
+            "pathName": "Start to Tag View"
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Tag View to Stage Down"
           }
         },
         {

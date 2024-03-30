@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.284885213512597,
-        "y": 1.4002599126038364
+        "x": 8.289946928907026,
+        "y": 8.245363781336808
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8954456473159684,
-        "y": 1.8897399939419681
+        "x": 9.289946928907028,
+        "y": 8.245363781336808
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.19,
-        "y": 2.99
+        "x": 8.289946928907026,
+        "y": 7.43466854144518
       },
       "prevControl": {
-        "x": 4.180975694763212,
-        "y": 2.9400826684800445
+        "x": 7.2899469289070264,
+        "y": 7.43466854144518
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Trap Down"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.6,
-      "rotationDegrees": -120.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -120.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Trap Paths",
+  "folder": null,
   "previewStartingState": {
-    "rotation": -120.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

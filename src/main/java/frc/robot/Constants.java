@@ -160,19 +160,19 @@ public final class Constants {
 
     public static class POIConstants {
         public static List<PointOfInterest> pointsOfInterest = Arrays.asList(
-                new PointOfInterest("Blue Amp", new Translation2d(1.84, 7.85), Rotation2d.fromDegrees(-90), 5, 0.05),
+                new PointOfInterest("Blue Amp", new Translation2d(1.84, 7.85), Rotation2d.fromDegrees(-90), 5, 0.1),
                 new PointOfInterest("Blue Stage Up", new Translation2d(4.17, 5.24), Rotation2d.fromDegrees(120), 1,
-                        0.1),
-                new PointOfInterest("Blue Stage Down", new Translation2d(4.19, 2.99), Rotation2d.fromDegrees(-120), 1,
-                        0.1),
+                        0.05),
+                new PointOfInterest("Blue Stage Down", new Translation2d(4.15, 2.97), Rotation2d.fromDegrees(-120), 1,
+                        0.05),
                 new PointOfInterest("Blue Stage Center", new Translation2d(6.15, 4.10), Rotation2d.fromDegrees(0), 1,
-                        0.1),
-                new PointOfInterest("Red Amp", new Translation2d(14.65, 7.85), Rotation2d.fromDegrees(-90), 5, 0.05),
-                new PointOfInterest("Red Stage Up", new Translation2d(12.27, 5.29), Rotation2d.fromDegrees(60), 1, 0.1),
+                        0.05),
+                new PointOfInterest("Red Amp", new Translation2d(14.65, 7.85), Rotation2d.fromDegrees(-90), 5, 0.1),
+                new PointOfInterest("Red Stage Up", new Translation2d(12.27, 5.29), Rotation2d.fromDegrees(60), 1, 0.05),
                 new PointOfInterest("Red Stage Down", new Translation2d(12.27, 2.99), Rotation2d.fromDegrees(-60), 1,
-                        0.1),
+                        0.05),
                 new PointOfInterest("Red Stage Center", new Translation2d(10.33, 4.10), Rotation2d.fromDegrees(180), 1,
-                        0.1));
+                        0.05));
     }
 
     // very necessary constants, must be in every constants class in order for the

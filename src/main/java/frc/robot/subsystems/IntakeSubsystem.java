@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorSensorV3.ProximitySensorMeasurementRate;
+import com.revrobotics.ColorSensorV3.ProximitySensorResolution;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.I2C;
@@ -56,6 +58,7 @@ public class IntakeSubsystem extends SubsystemBase {
         } else {
             proximity = 0;
         }
+        // colorSensor.configureProximitySensor(ProximitySensorResolution.kProxRes10bit, ProximitySensorMeasurementRate.kProxRate100ms);
     }
 
     /**
