@@ -14,7 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start to Stage Down"
+            "pathName": "Start to Tag View"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Tag View to Stage Down"
           }
         },
         {
@@ -81,9 +87,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "6 to Stage Up"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "6 to Stage Up"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {

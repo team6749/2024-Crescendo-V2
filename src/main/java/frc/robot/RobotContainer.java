@@ -204,40 +204,14 @@ public class RobotContainer {
         left_trigger.whileTrue(climberSubsystem.raiseClimber());
         right_trigger.whileTrue(climberSubsystem.lowerClimber());
 
-        redFour.onTrue(shootSpeaker());
-        redFive.whileTrue(climberSubsystem.raiseClimber());
-
-        yellowThree.whileTrue(new RotateSwerveOnPoint(swerveDrivebase));
-        yellowFour.onTrue(shootAmp());
-        yellowFive.whileTrue(climberSubsystem.lowerClimber());
-
-        // operator buttons
-        // blueOne.whileTrue(swerveDrivebase.resetOdometryCommand());
-        // blueTwo.whileTrue(driveForward());
-        // greenFive.onTrue(swerveDrivebase.driveModeCommand());
-
 
         //unused buttons
-        //redOne
-        //redTwo
-        //redThree
-        //yellowOne
-        //yellowTwo
-        //yellowThree
-        //blueThree
-        //blueFour
-        //blueFive
-        //greenOne
-        //greenTwo
-        //greenThree
-        //greenFour
-
-        redFive.onTrue(lights.rainbowLights());
-        
-        blueFive.onTrue(Commands.runEnd(
-            () -> climberSubsystem.setAmplify(true), () -> climberSubsystem.setAmplify(false), climberSubsystem).withTimeout(2));
-
-        yellowFive.onTrue(Commands.startEnd(
+        redOne.onTrue(shootSpeaker());
+        redTwo.onTrue(shootAmp());
+        redThree.onTrue(shootTrap());
+        redFour.whileTrue(climberSubsystem.lowerClimber());
+        redFive.whileTrue(climberSubsystem.raiseClimber());
+        yellowOne.onTrue(Commands.startEnd(
             ()-> {
                 lights.yellow();
                 lights.setCoopertition(true);
@@ -248,20 +222,38 @@ public class RobotContainer {
             },
             lights
             ).withTimeout(5)); // coopertition signal
+        //yellowTwo
+        yellowThree.onTrue(lights.rainbowLights());
+        //yellowFour
+        yellowFive.onTrue(Commands.runEnd(
+            () -> climberSubsystem.setAmplify(true), () -> climberSubsystem.setAmplify(false), climberSubsystem).withTimeout(2)); // AMP
+        //blueOne
+        blueTwo.whileTrue(swerveDrivebase.badJankAlignWithPoint());
+        //blueThree
+        blueFour.whileTrue(new RotateSwerveOnPoint(swerveDrivebase));
+        //blueFive
+        //greenOne
+        //greenTwo
+        //greenThree
+        //greenFour
+        //greenFive
 
-        // blueFive.whileTrue(Commands.runEnd(
-        //     ()-> {
-        //         lights.amplificationLights();
-        //         lights.setAmplify(true);
-        //         System.out.println("amplify started");
+        // redFive.onTrue(lights.rainbowLights());
+        
+        // blueFive.onTrue(Commands.runEnd(
+        //     () -> climberSubsystem.setAmplify(true), () -> climberSubsystem.setAmplify(false), climberSubsystem).withTimeout(2));
 
-        //     },
+        // yellowFive.onTrue(Commands.startEnd(
         //     ()-> {
+        //         lights.yellow();
+        //         lights.setCoopertition(true);
+        //     }, 
+        //     () -> {
+        //         lights.setCoopertition(false);
         //         lights.defaultColorCommand();
-        //         lights.setAmplify(false);
-        //         System.out.println("amplify stopped");
-        //     }, lights)); //amplification signal
-
+        //     },
+        //     lights
+        //     ).withTimeout(5)); // coopertition signal
     
 
         
