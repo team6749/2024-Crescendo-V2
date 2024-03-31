@@ -58,7 +58,7 @@ public class SwerveDrivebase extends SubsystemBase {
 
     boolean withinAnyPOI = false;
 
-    boolean useLimelightDuringAutos = false;
+    boolean useLimelightDuringAutos = true;
 
     List<PointOfInterest> pois;
 
