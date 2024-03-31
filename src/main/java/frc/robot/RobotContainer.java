@@ -178,13 +178,6 @@ public class RobotContainer {
         lights.setDefaultCommand(new LightsCommand(lights, climberSubsystem, shooterSubsystem, intakeSubsystem));
         // lights.setDefaultCommand(lights.rainbowLights());
 
-        // unused controller inputs
-        // a.whileTrue()
-        // dpad_left.whileTrue()
-        // dpad_right.whileTrue()
-        // dpad_up.whileTrue()
-        // dpad_down.whileTrue()
-
         // Button to shoot into the trap
         b.onTrue(shootTrap());
 
