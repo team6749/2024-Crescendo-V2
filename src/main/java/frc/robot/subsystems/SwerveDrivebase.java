@@ -31,6 +31,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -56,6 +57,8 @@ public class SwerveDrivebase extends SubsystemBase {
     public final Field2d field = new Field2d();
 
     boolean withinAnyPOI = false;
+
+    boolean useLimelightDuringAutos = false;
 
     List<PointOfInterest> pois;
 
@@ -151,12 +154,13 @@ public class SwerveDrivebase extends SubsystemBase {
             ChassisSpeeds speeds = getSubsystemChassisSpeeds();
             Translation2d zoom = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond);
             Rotation2d zoomrot = new Rotation2d(speeds.omegaRadiansPerSecond);
-
-            if (botPoseArray[0] != 0 && zoom.getNorm() < 1.5 && Math.abs(zoomrot.getDegrees()) < 20) {
-                // trust vision less, maybe
-                poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(),
-                8, 8, 16));
-                poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
+            if((RobotState.isAutonomous() && getUseLimelightDuringAutos()) || RobotState.isTeleop() || RobotState.isTest()) {
+                if (botPoseArray[0] != 0 && zoom.getNorm() < 1.5 && Math.abs(zoomrot.getDegrees()) < 20) {
+                    // trust vision less, maybe
+                    poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(),
+                    8, 8, 16));
+                    poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
+                }
             }
         } catch (Exception e) {
             System.out.println("THE LIMELIGHT CODE CRASHED");
@@ -199,6 +203,7 @@ public class SwerveDrivebase extends SubsystemBase {
                 return nearest.name;
             }
         }, null);
+        builder.addBooleanProperty("Use limelight during autos?", this::getUseLimelightDuringAutos, this::setUseLimelightDuringAutos);
     }
 
     /**
@@ -369,5 +374,19 @@ public class SwerveDrivebase extends SubsystemBase {
         }, () -> {
             setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
         }, this);
+    }
+    /**
+     * 
+     * @return the current value of the boolean whether to use limelight in autos
+     */
+    public boolean getUseLimelightDuringAutos() {
+        return useLimelightDuringAutos;
+    }
+    /**
+     * resets the value of useLimelightDuringAutos
+     * @param useLimelightDuringAutos the new value to set auto usage state
+     */
+    public void setUseLimelightDuringAutos(boolean useLimelightDuringAutos) {
+        this.useLimelightDuringAutos = useLimelightDuringAutos;
     }
 }
