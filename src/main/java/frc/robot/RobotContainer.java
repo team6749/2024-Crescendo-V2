@@ -225,8 +225,7 @@ public class RobotContainer {
         //yellowTwo
         yellowThree.onTrue(lights.rainbowLights());
         //yellowFour
-        yellowFive.onTrue(Commands.runEnd(
-            () -> climberSubsystem.setAmplify(true), () -> climberSubsystem.setAmplify(false), climberSubsystem).withTimeout(2)); // AMP
+        yellowFive.onTrue(lights.amplificationCommand());
         //blueOne
         blueTwo.whileTrue(swerveDrivebase.badJankAlignWithPoint());
         //blueThree

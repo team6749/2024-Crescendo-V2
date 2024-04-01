@@ -109,22 +109,31 @@ public class LightsSubsystem extends SubsystemBase {
         red.set(Value.kOff);
     }
 
-    public void amplificationLights() {
-        timer.start();
-        if(teamColor == 1){
-            for (int i = 0; i < 100; i++) {
-                blue();
-                off();
-                }
+    // public void amplificationLights() {
+    //     if(teamColor == 1){
+    //         for (int i = 0; i < 100; i++) {
+    //             green();
+    //             off();
+    //         }
             
-        }else if(teamColor == 2){
-            for (int i = 0; i < 100; i++) {
-                red();
-                off();
-            }
-        }else {
-            green();
-        }
+    //     }else if(teamColor == 2){
+    //         for (int i = 0; i < 100; i++) {
+    //             green();
+    //             off();
+    //         }
+    //     }else {
+    //         green();
+    //     }
+    // }4
+
+    public Command amplificationCommand (){
+        return Commands.repeatingSequence(
+            blueCommand(),
+            Commands.waitSeconds(0.2),
+
+            redCommand(),
+            Commands.waitSeconds(0.2)
+        ).withTimeout(5);
     }
 
     public Command rainbowLights() {

@@ -183,7 +183,6 @@ public class SwerveDrivebase extends SubsystemBase {
                 nearest = poi;
             }
         }
-        System.out.println(getUseLimelightDuringAutos());
     }
 
     /**
