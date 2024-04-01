@@ -596,10 +596,10 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "10,0": {
+          "10,4": {
             "size": [
-              2,
-              1
+              7,
+              4
             ],
             "content": {
               "_type": "Camera Stream",
@@ -617,10 +617,10 @@
               "imageHeight": 0
             }
           },
-          "7,4": {
+          "5,4": {
             "size": [
-              2,
-              1
+              5,
+              4
             ],
             "content": {
               "_type": "Field",
@@ -731,7 +731,7 @@
             "content": {
               "_type": "Toggle Button",
               "_source0": "network_table:///SmartDashboard/Swerve Subsystem/limelight during autos?",
-              "_title": "SmartDashboard/Swerve Subsystem/limelight during autos?",
+              "_title": "limelight during autos? (red\u003dtrue)",
               "_glyph": 148,
               "_showGlyph": false
             }
