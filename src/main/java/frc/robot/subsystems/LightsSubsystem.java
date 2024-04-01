@@ -61,49 +61,49 @@ public class LightsSubsystem extends SubsystemBase {
         red.set(Relay.Value.kForward);
     }
     public void cyan() {
-        System.out.println("cyan");
+        // System.out.println("cyan");
         green.set(Value.kOff);
         blue.set(Value.kOff);
         red.set(Value.kForward);
     }
 
     public void green() {
-        System.out.println("green");
+        // System.out.println("green");
         green.set(Relay.Value.kOff);
         blue.set(Relay.Value.kForward);
         red.set(Relay.Value.kForward);
     }
 
     public void red() {
-        System.out.println("red");
+        // System.out.println("red");
         green.set(Relay.Value.kForward);
         blue.set(Relay.Value.kForward);
         red.set(Relay.Value.kOff);
     }
 
     public void blue() {
-        System.out.println("blue");
+        // System.out.println("blue");
         green.set(Value.kForward);
         blue.set(Value.kOff);
         red.set(Value.kForward);
     }
 
     public void white() {
-        System.out.println("white");
+        // System.out.println("white");
         green.set(Value.kOff);
         blue.set(Value.kOff);
         red.set(Value.kOff);
     }
 
     public void yellow() {
-        System.out.println("yellow");
+        // System.out.println("yellow");
         green.set(Value.kOff);
         blue.set(Value.kForward);
         red.set(Value.kOff);
     }
 
     public void magenta() {
-        System.out.println("magenta");
+        // System.out.println("magenta");
         green.set(Value.kForward);
         blue.set(Value.kOff);
         red.set(Value.kOff);

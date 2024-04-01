@@ -183,7 +183,7 @@ public class SwerveDrivebase extends SubsystemBase {
                 nearest = poi;
             }
         }
-
+        System.out.println(getUseLimelightDuringAutos());
     }
 
     /**
@@ -203,7 +203,7 @@ public class SwerveDrivebase extends SubsystemBase {
                 return nearest.name;
             }
         }, null);
-        builder.addBooleanProperty("Use limelight during autos?", this::getUseLimelightDuringAutos, this::setUseLimelightDuringAutos);
+        builder.addBooleanProperty("limelight during autos?", this::getUseLimelightDuringAutos, this::setUseLimelightDuringAutos);
     }
 
     /**
