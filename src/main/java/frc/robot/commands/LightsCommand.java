@@ -45,7 +45,7 @@ public class LightsCommand extends Command {
             _lights.green();
         } else if(_climber.isAmplify() == true){
             _lights.amplificationCommand();
-        }else if (!_intake.getNoteDetected() && !_shooter.isShooting() && !_climber.isCurrentlyClimbing() && !_lights.isAmplify() && !_lights.isCoopertition()){
+        }else if (!_intake.getNoteDetected() && !_shooter.isShooting() && !_climber.isCurrentlyClimbing() && !_climber.isAmplify() && !_lights.isCoopertition()){
             if (DriverStation.getAlliance().get() == Alliance.Blue) {
                 _lights.blue();
             } else {
