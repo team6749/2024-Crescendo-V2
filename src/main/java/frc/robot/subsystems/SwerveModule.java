@@ -164,8 +164,8 @@ public class SwerveModule implements Sendable {
      *                         Brake or Coast
      */
     public void setModuleNeutralMode(NeutralModeValue neutralModeValue) {
-        driveMotor.setNeutralMode(NeutralModeValue.Brake);
-        angleMotor.setNeutralMode(NeutralModeValue.Brake);
+        driveMotor.setNeutralMode(neutralModeValue);
+        angleMotor.setNeutralMode(neutralModeValue);
     }
 
     public double getMaxSpeed() {

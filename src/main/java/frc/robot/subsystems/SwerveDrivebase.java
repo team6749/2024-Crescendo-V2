@@ -98,6 +98,8 @@ public class SwerveDrivebase extends SubsystemBase {
 
         selectedOrientation = DriveOrientation.RobotOriented;
 
+        this.setModulesNeutralMode(NeutralModeValue.Brake);
+
         SmartDashboard.putData("field map", field);
 
         AutoBuilder.configureHolonomic(
