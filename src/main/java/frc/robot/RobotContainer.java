@@ -58,7 +58,7 @@ public class RobotContainer {
     private final Joystick bottomButtonBoard = new Joystick(Constants.OperatorConstants.kBottomButtonBoard);
 
     // Subsystems
-    private final SwerveDrivebase swerveDrivebase;
+    public final SwerveDrivebase swerveDrivebase;
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     private final LightsSubsystem lights = new LightsSubsystem();
