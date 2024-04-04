@@ -30,6 +30,7 @@ public class IntakeSubsystem extends SubsystemBase {
     TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
 
     DigitalInput noteSensor = new DigitalInput(Constants.ElectronicsPorts.noteSensorPort);
+
     Debouncer debounce = new Debouncer(0.2);
 
     double indexerVoltage = 0;
@@ -48,7 +49,7 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addBooleanProperty("note dectected", () -> getNoteDetected(), null);
+        builder.addBooleanProperty("note dectected", () -> isBeamBreakTriggered(), null);
         builder.addDoubleProperty("proximity", () -> proximity, null);
         builder.addBooleanProperty("Is note sensor having note", () -> noteSensor.get(), null);
     }
@@ -70,14 +71,16 @@ public class IntakeSubsystem extends SubsystemBase {
         indexerVoltage = volts;
     }
 
+    /**
+     * Uses a debounce delay to calculate how long the note has been in
+     * @return True if the note is in the robot for long enough (based on the debouncer) and ready to shoot
+     */
     public boolean isNoteIn(){
-        return debounce.calculate(getNoteDetected());
+        return debounce.calculate(isBeamBreakTriggered());
     }
 
     /**
      * 
-     * @param reverse boolean to deicide to intake normally or to spit game piece
-     *                out bottom
      * @param voltage desired voltage to run intake motors at
      * @return instantly runs intake motors to intake game piece from the ground
      */
@@ -87,9 +90,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     /**
      * 
-     * @return is the note within range of the color sensor
+     * @return is the note within range of the Beam Break Sensor
      */
-    public boolean getNoteDetected() {
+    public boolean isBeamBreakTriggered() {
         return !noteSensor.get();
     }
 
@@ -110,23 +113,28 @@ public class IntakeSubsystem extends SubsystemBase {
     /**
      * runs the intake and indexer to pick up notes and feed them into the robot
      * 
+     * Because of how we format our pathplanner autos are formatted (ie: pathfollow and intake race group),
+     * The command is written to NEVER END
+     * 
      * @return stops intaking if not is detected and then sets indexer and intake
      *         power to 0 volts
      */
     public Command groundIntake() {
         return Commands.runEnd(
                 () -> {
-                
+                    if (isNoteIn() == false) { // if no note in, try to intake    
                         intake(-2);
                         indexNote(7);
+                    } else { // otherwise, dont run the intake or indexer
+                        stopIndexer();
+                        stopIntake();
+                    }
             
                     },
-                
                 () -> {
-                    // System.out.println("ended intake command");
                     stopIndexer();
                     stopIntake();
-                }, this).until(()-> isNoteIn());
+                }, this);
     }
 
 }
