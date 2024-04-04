@@ -41,11 +41,11 @@ public class LightsCommand extends Command {
             _lights.violet();
         } else if (_shooter.isShooting()) { // works
             _lights.aqua();
-        } else if (_intake.getNoteDetected()) { // works
+        } else if (_intake.isBeamBreakTriggered()) { // works
             _lights.green();
         } else if(_climber.isAmplify() == true){
             _lights.amplificationCommand();
-        }else if (!_intake.getNoteDetected() && !_shooter.isShooting() && !_climber.isCurrentlyClimbing() && !_climber.isAmplify() && !_lights.isCoopertition()){
+        }else if (!_intake.isBeamBreakTriggered() && !_shooter.isShooting() && !_climber.isCurrentlyClimbing() && !_climber.isAmplify() && !_lights.isCoopertition()){
             if (DriverStation.getAlliance().get() == Alliance.Blue) {
                 _lights.blue();
             } else {

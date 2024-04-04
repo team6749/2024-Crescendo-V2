@@ -31,7 +31,7 @@ public class RotateSwerveOnPoint extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, getErrorDegrees() < 0 ? Math.PI * 1.25: - Math.PI * 1.25));
+        swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, getErrorDegrees() < 0 ? Math.PI * 1: -Math.PI * 1));
         // swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 1));
     }
 

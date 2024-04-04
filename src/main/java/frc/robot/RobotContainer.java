@@ -279,7 +279,7 @@ public class RobotContainer {
                     speakerTimer.start();
                     System.out.println("started shoot command");
                     shooterSubsystem.shoot(9, 1, 1);
-                    intakeSubsystem.indexNote(10);
+                    intakeSubsystem.indexNote(11);
                     shooterSubsystem.setShooting(true);
                 },
                 () -> {

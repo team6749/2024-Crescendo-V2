@@ -596,10 +596,10 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "10,4": {
+          "12,2": {
             "size": [
-              7,
-              4
+              6,
+              7
             ],
             "content": {
               "_type": "Camera Stream",
@@ -617,10 +617,10 @@
               "imageHeight": 0
             }
           },
-          "5,4": {
+          "2,0": {
             "size": [
-              5,
-              4
+              4,
+              3
             ],
             "content": {
               "_type": "Field",
@@ -633,9 +633,9 @@
               "Visuals/Show Outside Circles": false
             }
           },
-          "0,4": {
+          "8,0": {
             "size": [
-              4,
+              2,
               2
             ],
             "content": {
@@ -646,10 +646,10 @@
               "_showGlyph": false
             }
           },
-          "7,0": {
+          "6,2": {
             "size": [
-              2,
-              1
+              6,
+              7
             ],
             "content": {
               "_type": "Camera Stream",
@@ -667,10 +667,10 @@
               "imageHeight": -1
             }
           },
-          "5,2": {
+          "2,5": {
             "size": [
               2,
-              1
+              2
             ],
             "content": {
               "_type": "Boolean Box",
@@ -682,10 +682,10 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "5,0": {
+          "2,3": {
             "size": [
               2,
-              1
+              2
             ],
             "content": {
               "_type": "Boolean Box",
@@ -697,10 +697,10 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "5,1": {
+          "4,3": {
             "size": [
               2,
-              1
+              2
             ],
             "content": {
               "_type": "Text View",
@@ -710,10 +710,10 @@
               "_showGlyph": false
             }
           },
-          "5,3": {
+          "4,5": {
             "size": [
               2,
-              1
+              2
             ],
             "content": {
               "_type": "Text View",
@@ -723,9 +723,9 @@
               "_showGlyph": false
             }
           },
-          "0,1": {
+          "6,0": {
             "size": [
-              4,
+              2,
               2
             ],
             "content": {
@@ -883,8 +883,7 @@
               "Y-axis/Automatic bounds": true,
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/Climber subsystem/Climber actual voltage%": true
+              "Y-axis/Unit": "ul"
             }
           },
           "5,1": {
@@ -903,8 +902,7 @@
               "Y-axis/Automatic bounds": true,
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/Climber subsystem/Climber velocity": true
+              "Y-axis/Unit": "ul"
             }
           }
         }
