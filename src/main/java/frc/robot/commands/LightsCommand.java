@@ -38,9 +38,9 @@ public class LightsCommand extends Command {
     @Override
     public void execute() {
         if (_climber.isCurrentlyClimbing()) { // works
-            _lights.magenta();
+            _lights.violet();
         } else if (_shooter.isShooting()) { // works
-            _lights.cyan();
+            _lights.aqua();
         } else if (_intake.getNoteDetected()) { // works
             _lights.green();
         } else if(_climber.isAmplify() == true){
