@@ -61,70 +61,79 @@ public class LightsSubsystem extends SubsystemBase {
         red.set(Relay.Value.kForward);
     }
     public void cyan() {
-        System.out.println("cyan");
+        // System.out.println("cyan");
         green.set(Value.kOff);
         blue.set(Value.kOff);
         red.set(Value.kForward);
     }
 
     public void green() {
-        System.out.println("green");
+        // System.out.println("green");
         green.set(Relay.Value.kOff);
         blue.set(Relay.Value.kForward);
         red.set(Relay.Value.kForward);
     }
 
     public void red() {
-        System.out.println("red");
+        // System.out.println("red");
         green.set(Relay.Value.kForward);
         blue.set(Relay.Value.kForward);
         red.set(Relay.Value.kOff);
     }
 
     public void blue() {
-        System.out.println("blue");
+        // System.out.println("blue");
         green.set(Value.kForward);
         blue.set(Value.kOff);
         red.set(Value.kForward);
     }
 
     public void white() {
-        System.out.println("white");
+        // System.out.println("white");
         green.set(Value.kOff);
         blue.set(Value.kOff);
         red.set(Value.kOff);
     }
 
     public void yellow() {
-        System.out.println("yellow");
+        // System.out.println("yellow");
         green.set(Value.kOff);
         blue.set(Value.kForward);
         red.set(Value.kOff);
     }
 
     public void magenta() {
-        System.out.println("magenta");
+        // System.out.println("magenta");
         green.set(Value.kForward);
         blue.set(Value.kOff);
         red.set(Value.kOff);
     }
 
-    public void amplificationLights() {
-        timer.start();
-        if(teamColor == 1){
-            for (int i = 0; i < 100; i++) {
-                blue();
-                off();
-                }
+    // public void amplificationLights() {
+    //     if(teamColor == 1){
+    //         for (int i = 0; i < 100; i++) {
+    //             green();
+    //             off();
+    //         }
             
-        }else if(teamColor == 2){
-            for (int i = 0; i < 100; i++) {
-                red();
-                off();
-            }
-        }else {
-            green();
-        }
+    //     }else if(teamColor == 2){
+    //         for (int i = 0; i < 100; i++) {
+    //             green();
+    //             off();
+    //         }
+    //     }else {
+    //         green();
+    //     }
+    // }4
+
+    public Command amplificationCommand (){
+        return Commands.repeatingSequence(
+            blueCommand(),
+            Commands.waitSeconds(0.2),
+
+            redCommand(),
+            Commands.waitSeconds(0.2)
+        ).withTimeout(5);
     }
 
     public Command rainbowLights() {
