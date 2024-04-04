@@ -30,6 +30,7 @@ public class IntakeSubsystem extends SubsystemBase {
     TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
 
     DigitalInput noteSensor = new DigitalInput(Constants.ElectronicsPorts.noteSensorPort);
+    Debouncer debounce = new Debouncer(0.2);
 
     double indexerVoltage = 0;
     double intakeVoltage = 0;
@@ -67,6 +68,10 @@ public class IntakeSubsystem extends SubsystemBase {
      */
     public void indexNote(double volts) {
         indexerVoltage = volts;
+    }
+
+    public boolean isNoteIn(){
+        return debounce.calculate(getNoteDetected());
     }
 
     /**
@@ -111,19 +116,17 @@ public class IntakeSubsystem extends SubsystemBase {
     public Command groundIntake() {
         return Commands.runEnd(
                 () -> {
-                    if (getNoteDetected() == false) {
+                
                         intake(-2);
                         indexNote(7);
-                    } else {
-                        stopIndexer();
-                        stopIntake();
-                    }
-                },
+            
+                    },
+                
                 () -> {
                     // System.out.println("ended intake command");
                     stopIndexer();
                     stopIntake();
-                }, this);
+                }, this).until(()-> isNoteIn());
     }
 
 }
