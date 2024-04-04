@@ -4,13 +4,18 @@
 
 package frc.robot.subsystems;
 
+import java.io.NotSerializableException;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.ProximitySensorMeasurementRate;
 import com.revrobotics.ColorSensorV3.ProximitySensorResolution;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.DigitalGlitchFilter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -24,7 +29,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
 
-    ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+    DigitalInput noteSensor = new DigitalInput(Constants.ElectronicsPorts.noteSensorPort);
+    Debouncer intakeTiming = new Debouncer(0.02);
 
 
     double indexerVoltage = 0;
@@ -45,20 +51,15 @@ public class IntakeSubsystem extends SubsystemBase {
         super.initSendable(builder);
         builder.addBooleanProperty("note dectected", () -> getNoteDetected(), null);
         builder.addDoubleProperty("proximity", () -> proximity, null);
-        builder.addBooleanProperty("Color sensor working?", () -> isConnected, null);
+        builder.addBooleanProperty("Is note sensor having note", () -> noteSensor.get(), null);
     }
 
     @Override
     public void periodic() {
         intakeMotor.setVoltage(intakeVoltage);
         indexerMotor.setVoltage(indexerVoltage);
-        isConnected = colorSensor.isConnected();
-        if (isConnected) {
-            proximity = colorSensor.getProximity();
-        } else {
-            proximity = 0;
-        }
         // colorSensor.configureProximitySensor(ProximitySensorResolution.kProxRes10bit, ProximitySensorMeasurementRate.kProxRate100ms);
+        
     }
 
     /**
@@ -86,7 +87,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * @return is the note within range of the color sensor
      */
     public boolean getNoteDetected() {
-        return proximity > 500;
+        return !noteSensor.get();
     }
 
     /**
