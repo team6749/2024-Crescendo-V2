@@ -5,13 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Relay.Value;
-import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class LightsSubsystem extends SubsystemBase {
     int teamColor; // 1 is blue, 2 is red
@@ -24,9 +22,7 @@ public class LightsSubsystem extends SubsystemBase {
         timer.reset();
     }
 
-    private static Relay green = new Relay(Constants.ElectronicsPorts.green);
-    private static Relay red = new Relay(Constants.ElectronicsPorts.red);
-    private static Relay blue = new Relay(Constants.ElectronicsPorts.blue);
+    private static Spark lightsController = new Spark(9);
 
     
     @Override
@@ -38,14 +34,6 @@ public class LightsSubsystem extends SubsystemBase {
         }
     }
 
-    public boolean isAmplify() {
-        return amplify;
-    }
-
-    public void setAmplify(boolean amplify) {
-        this.amplify = amplify;
-        System.out.println(this.amplify);
-    }
 
     public boolean isCoopertition() {
         return coopertition;
@@ -56,76 +44,72 @@ public class LightsSubsystem extends SubsystemBase {
     }
 
     public void off(){
-        green.set(Relay.Value.kForward);
-        blue.set(Relay.Value.kForward);
-        red.set(Relay.Value.kForward);
+        lightsController.set(0.99);
     }
-    public void cyan() {
-        // System.out.println("cyan");
-        green.set(Value.kOff);
-        blue.set(Value.kOff);
-        red.set(Value.kForward);
+    public void darkGray(){
+        lightsController.set(0.97);
     }
-
-    public void green() {
-        // System.out.println("green");
-        green.set(Relay.Value.kOff);
-        blue.set(Relay.Value.kForward);
-        red.set(Relay.Value.kForward);
+    public void gray(){
+        lightsController.set(0.95);
     }
-
-    public void red() {
-        // System.out.println("red");
-        green.set(Relay.Value.kForward);
-        blue.set(Relay.Value.kForward);
-        red.set(Relay.Value.kOff);
+    public void white(){
+        lightsController.set(0.93);
     }
-
-    public void blue() {
-        // System.out.println("blue");
-        green.set(Value.kForward);
-        blue.set(Value.kOff);
-        red.set(Value.kForward);
+    public void violet(){
+        lightsController.set(0.91);
     }
-
-    public void white() {
-        // System.out.println("white");
-        green.set(Value.kOff);
-        blue.set(Value.kOff);
-        red.set(Value.kOff);
+    public void blueViolet(){
+        lightsController.set(0.89);
     }
-
-    public void yellow() {
-        // System.out.println("yellow");
-        green.set(Value.kOff);
-        blue.set(Value.kForward);
-        red.set(Value.kOff);
+    public void blue(){
+        lightsController.set(0.87);
     }
-
-    public void magenta() {
-        // System.out.println("magenta");
-        green.set(Value.kForward);
-        blue.set(Value.kOff);
-        red.set(Value.kOff);
+    public void darkBlue(){
+        lightsController.set(0.85);
     }
-
-    // public void amplificationLights() {
-    //     if(teamColor == 1){
-    //         for (int i = 0; i < 100; i++) {
-    //             green();
-    //             off();
-    //         }
-            
-    //     }else if(teamColor == 2){
-    //         for (int i = 0; i < 100; i++) {
-    //             green();
-    //             off();
-    //         }
-    //     }else {
-    //         green();
-    //     }
-    // }4
-
+    public void skyBlue(){
+        lightsController.set(0.83);
+    }
+    public void aqua(){
+        lightsController.set(0.81);
+    }
+    public void blueGreen(){
+        lightsController.set(0.79);
+    }
+    public void green(){
+        lightsController.set(0.77);
+    }
+    public void darkGreen(){
+        lightsController.set(0.75);
+    }
+    public void lime(){
+        lightsController.set(0.73);
+    }
+    public void lawnGreen(){
+        lightsController.set(0.71);
+    }
+    public void yellow(){
+        lightsController.set(0.69);
+    }
+    public void gold(){
+        lightsController.set(0.67);
+    }
+    public void orange(){
+        lightsController.set(0.65);
+    }
+    public void redOrange(){
+        lightsController.set(0.63);
+    }
+    public void red(){
+        lightsController.set(0.61);
+    }
+    public void darkRed(){
+        lightsController.set(0.59);
+    }
+    public void hotPink(){
+        lightsController.set(0.57);
+    }
+    
     public Command amplificationCommand (){
         return Commands.repeatingSequence(
             blueCommand(),
@@ -140,7 +124,7 @@ public class LightsSubsystem extends SubsystemBase {
         return Commands.repeatingSequence(
                 greenCommand(),
                 Commands.waitSeconds(0.2),
-                cyanCommand(),
+                aquaCommand(),
                 Commands.waitSeconds(0.2),
                 redCommand(),
                 Commands.waitSeconds(0.2),
@@ -150,7 +134,7 @@ public class LightsSubsystem extends SubsystemBase {
                 Commands.waitSeconds(0.2),
                 yellowCommand(),
                 Commands.waitSeconds(0.2),
-                magentaCommand(),
+                violetCommand(),
                 Commands.waitSeconds(0.2)).withTimeout(10);
     }
 
@@ -166,83 +150,70 @@ public class LightsSubsystem extends SubsystemBase {
                 this);
     }
 
-    public Command greenCommand() {
-        return Commands.runOnce(
-                () -> {
-                    green.set(Relay.Value.kOff);
-                    blue.set(Relay.Value.kForward);
-                    red.set(Relay.Value.kForward);
-                },
-                this);
+    public Command offCommand(){
+        return Commands.runOnce(()-> off(), this);
+        }
+    public Command darkGrayCommand(){
+        return Commands.runOnce(()-> darkGray(), this);
     }
-
-    public Command cyanCommand() {
-        return Commands.runOnce(
-                () -> {
-                    green.set(Value.kOff);
-                    blue.set(Value.kOff);
-                    red.set(Value.kForward);
-                },
-                this);
+    public Command grayCommand(){
+        return Commands.runOnce(()-> gray(), this);
     }
-
-    public Command redCommand() {
-        return Commands.runOnce(
-                () -> {
-                    green.set(Relay.Value.kForward);
-                    blue.set(Relay.Value.kForward);
-                    red.set(Relay.Value.kOff);
-                },
-                this);
+    public Command whiteCommand(){
+        return Commands.runOnce(()-> white(), this);
     }
-
-    public Command blueCommand() {
-        return Commands.runOnce(
-                () -> {
-                    green.set(Value.kForward);
-                    blue.set(Value.kOff);
-                    red.set(Value.kForward);
-                },
-                this);
+    public Command violetCommand(){
+        return Commands.runOnce(()-> violet(), this);
     }
-
-    public Command whiteCommand() {
-        return Commands.runOnce(
-                () -> {
-                    green.set(Value.kOff);
-                    blue.set(Value.kOff);
-                    red.set(Value.kOff);
-                },
-                this);
+    public Command blueVioletCommand(){
+        return Commands.runOnce(()-> blueViolet(), this);
     }
-
-    public Command yellowCommand() {
-        return Commands.runOnce(
-                () -> {
-                    green.set(Value.kOff);
-                    blue.set(Value.kForward);
-                    red.set(Value.kOff);
-                },
-                this);
+    public Command blueCommand(){
+        return Commands.runOnce(()-> blue(), this);
     }
-
-    public Command magentaCommand() {
-        return Commands.runOnce(
-                () -> {
-                    green.set(Value.kForward);
-                    blue.set(Value.kOff);
-                    red.set(Value.kOff);
-                },
-                this);
+    public Command darkBlueCommand(){
+        return Commands.runOnce(()-> darkBlue(), this);
     }
-
-    public Command offCommand() {
-        return Commands.runOnce(
-                () -> {
-                    green.set(Relay.Value.kForward);
-                    blue.set(Relay.Value.kForward);
-                    red.set(Relay.Value.kForward);
-                },
-                this);
+    public Command skyBlueCommand(){
+        return Commands.runOnce(()-> skyBlue(), this);
+    }
+    public Command aquaCommand(){
+        return Commands.runOnce(()-> aqua(), this);
+    }
+    public Command blueGreenCommand(){
+        return Commands.runOnce(()-> blueGreen(), this);
+    }
+    public Command greenCommand(){
+        return Commands.runOnce(()-> green(), this);
+    }
+    public Command darkGreenCommand(){
+        return Commands.runOnce(()-> darkGreen(), this);
+    }
+    public Command limeCommand(){
+        return Commands.runOnce(()-> lime(), this);
+    }
+    public Command lawnGreeCommand(){
+        return Commands.runOnce(()-> lawnGreen(), this);
+    }
+    public Command yellowCommand(){
+        return Commands.runOnce(()-> yellow(), this);
+    }
+    public Command goldCommand(){
+        return Commands.runOnce(()-> gold(), this);
+    }
+    public Command orangeCommand(){
+        return Commands.runOnce(()-> orange(), this);
+    }
+    public Command redOrangeCommand(){
+        return Commands.runOnce(()-> redOrange(), this);
+    }
+    public Command redCommand(){
+        return Commands.runOnce(()-> red(), this);
+    }
+    public Command darkRedCommand(){
+        return Commands.runOnce(()-> darkRed(), this);
+    }
+    public Command hotPinkCommand(){
+        return Commands.runOnce(()-> hotPink(), this);
     }
 }
