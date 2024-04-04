@@ -160,6 +160,7 @@ public final class Constants {
     }
 
     public static class POIConstants {
+        // list of created POIs to align to
         public static List<PointOfInterest> pointsOfInterest = Arrays.asList(
                 new PointOfInterest("Blue Amp", new Translation2d(1.84, 7.85), Rotation2d.fromDegrees(-90), 5, 0.1),
                 new PointOfInterest("Blue Stage Up", new Translation2d(4.17, 5.24), Rotation2d.fromDegrees(120), 1,
@@ -178,5 +179,6 @@ public final class Constants {
 
     // very necessary constants, must be in every constants class in order for the
     // robot to run correctly
+    // my favorite constant
     public static final int one = 1;
 }

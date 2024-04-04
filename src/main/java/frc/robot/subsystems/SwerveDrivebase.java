@@ -51,7 +51,7 @@ public class SwerveDrivebase extends SubsystemBase {
     public SwerveDrivePoseEstimator poseEstimator;
     public DriveOrientation selectedOrientation;
 
-    // public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    // public static ADXRS450_Gyro gyro = new ADXRS450_Gyro(); //leave this in case we need to swap to old gyro for some reason
     public ADIS16470_IMU gyro = new ADIS16470_IMU();
 
     public final Field2d field = new Field2d();
@@ -76,7 +76,7 @@ public class SwerveDrivebase extends SubsystemBase {
         this.modules = modules;
         this.pois = pois;
         gyro.calibrate();
-        
+
         Translation2d[] translations = new Translation2d[modules.length];
 
         for (int i = 0; i < translations.length; i++) {
@@ -89,7 +89,6 @@ public class SwerveDrivebase extends SubsystemBase {
 
         kinematics = new SwerveDriveKinematics(translations);
 
-        // measurement from just the wheels
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, getGyroRotation2d(), getCurrentModulePositions(),
                 new Pose2d(0, 0, getGyroRotation2d()));
@@ -143,24 +142,26 @@ public class SwerveDrivebase extends SubsystemBase {
         // This method will be called once per scheduler run
         poseEstimator.update(getGyroRotation2d(), getCurrentModulePositions());
 
+        // Attempt to reset bot pose using limelight vision measurement
         try {
             NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue");
             double[] botPoseArray = botPose.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 }); // Translation(x,y,z),
                                                                                                   // Rotation(roll,
-                                                                                                  // pitch,
-            // yaw), full latency
+                                                                                                  // pitch, yaw),
+                                                                                                  // full latency
             Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
                     Rotation2d.fromDegrees(botPoseArray[5]));
-            double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0);
+            double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0); // latency
 
             ChassisSpeeds speeds = getSubsystemChassisSpeeds();
             Translation2d zoom = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond);
             Rotation2d zoomrot = new Rotation2d(speeds.omegaRadiansPerSecond);
-            if((RobotState.isAutonomous() && getUseLimelightDuringAutos()) || RobotState.isTeleop() || RobotState.isTest()) {
+            if ((RobotState.isAutonomous() && getUseLimelightDuringAutos()) || RobotState.isTeleop()
+                    || RobotState.isTest()) {
                 if (botPoseArray[0] != 0 && zoom.getNorm() < 1.5 && Math.abs(zoomrot.getDegrees()) < 20) {
                     // trust vision less, maybe
                     poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(),
-                    8, 8, 16));
+                            8, 8, 16));
                     poseEstimator.addVisionMeasurement(estimatedPosition, currentTime);
                 }
             }
@@ -172,7 +173,7 @@ public class SwerveDrivebase extends SubsystemBase {
 
         withinAnyPOI = false;
         for (PointOfInterest point : pois) {
-            if (point.withinTolerance(getPose2d())) {
+            if (point.withinTolerance(getPose2d())) { // if the current robot pose is within tolerance of any POI
                 withinAnyPOI = true;
             }
         }
@@ -204,7 +205,8 @@ public class SwerveDrivebase extends SubsystemBase {
                 return nearest.name;
             }
         }, null);
-        builder.addBooleanProperty("limelight during autos?", this::getUseLimelightDuringAutos, this::setUseLimelightDuringAutos);
+        builder.addBooleanProperty("Use limelight during autos?", this::getUseLimelightDuringAutos,
+                this::setUseLimelightDuringAutos);
     }
 
     /**
@@ -353,6 +355,10 @@ public class SwerveDrivebase extends SubsystemBase {
         }
     }
 
+    /**
+     * 
+     * @return a Command which aligns the robot with the nearest poi
+     */
     public Command badJankAlignWithPoint() {
         return Commands.runEnd(() -> {
             double maxLinearSpeed = 1.5;
@@ -376,6 +382,7 @@ public class SwerveDrivebase extends SubsystemBase {
             setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
         }, this);
     }
+
     /**
      * 
      * @return the current value of the boolean whether to use limelight in autos
@@ -383,8 +390,10 @@ public class SwerveDrivebase extends SubsystemBase {
     public boolean getUseLimelightDuringAutos() {
         return useLimelightDuringAutos;
     }
+
     /**
      * resets the value of useLimelightDuringAutos
+     * 
      * @param useLimelightDuringAutos the new value to set auto usage state
      */
     public void setUseLimelightDuringAutos(boolean useLimelightDuringAutos) {

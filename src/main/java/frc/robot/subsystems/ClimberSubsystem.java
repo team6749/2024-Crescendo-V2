@@ -35,6 +35,10 @@ public class ClimberSubsystem extends SubsystemBase {
         this.amplify = amplify;
     }
 
+    /**
+     * Returns boolean value, true if the climber motor is running, false if not
+     * @return currentlyClimbing: The value of whether climber is moving or not
+     */
     public boolean isCurrentlyClimbing() {
         return currentlyClimbing;
     }
@@ -150,6 +154,11 @@ public class ClimberSubsystem extends SubsystemBase {
         return -(climber.getVelocity().getValueAsDouble() * Constants.ConversionConstants.climberConversion);
     }
 
+    /**
+     * Command to raise the climber, the motor is inverted so negative voltage goes up. This Command will set a currently climbing variable to true
+     * so that we can acess the climber state in other parts of the code
+     * @return
+     */
     public Command raiseClimber() {
         return Commands.startEnd(
                 () -> {
@@ -164,6 +173,11 @@ public class ClimberSubsystem extends SubsystemBase {
                 }, this);
     }
 
+    /**
+     * Command to lower the climber, similarly to raising the climber, this command updates the currently climbing
+     * boolean so that we can use it in other parts of the code
+     * @return
+     */
     public Command lowerClimber() {
         return Commands.startEnd(
                 () -> {
