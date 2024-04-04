@@ -49,6 +49,7 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
+        builder.addBooleanProperty("note ready to shoot", () -> isNoteIn(), null);
         builder.addBooleanProperty("note dectected", () -> isBeamBreakTriggered(), null);
         builder.addDoubleProperty("proximity", () -> proximity, null);
         builder.addBooleanProperty("Is note sensor having note", () -> noteSensor.get(), null);

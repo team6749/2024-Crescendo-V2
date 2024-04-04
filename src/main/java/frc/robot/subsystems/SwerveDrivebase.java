@@ -91,12 +91,12 @@ public class SwerveDrivebase extends SubsystemBase {
 
         // measurement from just the wheels
 
-        poseEstimator = new SwerveDrivePoseEstimator(kinematics, getRotation2d(), getCurrentModulePositions(),
-                new Pose2d(0, 0, getRotation2d()));
+        poseEstimator = new SwerveDrivePoseEstimator(kinematics, getGyroRotation2d(), getCurrentModulePositions(),
+                new Pose2d(0, 0, getGyroRotation2d()));
 
         gyro.calibrate();
 
-        selectedOrientation = DriveOrientation.RobotOriented;
+        selectedOrientation = DriveOrientation.FieldOriented;
 
         this.setModulesNeutralMode(NeutralModeValue.Brake);
 
@@ -141,7 +141,7 @@ public class SwerveDrivebase extends SubsystemBase {
         }
 
         // This method will be called once per scheduler run
-        poseEstimator.update(getRotation2d(), getCurrentModulePositions());
+        poseEstimator.update(getGyroRotation2d(), getCurrentModulePositions());
 
         try {
             NetworkTableEntry botPose = limelightNetworkTable.getEntry("botpose_wpiblue");
@@ -256,14 +256,14 @@ public class SwerveDrivebase extends SubsystemBase {
      */
     public Pose3d getPose3d() {
         return new Pose3d(new Translation3d(getPose2d().getX(), getPose2d().getY(), 0),
-                new Rotation3d(0, 0, getRotation2d().getRadians()));
+                new Rotation3d(0, 0, getPose2d().getRotation().getRadians()));
     }
 
     /**
      * 
-     * @return a Rotation2d of the robots current rotation
+     * @return a Rotation2d of the gyro current rotation
      */
-    public Rotation2d getRotation2d() {
+    public Rotation2d getGyroRotation2d() {
         return Rotation2d.fromDegrees(gyro.getAngle());
     }
 
@@ -291,7 +291,7 @@ public class SwerveDrivebase extends SubsystemBase {
         System.out.println("Resetting Odometry at " + pose2d.getX() + " " + pose2d.getY());
 
         poseEstimator.resetPosition(
-                getRotation2d(),
+                getGyroRotation2d(),
                 getCurrentModulePositions(),
                 pose2d);
         System.out.println(poseEstimator.getEstimatedPosition().getX() + " "
