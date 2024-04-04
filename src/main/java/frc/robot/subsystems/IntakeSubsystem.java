@@ -30,8 +30,6 @@ public class IntakeSubsystem extends SubsystemBase {
     TalonFX intakeMotor = new TalonFX(Constants.ElectronicsPorts.intakeMotor);
 
     DigitalInput noteSensor = new DigitalInput(Constants.ElectronicsPorts.noteSensorPort);
-    Debouncer intakeTiming = new Debouncer(0.02);
-
 
     double indexerVoltage = 0;
     double intakeVoltage = 0;
