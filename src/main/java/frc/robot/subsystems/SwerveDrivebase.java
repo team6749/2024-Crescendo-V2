@@ -51,7 +51,7 @@ public class SwerveDrivebase extends SubsystemBase {
     public SwerveDrivePoseEstimator poseEstimator;
     public DriveOrientation selectedOrientation;
 
-    // public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    // public static ADXRS450_Gyro gyro = new ADXRS450_Gyro(); //leave this in case we need to swap to old gyro for some reason
     public ADIS16470_IMU gyro = new ADIS16470_IMU();
 
     public final Field2d field = new Field2d();
@@ -89,7 +89,6 @@ public class SwerveDrivebase extends SubsystemBase {
 
         kinematics = new SwerveDriveKinematics(translations);
 
-        // measurement from just the wheels
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, getRotation2d(), getCurrentModulePositions(),
                 new Pose2d(0, 0, getRotation2d()));

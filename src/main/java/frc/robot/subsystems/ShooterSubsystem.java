@@ -13,12 +13,9 @@ import frc.robot.Constants;
 
 @SuppressWarnings("unused")
 public class ShooterSubsystem extends SubsystemBase {
-    /** Creates a new ShooterSubsystem. */
-    // Initializes motor variables to be declared later
     private TalonFX topShooterMotor;
     private TalonFX bottomShooterMotor;
 
-    // Initializing variables to control the shooters voltage and modifiers
     private double topShooterMaxModifier = 1;
     private double bottomShooterMaxModifier = 1;
     double voltage = 0;
@@ -28,8 +25,6 @@ public class ShooterSubsystem extends SubsystemBase {
     public boolean noteHasLeft = false;
 
     public ShooterSubsystem() {
-        // Initializes motors with their respective ports from the ElectronicsPorts
-        // sub-class in constants
         topShooterMotor = new TalonFX(Constants.ElectronicsPorts.topShooterMotorPort);
         bottomShooterMotor = new TalonFX(Constants.ElectronicsPorts.bottomShooterMotorPort);
     }
@@ -42,7 +37,6 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterVelocityMs = ((bottomShooterMotor.getVelocity().getValueAsDouble() + topShooterMotor.getVelocity().getValueAsDouble()) / 2) * 0.0762 * Math.PI;
         
         if(voltage != 0) {
-            // If we are trying to move the shooter
             if(shooterVelocityMs > peakVelocity) {
                 peakVelocity = shooterVelocityMs;
             }

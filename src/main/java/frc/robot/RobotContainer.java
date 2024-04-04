@@ -108,15 +108,6 @@ public class RobotContainer {
     JoystickButton greenFour = new JoystickButton(bottomButtonBoard, 9);
     JoystickButton greenFive = new JoystickButton(bottomButtonBoard, 10);
 
-    // final PositionalSubsystem intakeSegment = new PositionalSubsystem(
-    // 8,
-    // 0,
-    // intakePivot,
-    // new PIDController(1, 0, 0),
-    // -20,
-    // 180,
-    // 3,
-    // false);
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
     private final SendableChooser<Command> autoChooser;
@@ -138,7 +129,6 @@ public class RobotContainer {
         SmartDashboard.putData("Swerve Subsystem", swerveDrivebase);
         SmartDashboard.putData("Intake Subsystem", intakeSubsystem);
         SmartDashboard.putData("Climber subsystem", climberSubsystem);
-        // SmartDashboard.putData("Auto Chooser", autoChooser);
 
         // Adds any commands we made in the code directly to PathPlanner to be used in
         // autonomous paths
@@ -176,80 +166,60 @@ public class RobotContainer {
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
         intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
         lights.setDefaultCommand(new LightsCommand(lights, climberSubsystem, shooterSubsystem, intakeSubsystem));
-        // lights.setDefaultCommand(lights.rainbowLights());
 
-        // Button to shoot into the trap
         b.onTrue(shootTrap());
-
-        // Button to shoot into speaker
         x.onTrue(shootSpeaker());
-
-        // Button to shoot into the amp
         y.onTrue(shootAmp());
 
         a.whileTrue(swerveDrivebase.badJankAlignWithPoint());
 
         leftBumper.onTrue(swerveDrivebase.driveModeCommand());
-
         back_button.onTrue(swerveDrivebase.resetOdometryCommand());
         start_button.whileTrue(driveForward());
 
         left_trigger.whileTrue(climberSubsystem.raiseClimber());
         right_trigger.whileTrue(climberSubsystem.lowerClimber());
 
-
-        //unused buttons
+        //shooting/climbing buttons
         redOne.onTrue(shootSpeaker());
         redTwo.onTrue(shootAmp());
         redThree.onTrue(shootTrap());
         redFour.whileTrue(climberSubsystem.lowerClimber());
         redFive.whileTrue(climberSubsystem.raiseClimber());
+        
+        //Lights buttons
         yellowOne.onTrue(Commands.startEnd(
-            ()-> {
-                lights.yellow();
-                lights.setCoopertition(true);
-            }, 
-            () -> {
-                lights.setCoopertition(false);
-                lights.defaultColorCommand();
-            },
-            lights
-            ).withTimeout(5)); // coopertition signal
-        //yellowTwo
+                () -> {
+                    lights.yellow();
+                    lights.setCoopertition(true);
+                },
+                () -> {
+                    lights.setCoopertition(false);
+                    lights.defaultColorCommand();
+                },
+                lights).withTimeout(5)); // coopertition signal
         yellowThree.onTrue(lights.rainbowLights());
-        //yellowFour
         yellowFive.onTrue(Commands.runEnd(
-            () -> climberSubsystem.setAmplify(true), () -> climberSubsystem.setAmplify(false), climberSubsystem).withTimeout(2)); // AMP
-        //blueOne
+                () -> climberSubsystem.setAmplify(true), () -> climberSubsystem.setAmplify(false), climberSubsystem)
+                .withTimeout(2)); // AMP
+        
+        //Robot movement buttons
         blueTwo.whileTrue(swerveDrivebase.badJankAlignWithPoint());
-        //blueThree
         blueFour.whileTrue(new RotateSwerveOnPoint(swerveDrivebase));
-        //blueFive
-        //greenOne
-        //greenTwo
-        //greenThree
-        //greenFour
-        //greenFive
 
-        // redFive.onTrue(lights.rainbowLights());
-        
-        // blueFive.onTrue(Commands.runEnd(
-        //     () -> climberSubsystem.setAmplify(true), () -> climberSubsystem.setAmplify(false), climberSubsystem).withTimeout(2));
 
-        // yellowFive.onTrue(Commands.startEnd(
-        //     ()-> {
-        //         lights.yellow();
-        //         lights.setCoopertition(true);
-        //     }, 
-        //     () -> {
-        //         lights.setCoopertition(false);
-        //         lights.defaultColorCommand();
-        //     },
-        //     lights
-        //     ).withTimeout(5)); // coopertition signal
-    
+        //unused buttons
+        // yellowTwo
+        // yellowFour
+        // blueOne
+        // blueThree
+        // blueFive
+        // greenOne
+        // greenTwo
+        // greenThree
+        // greenFour
+        // greenFive
 
-        
     }
 
     /**
@@ -266,26 +236,39 @@ public class RobotContainer {
 
     Timer speakerTimer = new Timer();
 
+    /**
+     * Command used to shoot into the speaker, runs both indexer and shooter, both
+     * shooter motors get the same amount of power
+     * This command also features a timer which and will print out how long it took
+     * to shoot the note
+     * 
+     * @return
+     */
     public Command shootSpeaker() {
         return Commands.startEnd(
                 () -> {
                     speakerTimer.reset();
                     speakerTimer.start();
-                    System.out.println("started shoot command");
+                    System.out.println("started speaker shooting command");
                     shooterSubsystem.shoot(9, 1, 1);
                     intakeSubsystem.indexNote(10);
                     shooterSubsystem.setShooting(true);
                 },
                 () -> {
-                    System.out.println("ended shoot command" + speakerTimer.get());
+                    System.out.println("ended speaker shooting command" + speakerTimer.get());
                     shooterSubsystem.shoot(0, 1, 1);
                     intakeSubsystem.stopIndexer();
                     shooterSubsystem.setShooting(false);
                 },
                 shooterSubsystem, intakeSubsystem).until(() -> shooterSubsystem.noteHasLeft).withTimeout(0.4);
     }
-    
 
+    /**
+     * Command to shoot into the amp, runs indexer and shooter with the top shooter
+     * getting 70% less power than the bottom
+     * 
+     * @return
+     */
     public Command shootAmp() {
         return Commands.startEnd(
                 () -> {
@@ -300,23 +283,19 @@ public class RobotContainer {
                 }, shooterSubsystem, intakeSubsystem).withTimeout(1);
     }
 
-    public Command driveForward() {
-        return Commands.runEnd(
-                () -> {
-                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0.2, 0, 0));
-                },
-                () -> {
-                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
-                }, swerveDrivebase);
-    }
-
+    /**
+     * Command to shoot into the trap, runs the indexer and the shooter, with the
+     * top shooter getting 25% less voltage than the bottom shooter
+     * 
+     * @return
+     */
     public Command shootTrap() {
         return Commands.startEnd(
                 () -> {
                     intakeSubsystem.indexNote(8);
                     shooterSubsystem.shoot(8, 1, 0.75);
                     shooterSubsystem.setShooting(true);
-                
+
                 },
                 () -> {
                     intakeSubsystem.stopIndexer();
@@ -326,5 +305,20 @@ public class RobotContainer {
 
     }
 
+    /**
+     * Simple command for the robot to drive straight forward at 0.2 m/s while a
+     * button is held
+     * 
+     * @return
+     */
+    public Command driveForward() {
+        return Commands.runEnd(
+                () -> {
+                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0.2, 0, 0));
+                },
+                () -> {
+                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
+                }, swerveDrivebase);
+    }
 
 }

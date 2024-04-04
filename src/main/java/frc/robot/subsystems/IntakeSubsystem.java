@@ -121,7 +121,6 @@ public class IntakeSubsystem extends SubsystemBase {
                     }
                 },
                 () -> {
-                    // System.out.println("ended intake command");
                     stopIndexer();
                     stopIntake();
                 }, this);
