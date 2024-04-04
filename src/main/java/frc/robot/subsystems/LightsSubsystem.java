@@ -34,14 +34,6 @@ public class LightsSubsystem extends SubsystemBase {
         }
     }
 
-    public boolean isAmplify() {
-        return amplify;
-    }
-
-    public void setAmplify(boolean amplify) {
-        this.amplify = amplify;
-        System.out.println(this.amplify);
-    }
 
     public boolean isCoopertition() {
         return coopertition;
