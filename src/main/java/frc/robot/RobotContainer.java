@@ -199,11 +199,9 @@ public class RobotContainer {
                 },
                 lights).withTimeout(5)); // coopertition signal
         yellowThree.onTrue(lights.rainbowLights());
-        yellowFive.onTrue(Commands.runEnd(
-                () -> climberSubsystem.setAmplify(true), () -> climberSubsystem.setAmplify(false), climberSubsystem)
-                .withTimeout(2)); // AMP
-        
-        //Robot movement buttons
+        //yellowFour
+        yellowFive.onTrue(lights.amplificationCommand());
+        //blueOne
         blueTwo.whileTrue(swerveDrivebase.badJankAlignWithPoint());
         blueFour.whileTrue(new RotateSwerveOnPoint(swerveDrivebase));
 

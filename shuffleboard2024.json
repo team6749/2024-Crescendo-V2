@@ -590,16 +590,16 @@
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
-        "gridSize": 128.0,
+        "gridSize": 64.0,
         "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "7,0": {
+          "10,4": {
             "size": [
-              3,
-              3
+              7,
+              4
             ],
             "content": {
               "_type": "Camera Stream",
@@ -617,10 +617,10 @@
               "imageHeight": 0
             }
           },
-          "0,1": {
+          "5,4": {
             "size": [
-              3,
-              2
+              5,
+              4
             ],
             "content": {
               "_type": "Field",
@@ -633,23 +633,23 @@
               "Visuals/Show Outside Circles": false
             }
           },
-          "1,0": {
+          "0,4": {
             "size": [
-              2,
-              1
+              4,
+              2
             ],
             "content": {
               "_type": "ComboBox Chooser",
               "_source0": "network_table:///SmartDashboard/SendableChooser[0]",
-              "_title": "/SmartDashboard/SendableChooser[0]",
+              "_title": "Auto Selector",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "3,0": {
+          "7,0": {
             "size": [
-              4,
-              4
+              2,
+              1
             ],
             "content": {
               "_type": "Camera Stream",
@@ -667,9 +667,9 @@
               "imageHeight": -1
             }
           },
-          "7,3": {
+          "5,2": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -682,7 +682,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "8,3": {
+          "5,0": {
             "size": [
               2,
               1
@@ -695,6 +695,45 @@
               "_showGlyph": false,
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "5,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Swerve Subsystem/closest POI",
+              "_title": "SmartDashboard/Swerve Subsystem/closest POI",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Swerve Subsystem/Orientation",
+              "_title": "SmartDashboard/Swerve Subsystem/Orientation",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,1": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/Swerve Subsystem/limelight during autos?",
+              "_title": "limelight during autos? (red\u003dtrue)",
+              "_glyph": 148,
+              "_showGlyph": false
             }
           }
         }

@@ -91,6 +91,7 @@ public final class Constants {
         public static final int red = 0; 
         public static final int blue = 1;
 
+        public static final int noteSensorPort = 9;
         //Also would put any pneumatic things here (we do not have on our 2024 robot, but put here for example)
         //There are examples of pneumatics code being put to use in the 2022 and 2023 mainseason robots
         // public static final int[] doubleSolenoid1 = {0,1};
