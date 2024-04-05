@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -65,6 +67,7 @@ public class Robot extends TimedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
+        m_robotContainer.swerveDrivebase.setModulesNeutralMode(NeutralModeValue.Coast);
     }
 
     @Override
@@ -77,6 +80,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        m_robotContainer.swerveDrivebase.setModulesNeutralMode(NeutralModeValue.Brake);
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
@@ -96,6 +100,7 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        m_robotContainer.swerveDrivebase.setModulesNeutralMode(NeutralModeValue.Brake);
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }

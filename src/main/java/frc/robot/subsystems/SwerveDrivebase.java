@@ -149,15 +149,14 @@ public class SwerveDrivebase extends SubsystemBase {
                                                                                                   // Rotation(roll,
                                                                                                   // pitch, yaw),
                                                                                                   // full latency
-            Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1],
+            Pose2d estimatedPosition = new Pose2d(botPoseArray[0], botPoseArray[1] + 0.077,
                     Rotation2d.fromDegrees(botPoseArray[5]));
             double currentTime = Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0); // latency
 
             ChassisSpeeds speeds = getSubsystemChassisSpeeds();
             Translation2d zoom = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond);
             Rotation2d zoomrot = new Rotation2d(speeds.omegaRadiansPerSecond);
-            if ((RobotState.isAutonomous() && getUseLimelightDuringAutos()) || RobotState.isTeleop()
-                    || RobotState.isTest()) {
+            if (RobotState.isAutonomous() || RobotState.isTeleop() || RobotState.isTest()) { // (RobotState.isAutonomous() && getUseLimelightDuringAutos())
                 if (botPoseArray[0] != 0 && zoom.getNorm() < 1.5 && Math.abs(zoomrot.getDegrees()) < 20) {
                     // trust vision less, maybe
                     poseEstimator.setVisionMeasurementStdDevs(MatBuilder.fill(Nat.N3(), Nat.N1(),

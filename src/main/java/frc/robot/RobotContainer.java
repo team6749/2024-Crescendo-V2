@@ -58,7 +58,7 @@ public class RobotContainer {
     private final Joystick bottomButtonBoard = new Joystick(Constants.OperatorConstants.kBottomButtonBoard);
 
     // Subsystems
-    private final SwerveDrivebase swerveDrivebase;
+    public final SwerveDrivebase swerveDrivebase;
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     private final LightsSubsystem lights = new LightsSubsystem();
@@ -249,7 +249,7 @@ public class RobotContainer {
                     speakerTimer.start();
                     System.out.println("started speaker shooting command");
                     shooterSubsystem.shoot(9, 1, 1);
-                    intakeSubsystem.indexNote(11);
+                    intakeSubsystem.indexNote(10);
                     shooterSubsystem.setShooting(true);
                 },
                 () -> {

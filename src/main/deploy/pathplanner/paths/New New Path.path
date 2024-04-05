@@ -3,56 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.55
+        "x": 0.4103846582530281,
+        "y": 5.45
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.910302014255159,
-        "y": 6.477212669245833
+        "x": 1.4103846582530273,
+        "y": 5.45
       },
       "isLocked": false,
-      "linkedName": "S2 Speaker Position"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.7316876788334348,
-        "y": 6.993512229837892
+        "x": 1.349604753249427,
+        "y": 5.45
       },
       "prevControl": {
-        "x": 2.01590874255808,
-        "y": 6.618021640316395
+        "x": 0.3496047532494271,
+        "y": 5.45
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Note 1"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 25.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.5,
-    "maxAcceleration": 4.5,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 10.0,
+    "velocity": 0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Close Notes",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
