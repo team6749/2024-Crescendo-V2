@@ -69,9 +69,9 @@ public class SwerveDriveWithController extends Command {
                 break;
             case FieldOriented:
                 Rotation2d robotOffsetToAlliance = swerveDriveSubsystem.poseEstimator.getEstimatedPosition().getRotation();
-                if (DriverStation.getAlliance().get() == Alliance.Red)  {
-                    robotOffsetToAlliance = robotOffsetToAlliance.unaryMinus();
-                }
+                // if (DriverStation.getAlliance().get() == Alliance.Red)  {
+                //     robotOffsetToAlliance = robotOffsetToAlliance.unaryMinus();
+                // }
                 // put field oriented drive here.
                 desiredSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeedms, xSpeedms,
                         thetaSpeedRad, robotOffsetToAlliance);
