@@ -258,7 +258,7 @@ public class RobotContainer {
                     intakeSubsystem.stopIndexer();
                     shooterSubsystem.setShooting(false);
                 },
-                shooterSubsystem, intakeSubsystem).until(() -> shooterSubsystem.noteHasLeft).withTimeout(0.4);
+                shooterSubsystem, intakeSubsystem).withTimeout(0.3);
     }
 
     /**
