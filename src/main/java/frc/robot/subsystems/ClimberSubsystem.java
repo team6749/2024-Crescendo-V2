@@ -181,7 +181,7 @@ public class ClimberSubsystem extends SubsystemBase {
     public Command lowerClimber() {
         return Commands.startEnd(
                 () -> {
-                    setTargetVoltage(2.5);
+                    setTargetVoltage(5);
                     start();
                     currentlyClimbing = true;
                 },
