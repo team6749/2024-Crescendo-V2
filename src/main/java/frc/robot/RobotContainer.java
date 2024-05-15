@@ -55,7 +55,7 @@ public class RobotContainer {
     // and two button boards(defined as joysticks)
     private final XboxController controller = new XboxController(OperatorConstants.kDriverControllerPort);
     private final Joystick topButtonBoard = new Joystick(Constants.OperatorConstants.kTopButtonBoard);
-    private final Joystick bottomButtonBoard = new Joystick(Constants.OperatorConstants.kBottomButtonBoard);
+    // private final Joystick bottomButtonBoard = new Joystick(Constants.OperatorConstants.kBottomButtonBoard);
 
     // Subsystems
     public final SwerveDrivebase swerveDrivebase;
@@ -96,17 +96,17 @@ public class RobotContainer {
     JoystickButton yellowFive = new JoystickButton(topButtonBoard, 10);
 
     // Buttons For Bottom Button Board (blue and green)
-    JoystickButton blueOne = new JoystickButton(bottomButtonBoard, 1);
-    JoystickButton blueTwo = new JoystickButton(bottomButtonBoard, 2);
-    JoystickButton blueThree = new JoystickButton(bottomButtonBoard, 3);
-    JoystickButton blueFour = new JoystickButton(bottomButtonBoard, 4);
-    JoystickButton blueFive = new JoystickButton(bottomButtonBoard, 5);
+    // JoystickButton blueOne = new JoystickButton(bottomButtonBoard, 1);
+    // JoystickButton blueTwo = new JoystickButton(bottomButtonBoard, 2);
+    // JoystickButton blueThree = new JoystickButton(bottomButtonBoard, 3);
+    // JoystickButton blueFour = new JoystickButton(bottomButtonBoard, 4);
+    // JoystickButton blueFive = new JoystickButton(bottomButtonBoard, 5);
 
-    JoystickButton greenOne = new JoystickButton(bottomButtonBoard, 6);
-    JoystickButton greenTwo = new JoystickButton(bottomButtonBoard, 7);
-    JoystickButton greenThree = new JoystickButton(bottomButtonBoard, 8);
-    JoystickButton greenFour = new JoystickButton(bottomButtonBoard, 9);
-    JoystickButton greenFive = new JoystickButton(bottomButtonBoard, 10);
+    // JoystickButton greenOne = new JoystickButton(bottomButtonBoard, 6);
+    // JoystickButton greenTwo = new JoystickButton(bottomButtonBoard, 7);
+    // JoystickButton greenThree = new JoystickButton(bottomButtonBoard, 8);
+    // JoystickButton greenFour = new JoystickButton(bottomButtonBoard, 9);
+    // JoystickButton greenFive = new JoystickButton(bottomButtonBoard, 10);
 
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
@@ -202,8 +202,8 @@ public class RobotContainer {
         //yellowFour
         yellowFive.onTrue(lights.amplificationCommand());
         //blueOne
-        blueTwo.whileTrue(swerveDrivebase.badJankAlignWithPoint());
-        blueFour.whileTrue(new RotateSwerveOnPoint(swerveDrivebase));
+        // blueTwo.whileTrue(swerveDrivebase.badJankAlignWithPoint());
+        // blueFour.whileTrue(new RotateSwerveOnPoint(swerveDrivebase));
 
 
         //unused buttons
