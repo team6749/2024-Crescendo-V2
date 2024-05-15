@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.42013706981956583,
-      "y": 7.33916670743907
+      "x": 0.68,
+      "y": 6.75
     },
-    "rotation": -90.0
+    "rotation": -32.43000000000001
   },
   "command": {
     "type": "sequential",
@@ -14,36 +14,30 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start to Amp"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
+            "pathName": "Easy to"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot Amp"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
+            "name": "Intake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Amp to Wingline"
+            "pathName": "Easy from"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Speaker"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Donut Dash",
   "choreoAuto": false
 }
