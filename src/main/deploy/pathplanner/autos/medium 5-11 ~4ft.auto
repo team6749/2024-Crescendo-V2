@@ -30,6 +30,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Spin"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Medium from"

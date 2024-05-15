@@ -14,7 +14,7 @@ public class RotateSwerveOnPoint extends Command {
     /** Creates a new RotateSwerveOnPoint. */
     SwerveDrivebase swerveDrivebase;
     Pose2d finalPose;
-    double toleranceDegrees = 7.5;
+    double toleranceDegrees = 12;
 
     public RotateSwerveOnPoint(SwerveDrivebase drivebase) {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -25,13 +25,13 @@ public class RotateSwerveOnPoint extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        finalPose = swerveDrivebase.getPose2d().rotateBy(Rotation2d.fromDegrees(180));
+        finalPose = swerveDrivebase.getPose2d().rotateBy(Rotation2d.fromDegrees(720));
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, getErrorDegrees() < 0 ? Math.PI * 1: -Math.PI * 1));
+        swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, getErrorDegrees() < 0 ? Math.PI * 2: -Math.PI * 2));
         // swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 1));
     }
 

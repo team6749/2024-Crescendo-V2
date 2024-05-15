@@ -24,6 +24,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Spin"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Easy from"
