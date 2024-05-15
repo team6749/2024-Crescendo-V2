@@ -40,7 +40,7 @@ public class SwerveDriveWithController extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-
+        //angling + drift prevention, negated to comply with wplib
         double thetaJoystickInput = -controller.getRightX();
         if (Math.abs(thetaJoystickInput) < JoystickConstants.deadZoneRotation) {
             thetaJoystickInput = 0;
@@ -48,6 +48,7 @@ public class SwerveDriveWithController extends Command {
 
         double yJoystickInput = -controller.getLeftY();
         double xJoystickInput = -controller.getLeftX();
+        //prevents drifting, if total y joystick + x joystick is less than the dead range, move
         if (magnitude(yJoystickInput, xJoystickInput) < JoystickConstants.deadZoneRange) {
             xJoystickInput = 0;
             yJoystickInput = 0;

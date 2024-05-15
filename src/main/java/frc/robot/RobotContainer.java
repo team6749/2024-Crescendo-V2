@@ -321,7 +321,7 @@ public class RobotContainer {
     public Command spinRobot() {
         return Commands.runEnd(
                 () -> {
-                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0.2, 0, 360));
+                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 4 * Math.PI));
                 },
                 () -> {
                     swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
