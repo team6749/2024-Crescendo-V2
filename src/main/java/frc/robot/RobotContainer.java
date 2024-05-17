@@ -136,7 +136,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
         NamedCommands.registerCommand("Shoot Trap", shootTrap());
         NamedCommands.registerCommand("Intake", intakeSubsystem.groundIntake());
-        NamedCommands.registerCommand("Spin", new RotateSwerveOnPoint(swerveDrivebase));
+        NamedCommands.registerCommand("Spin", Spin());
 
         // Acesses any built autonomous paths from PathPlanner and puts them as options
         // in the auto builder
@@ -318,6 +318,12 @@ public class RobotContainer {
                 () -> {
                     swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
                 }, swerveDrivebase);
+    }
+    public Command Spin() {
+        return Commands.runEnd(
+            () -> {swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0,0, 4 * Math.PI));
+        }, null, 
+            SwerveDrivebase.withTimeout(2));
     }
 
 }

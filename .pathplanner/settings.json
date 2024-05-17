@@ -10,7 +10,13 @@
     "Trap Paths"
   ],
   "autoFolders": [
-    "Donut Dash"
+    "1 Note Autos",
+    "2 Note Autos",
+    "3 Note Autos",
+    "4 Note Autos",
+    "5 Note Autos",
+    "Donut dash",
+    "Trap Autos"
   ],
   "defaultMaxVel": 3.5,
   "defaultMaxAccel": 5.0,
