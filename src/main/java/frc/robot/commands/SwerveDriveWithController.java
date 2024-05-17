@@ -107,7 +107,7 @@ public class SwerveDriveWithController extends Command {
      * @return
      */
     public double joystickResponseCurve(double input) {
-        return (JoystickConstants.joystickLinearityAdjustment * (Math.pow(input, 3)))
+        return (JoystickConstants.joystickLinearityAdjustment * (Math.pow(input, 5)))
                 + ((1 - JoystickConstants.joystickLinearityAdjustment) * input);
     }
 
