@@ -136,7 +136,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot Amp", shootAmp());
         NamedCommands.registerCommand("Shoot Trap", shootTrap());
         NamedCommands.registerCommand("Intake", intakeSubsystem.groundIntake());
-        NamedCommands.registerCommand("Spin", Spin());
+        //NamedCommands.registerCommand("Spin", Spin());
 
         // Acesses any built autonomous paths from PathPlanner and puts them as options
         // in the auto builder
