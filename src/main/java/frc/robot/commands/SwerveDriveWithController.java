@@ -46,8 +46,8 @@ public class SwerveDriveWithController extends Command {
             thetaJoystickInput = 0;
         }
 
-        double yJoystickInput = -controller.getLeftX();
-        double xJoystickInput = -controller.getLeftY();
+        double yJoystickInput = -controller.getLeftY();
+        double xJoystickInput = -controller.getLeftX();
         // prevents drifting, if total y joystick + x joystick is less than the dead
         // range, move
         if (magnitude(yJoystickInput, xJoystickInput) < JoystickConstants.deadZoneRange) {
