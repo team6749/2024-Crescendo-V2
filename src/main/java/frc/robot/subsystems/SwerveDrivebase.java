@@ -45,6 +45,7 @@ import frc.robot.enums.DriveOrientation;
 @SuppressWarnings("unused")
 public class SwerveDrivebase extends SubsystemBase {
     /** Creates a new SwerveDrivebase. */
+    public double SpeedLimiter = 1;
     public SwerveModule[] modules;
     public SwerveDriveKinematics kinematics;
     public SwerveModuleState[] states;
@@ -198,6 +199,7 @@ public class SwerveDrivebase extends SubsystemBase {
         SmartDashboard.putData("gyro", gyro);
         builder.addStringProperty("Orientation", () -> getSelectedDriveMode().toString(), null);
         builder.addBooleanProperty("Within POI", () -> withinAnyPOI, null);
+        builder.addDoubleProperty("Set Speed Limiter", this::getSpeedLimiter, this::setSpeedlimiter);
         builder.addStringProperty("closest POI", () -> {
             if (nearest == null) {
                 return "null";
@@ -207,6 +209,7 @@ public class SwerveDrivebase extends SubsystemBase {
         }, null);
         builder.addBooleanProperty("Use limelight during autos?", this::getUseLimelightDuringAutos,
                 this::setUseLimelightDuringAutos);
+
     }
 
     /**
@@ -399,4 +402,13 @@ public class SwerveDrivebase extends SubsystemBase {
     public void setUseLimelightDuringAutos(boolean useLimelightDuringAutos) {
         this.useLimelightDuringAutos = useLimelightDuringAutos;
     }
+    public double getSpeedLimiter() {
+        return SpeedLimiter;
+    }
+    /**
+     * @param Speedlimiter
+     */
+        public void setSpeedlimiter(double SpeedLimiter) {
+            this.SpeedLimiter = SpeedLimiter;
+        }
 }
