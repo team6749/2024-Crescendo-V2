@@ -43,13 +43,13 @@ public class SwerveDriveWithController extends Command {
     @Override
     public void execute() {
         // angling + drift prevention, negated to comply with wplib
-        double thetaJoystickInput = -controller.getRightX();
+        double thetaJoystickInput = controller.getRightX();
         if (Math.abs(thetaJoystickInput) < JoystickConstants.deadZoneRotation) {
             thetaJoystickInput = 0;
         }
 
-        double yJoystickInput = -controller.getLeftY();
-        double xJoystickInput = -controller.getLeftX();
+        double yJoystickInput = controller.getLeftY();
+        double xJoystickInput = controller.getLeftX();
         // prevents drifting, if total y joystick + x joystick is less than the dead
         // range, move
         if (magnitude(yJoystickInput, xJoystickInput) < JoystickConstants.deadZoneRange) {
@@ -111,7 +111,7 @@ public class SwerveDriveWithController extends Command {
      * @return
      */
     public double joystickResponseCurve(double input) {
-        return (JoystickConstants.joystickLinearityAdjustment * (Math.pow(input, 5)))
+        return (JoystickConstants.joystickLinearityAdjustment * (Math.pow(input, 3)))
                 + ((1 - JoystickConstants.joystickLinearityAdjustment) * input);
     }
 
