@@ -175,8 +175,9 @@ public class RobotContainer {
         x.onTrue(shootSpeaker());
         y.onTrue(shootAmp());
 
-        dpad_up.onTrue(new autoForward(swerveDrivebase));
-        dpad_down.onTrue(new autoBackward(swerveDrivebase));
+        dpad_up.onTrue(driveForward());
+        dpad_down.onTrue(driveBackward());
+        dpad_right.onTrue(Spin());
 
         a.whileTrue(swerveDrivebase.badJankAlignWithPoint());
 
@@ -334,7 +335,7 @@ public class RobotContainer {
                     swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
                 }, swerveDrivebase);
     }
-    /*public Command Spin() {
+    public Command Spin() {
         return Commands.runEnd(
             () -> {swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0,0, 4 * Math.PI));
         }, 
@@ -342,4 +343,4 @@ public class RobotContainer {
         }, 
             SwerveDrivebase.withTimeout(2));
     }
-*/}
+}
