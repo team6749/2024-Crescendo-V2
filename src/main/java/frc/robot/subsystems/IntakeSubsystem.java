@@ -31,7 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     DigitalInput noteSensor = new DigitalInput(Constants.ElectronicsPorts.noteSensorPort);
 
-    Debouncer debounce = new Debouncer(0.2);
+    Debouncer debounce = new Debouncer(0.1);
 
     double indexerVoltage = 0;
     double intakeVoltage = 0;

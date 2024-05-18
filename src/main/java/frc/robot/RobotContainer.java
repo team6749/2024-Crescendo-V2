@@ -168,16 +168,14 @@ public class RobotContainer {
         // Default command, will constantly call everything in the "execute" section of
         // the command
         swerveDrivebase.setDefaultCommand(new SwerveDriveWithController(swerveDrivebase, controller));
-        intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
+        //intakeSubsystem.setDefaultCommand(intakeSubsystem.groundIntake());
         lights.setDefaultCommand(new LightsCommand(lights, climberSubsystem, shooterSubsystem, intakeSubsystem));
 
         b.onTrue(shootTrap());
         x.onTrue(shootSpeaker());
         y.onTrue(shootAmp());
-
-        dpad_up.onTrue(driveForward());
         dpad_down.onTrue(driveBackward());
-        dpad_right.onTrue(Spin());
+       // dpad_right.onTrue(Spin());
 
         a.whileTrue(swerveDrivebase.badJankAlignWithPoint());
 
@@ -335,7 +333,7 @@ public class RobotContainer {
                     swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
                 }, swerveDrivebase);
     }
-    public Command Spin() {
+    /*public Command Spin() {
         return Commands.runEnd(
             () -> {swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0,0, 4 * Math.PI));
         }, 
@@ -343,4 +341,4 @@ public class RobotContainer {
         }, 
             SwerveDrivebase.withTimeout(2));
     }
-}
+*/}
