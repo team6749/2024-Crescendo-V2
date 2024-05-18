@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
@@ -20,6 +22,7 @@ public class SwerveDriveWithController extends Command {
     private SwerveDrivebase swerveDriveSubsystem;
     private XboxController controller;
     private ChassisSpeeds desiredSpeeds;
+    Translation2d finalPose;
 
     private SlewRateLimiter xVelocitySlew = new SlewRateLimiter(18);
     private SlewRateLimiter yVelocitySlew = new SlewRateLimiter(18);
@@ -34,8 +37,7 @@ public class SwerveDriveWithController extends Command {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override

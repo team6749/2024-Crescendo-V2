@@ -8,6 +8,9 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LightsCommand;
 import frc.robot.commands.RotateSwerveOnPoint;
 import frc.robot.commands.SwerveDriveWithController;
+import frc.robot.commands.autoBackward;
+import frc.robot.commands.autoForward;
+import frc.robot.commands.autoBackward;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
@@ -172,9 +175,12 @@ public class RobotContainer {
         x.onTrue(shootSpeaker());
         y.onTrue(shootAmp());
 
+        dpad_up.onTrue(new autoForward(swerveDrivebase));
+        dpad_down.onTrue(new autoBackward(swerveDrivebase));
+
         a.whileTrue(swerveDrivebase.badJankAlignWithPoint());
 
-        leftBumper.onTrue(swerveDrivebase.driveModeCommand());
+        //leftBumper.onTrue(swerveDrivebase.driveModeCommand());
         back_button.onTrue(swerveDrivebase.resetOdometryCommand());
         start_button.whileTrue(driveForward());
 
@@ -313,7 +319,16 @@ public class RobotContainer {
     public Command driveForward() {
         return Commands.runEnd(
                 () -> {
-                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0.2, 0, 0));
+                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(3.5, 0, 0));
+                },
+                () -> {
+                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));
+                }, swerveDrivebase);
+    }
+        public Command driveBackward() {
+        return Commands.runEnd(
+                () -> {
+                    swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(-3.5, 0, 0));
                 },
                 () -> {
                     swerveDrivebase.setSubsystemChassisSpeeds(new ChassisSpeeds(0, 0, 0));

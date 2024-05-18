@@ -97,7 +97,7 @@ public class SwerveDrivebase extends SubsystemBase {
 
         gyro.calibrate();
 
-        selectedOrientation = DriveOrientation.FieldOriented;
+        selectedOrientation = DriveOrientation.RobotOriented;
 
         this.setModulesNeutralMode(NeutralModeValue.Brake);
 
