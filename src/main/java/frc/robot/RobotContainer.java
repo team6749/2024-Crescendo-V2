@@ -10,7 +10,6 @@ import frc.robot.commands.RotateSwerveOnPoint;
 import frc.robot.commands.SwerveDriveWithController;
 import frc.robot.commands.autoBackward;
 import frc.robot.commands.autoForward;
-import frc.robot.commands.autoBackward;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightsSubsystem;
@@ -174,7 +173,8 @@ public class RobotContainer {
         b.onTrue(shootTrap());
         x.onTrue(shootSpeaker());
         y.onTrue(shootAmp());
-        dpad_down.onTrue(driveBackward());
+        dpad_down.whileTrue(driveBackward());
+        dpad_up.whileTrue(driveForward());
        // dpad_right.onTrue(Spin());
 
         a.whileTrue(swerveDrivebase.badJankAlignWithPoint());
