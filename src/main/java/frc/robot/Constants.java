@@ -63,18 +63,18 @@ public final class Constants {
     // this excludes electronics such as the RoboRIO, PowerDistributionHub,
     // PneumaticsHub, VoltageRegulatorModules, and RadioPowerModule
     public static class ElectronicsPorts {
-        public static final int frontLeftDrive = 1;
-        public static final int frontLeftEncoder = 2;
-        public static final int frontLeftAngle = 3;
-        public static final int frontRightDrive = 4;
-        public static final int frontRightEncoder = 5;
-        public static final int frontRightAngle = 6;
-        public static final int backRightDrive = 7;
-        public static final int backRightEncoder = 8;
-        public static final int backRightAngle = 9;
-        public static final int backLeftDrive = 10;
-        public static final int backLeftEncoder = 11;
-        public static final int backLeftAngle = 12;
+        public static final int frontLeftDrive = 9;
+        public static final int frontLeftEncoder = 8;
+        public static final int frontLeftAngle = 7;
+        public static final int frontRightDrive = 12;
+        public static final int frontRightEncoder = 11;
+        public static final int frontRightAngle = 10;
+        public static final int backRightDrive = 4;
+        public static final int backRightEncoder = 5;
+        public static final int backRightAngle = 6;
+        public static final int backLeftDrive = 3;
+        public static final int backLeftEncoder = 2;
+        public static final int backLeftAngle = 1;
 
         public static final int indexerFalcon = 15;
 
