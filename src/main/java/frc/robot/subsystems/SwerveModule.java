@@ -51,6 +51,8 @@ public class SwerveModule implements Sendable {
         builder.setSmartDashboardType("SwerveModule");
         builder.addStringProperty(name, this::getName, null);
         builder.addDoubleProperty("velocity", this::getModuleVelocityMs, null);
+        builder.addDoubleProperty("drive_output", () -> driveMotor.get(), null);
+        builder.addDoubleProperty("angle_output", () -> angleMotor.get(), null);
         builder.addDoubleProperty("position", this::getModulePositionM, null);
         builder.addDoubleProperty("rotation", () -> getModuleRotation().getDegrees(), null);
         builder.addDoubleProperty("Max Speed", this::getMaxSpeed, this::setMaxSpeed);
