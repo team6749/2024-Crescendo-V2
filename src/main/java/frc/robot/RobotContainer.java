@@ -21,9 +21,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -132,15 +129,9 @@ public class RobotContainer {
 
         // Adds any commands we made in the code directly to PathPlanner to be used in
         // autonomous paths
-        NamedCommands.registerCommand("Shoot Speaker", shootSpeaker());
-        NamedCommands.registerCommand("Shoot Amp", shootAmp());
-        NamedCommands.registerCommand("Shoot Trap", shootTrap());
-        NamedCommands.registerCommand("Intake", intakeSubsystem.groundIntake());
 
         // Acesses any built autonomous paths from PathPlanner and puts them as options
         // in the auto builder
-        autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData(autoChooser);
         // Function that actually activates the different commands
         configureBindings();
     }
