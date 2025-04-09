@@ -107,8 +107,6 @@ public class RobotContainer {
 
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
-    private final SendableChooser<Command> autoChooser;
-
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -216,12 +214,6 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() {
-        // Gets the selected data(autonomous path) from shuffleboard that the user
-        // chooses
-
-        return autoChooser.getSelected();
-    }
 
     Timer speakerTimer = new Timer();
 
